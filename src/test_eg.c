@@ -3,9 +3,10 @@
 #include "CUnit/Basic.h"
 #include "CUnit/Console.h"
 #include "CUnit/Automated.h"
-// CONCERNED FILE
+// @TODO: Add concerned file imports ---------------------------------------------------
 #include "eg.c"
 
+// @TODO: Add unit tests below ---------------------------------------------------
 void test_sorting_1(void){
     int arr[] = {12, 3, 45, 56, 0};
     int cor[] = {0, 3, 12, 45, 56};
@@ -20,8 +21,10 @@ void test_sorting_2(void){
         CU_ASSERT_EQUAL(arr[i], cor[i]);
     }
 }
+// @TODO: Add unit tests above ---------------------------------------------------
 
 int main(){
+    //--------------------------------------------------- @NOTE: Ignore below configs ---------------------------------------------------
    CU_pSuite pSuite = NULL;
    /* initialize the CUnit test registry */
    if (CUE_SUCCESS != CU_initialize_registry())
@@ -32,16 +35,19 @@ int main(){
       CU_cleanup_registry();
       return CU_get_error();
    }
+    //--------------------------------------------------- @NOTE: Ignore above configs ---------------------------------------------------
 
-   /* add the tests to the suite */
+    // @TODO: Add tests to suite below ---------------------------------------------------
    if ((NULL == CU_add_test(pSuite, "Sorting_Test 1", test_sorting_1)) 
         || (NULL == CU_add_test(pSuite, "Sorting_Test 2", test_sorting_2)))
    {
       CU_cleanup_registry();
       return CU_get_error();
    }
+    // @TODO: Add tests to suite above ---------------------------------------------------
 
 
+    //--------------------------------------------------- @NOTE: Ignore below configs ---------------------------------------------------
     // NORMAL RUN, PRINT RESULTS TO CONSOLE
    /* Run all tests using the basic interface */
    CU_basic_set_mode(CU_BRM_VERBOSE);
@@ -63,4 +69,5 @@ int main(){
    /* Clean up registry and return */
    CU_cleanup_registry();
    return CU_get_error();
+    //--------------------------------------------------- @NOTE: Ignore above configs ---------------------------------------------------
 }
