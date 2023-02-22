@@ -3,14 +3,19 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include "helper.h"
-#include "hash_table.h"
 
-void retract(int num,FILE* fp )
+
+
+
+
+
+void retract(int num, FILE *fp)
 {
-    fseek(fp,-num,SEEK_CUR);
+    fseek(fp, -num, SEEK_CUR);
 }
 
-void populate_lookup(){
+void populate_lookup()
+{
     insert("integer", INTEGER, Lookup_Table);
     insert("real", REAL, Lookup_Table);
     insert("boolean", BOOLEAN, Lookup_Table);
@@ -52,44 +57,46 @@ TOKEN is_tkn(FILE *fp)
     }
     fseek(fp, -lex_size, SEEK_CUR);
     fread(buffer, lex_size + 1, 1, fp);
-    switch(state){
-        case 2:
-            tkn.name = lookup(buffer);
-            strncpy(tkn.id,buffer,20);
-            break;
-        
-        case 4:
-            tkn.name = NUM;
-            tkn.num = atoi(buffer);
-            break;
-        
-        case 7:
-            tkn.name = RNUM;
-            tkn.rnum = atof(buffer);
-            break;
+    switch (state)
+    {
+    case 2:
+        tkn.name = lookup(buffer);
+        strncpy(tkn.id, buffer, 20);
+        break;
 
-        case 11:
-            tkn.name = RNUM;
-            tkn.rnum = atof(buffer);
-            break;
+    case 4:
+        tkn.name = NUM;
+        tkn.num = atoi(buffer);
+        break;
 
-        case 12:
-            tkn.name = NUM;
-            tkn.num = atoi(buffer);
-            break;
+    case 7:
+        tkn.name = RNUM;
+        tkn.rnum = atof(buffer);
+        break;
+
+    case 11:
+        tkn.name = RNUM;
+        tkn.rnum = atof(buffer);
+        break;
+
+    case 12:
+        tkn.name = NUM;
+        tkn.num = atoi(buffer);
+        break;
     }
 }
 
 tokens lookup(char *lexeme)
-{   
+{
     tokens result = search(lexeme, Lookup_Table);
-    if( result == NULL) {
+    if (result == NULL)
+    {
         return ID;
     }
-    else {
+    else
+    {
         return result;
     }
-
 }
 
 void lexer_reset()
@@ -215,7 +222,7 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 2:
-            retract(1,fp);
+            retract(1, fp);
             tkn = is_tkn(fp);
             start = ptr;
             state = 0;
@@ -239,7 +246,7 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 4:
-            retract(1,fp);
+            retract(1, fp);
             tkn = is_tkn(fp);
             start = ptr;
             state = 0;
@@ -279,7 +286,7 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 7:
-            retract(1,fp);
+            retract(1, fp);
             tkn = is_tkn(fp);
             start = ptr;
             state = 0;
@@ -327,7 +334,7 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 11:
-            retract(1,fp);
+            retract(1, fp);
             tkn = is_tkn(fp);
             start = ptr;
             state = 0;
@@ -335,7 +342,7 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 12:
-            retract(2,fp);
+            retract(2, fp);
             tkn = is_tkn(fp);
             start = ptr;
             state = 0;
@@ -346,7 +353,8 @@ TOKEN eval_token(FILE *fp)
             if (c == ' ' || c == '\t' || c == '\n')
             {
                 state = 13;
-                if(c == '\n') line_no++;
+                if (c == '\n')
+                    line_no++;
             }
             else
             {
@@ -355,17 +363,17 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 14:
-            retract(1,fp);
+            retract(1, fp);
             start = ptr;
             state = 0;
 
             break;
 
         case 15:
-            tkn.name  = PLUS;
+            tkn.name = PLUS;
             start = ptr;
             state = 0;
-            strncpy(tkn.id,"+",20);
+            strncpy(tkn.id, "+", 20);
             return tkn;
             break;
 
@@ -373,7 +381,7 @@ TOKEN eval_token(FILE *fp)
             tkn.name = MINUS;
             start = ptr;
             state = 0;
-            strncpy(tkn.id,"-",20);
+            strncpy(tkn.id, "-", 20);
             return tkn;
             break;
 
@@ -390,11 +398,11 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 18:
-            retract(1,fp);
+            retract(1, fp);
             tkn.name = MUL;
             start = ptr;
             state = 0;
-            strncpy(tkn.id,"*",20);
+            strncpy(tkn.id, "*", 20);
             return tkn;
             break;
 
@@ -432,7 +440,7 @@ TOKEN eval_token(FILE *fp)
             tkn.name = DIV;
             start = ptr;
             state = 0;
-            strncpy(tkn.id,"/",20);
+            strncpy(tkn.id, "/", 20);
             return tkn;
             break;
 
@@ -453,11 +461,11 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 24:
-            retract(1,fp);
+            retract(1, fp);
             tkn.name = LT;
             start = ptr;
             state = 0;
-            strncpy(tkn.id,"<",20);
+            strncpy(tkn.id, "<", 20);
             return tkn;
             break;
 
@@ -465,7 +473,7 @@ TOKEN eval_token(FILE *fp)
             tkn.name = LE;
             start = ptr;
             state = 0;
-            strncpy(tkn.id,"<=",20);
+            strncpy(tkn.id, "<=", 20);
             return tkn;
             break;
 
@@ -482,11 +490,11 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 27:
-            retract(1,fp);
+            retract(1, fp);
             tkn.name = DEF;
             start = ptr;
             state = 0;
-            strncpy(tkn.id,"<<",20);
+            strncpy(tkn.id, "<<", 20);
             return tkn;
             break;
 
@@ -494,7 +502,7 @@ TOKEN eval_token(FILE *fp)
             tkn.name = DRIVERDEF;
             start = ptr;
             state = 0;
-            strncpy(tkn.id,"<<<",20);
+            strncpy(tkn.id, "<<<", 20);
             return tkn;
             break;
 
@@ -515,11 +523,11 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 30:
-            retract(1,fp);
+            retract(1, fp);
             tkn.name = GT;
             start = ptr;
             state = 0;
-            strncpy(tkn.id,">",20);
+            strncpy(tkn.id, ">", 20);
             return tkn;
             break;
 
@@ -527,7 +535,7 @@ TOKEN eval_token(FILE *fp)
             tkn.name = GE;
             start = ptr;
             state = 0;
-            strncpy(tkn.id,">=",20);
+            strncpy(tkn.id, ">=", 20);
             return tkn;
             break;
 
@@ -544,11 +552,11 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 33:
-            retract(1,fp);
+            retract(1, fp);
             tkn.name = ENDDEF;
             start = ptr;
             state = 0;
-            strncpy(tkn.id,">>",20);
+            strncpy(tkn.id, ">>", 20);
             return tkn;
             break;
 
@@ -556,7 +564,7 @@ TOKEN eval_token(FILE *fp)
             tkn.name = DRIVERENDDEF;
             start = ptr;
             state = 0;
-            strncpy(tkn.id,">>>",20);
+            strncpy(tkn.id, ">>>", 20);
             return tkn;
             break;
 
@@ -576,7 +584,7 @@ TOKEN eval_token(FILE *fp)
             tkn.name = EQ;
             start = ptr;
             state = 0;
-            strncpy(tkn.id,"==",20);
+            strncpy(tkn.id, "==", 20);
             return tkn;
             break;
 
@@ -596,7 +604,7 @@ TOKEN eval_token(FILE *fp)
             tkn.name = NE;
             start = ptr;
             state = 0;
-            strncpy(tkn.id,"!=",20);
+            strncpy(tkn.id, "!=", 20);
             return tkn;
             break;
 
@@ -616,16 +624,16 @@ TOKEN eval_token(FILE *fp)
             tkn.name = ASSIGNOP;
             start = ptr;
             state = 0;
-            strncpy(tkn.id,":=",20);
+            strncpy(tkn.id, ":=", 20);
             return tkn;
             break;
 
         case 41:
-            retract(1,fp);
+            retract(1, fp);
             tkn.name = COLON;
             start = ptr;
             state = 0;
-            strncpy(tkn.id,":",20);
+            strncpy(tkn.id, ":", 20);
             return tkn;
             break;
 
@@ -645,7 +653,7 @@ TOKEN eval_token(FILE *fp)
             tkn.name = RANGEOP;
             start = ptr;
             state = 0;
-            strncpy(tkn.id,"..",20);
+            strncpy(tkn.id, "..", 20);
             return tkn;
             break;
 
@@ -653,7 +661,7 @@ TOKEN eval_token(FILE *fp)
             tkn.name = SEMICOL;
             start = ptr;
             state = 0;
-            strncpy(tkn.id,";",20);
+            strncpy(tkn.id, ";", 20);
             return tkn;
             break;
 
@@ -661,7 +669,7 @@ TOKEN eval_token(FILE *fp)
             tkn.name = COMMA;
             start = ptr;
             state = 0;
-            strncpy(tkn.id,",",20);
+            strncpy(tkn.id, ",", 20);
             return tkn;
             break;
 
@@ -669,7 +677,7 @@ TOKEN eval_token(FILE *fp)
             tkn.name = SQBO;
             start = ptr;
             state = 0;
-            strncpy(tkn.id,"[",20);
+            strncpy(tkn.id, "[", 20);
             return tkn;
             break;
 
@@ -677,7 +685,7 @@ TOKEN eval_token(FILE *fp)
             tkn.name = SQBC;
             start = ptr;
             state = 0;
-            strncpy(tkn.id,"]",20);
+            strncpy(tkn.id, "]", 20);
             return tkn;
             break;
 
@@ -685,7 +693,7 @@ TOKEN eval_token(FILE *fp)
             tkn.name = BO;
             start = ptr;
             state = 0;
-            strncpy(tkn.id,"(",20);
+            strncpy(tkn.id, "(", 20);
             return tkn;
             break;
 
@@ -693,7 +701,7 @@ TOKEN eval_token(FILE *fp)
             tkn.name = BC;
             start = ptr;
             state = 0;
-            strncpy(tkn.id,")",20);
+            strncpy(tkn.id, ")", 20);
             return tkn;
             break;
 
@@ -704,5 +712,72 @@ TOKEN eval_token(FILE *fp)
         default:
             break;
         }
+    }
+}
+
+void remove_comments(FILE *ipt, char *opt_name)
+{
+    FILE *opt = fopen(opt_name, "w");
+    int state = 0;
+    char c = getc(ipt);
+
+    while (c != EOF)
+    {
+        switch (state)
+        {
+        case 0:
+            if (c == '*')
+            {
+                state = 2;
+            }
+            else
+            {
+                putc(c, opt);
+            }
+            break;
+
+        case 1:
+            if (c == '*')
+            {
+                state = 2;
+            }
+            else
+            {
+                state = 0;
+                putc('*', opt);
+                putc(c, opt);
+            }
+            break;
+
+        case 2:
+            if (c == '*')
+            {
+                state = 3;
+            }
+            else
+            {
+                state = 2;
+                if (c == '\n')
+                {
+                    putc(c, opt);
+                }
+            }
+            break;
+
+        case 3:
+            if (c == '*')
+            {
+                state = 0;
+            }
+            else
+            {
+                state = 2;
+            }
+            break;
+
+        default:
+            break;
+        }
+        c = getc(ipt);
     }
 }
