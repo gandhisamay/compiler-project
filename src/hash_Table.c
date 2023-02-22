@@ -3,18 +3,10 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "helper.h"
-
-#define HASH_SIZE 64
-#define P 7
+#include "hash_table.h"
 
 
-// To be taken from data struct created by samay
-typedef struct sym
-{ 
 
-} Symbol;
-
-Symbol *Lookup_Table[HASH_SIZE];
 
 int hash_code(char s[])
 {
@@ -29,15 +21,15 @@ int hash_code(char s[])
     return code;
 }
 
-Symbol *search(int key)
+tokens search(char key[], Element *table[])
 {
-    int index = hashCode(key);
+    int index = hash_code(key);
 
-    while (Lookup_Table[index] != NULL)
+    while (table[index] != NULL)
     {
 
-        if (Lookup_Table[index]->key == key)
-            return Lookup_Table[index];
+        if (table[index]->key == key)
+            return table[index]->name;
 
         ++index;
         index %= HASH_SIZE;
@@ -46,21 +38,21 @@ Symbol *search(int key)
     return NULL;
 }
 
-void insert(char key[], tokens name)
+void insert(char key[], tokens name, Element *table[])
 {
 
-    Symbol *item = (Symbol *)malloc(sizeof(Symbol));
+    Element *item = (Element *)malloc(sizeof(Element));
     item->name = name;
-    item->key = key;
+    strcpy(item->key,key);
 
     int index = hash_code(key);
 
-    while (Lookup_Table[index] != NULL && Lookup_Table[index]->key != -1)
+    while (table[index] != NULL && table[index]->key != -1)
     {
 
         ++index;
         index %= HASH_SIZE;
     }
 
-    Lookup_Table[index] = item;
+    table[index] = item;
 }
