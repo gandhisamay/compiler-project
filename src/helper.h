@@ -21,7 +21,8 @@ typedef struct token
     {
         char id[20];
         int num;
-        float rnum;
+        /* float rnum; */
+        double rnum;
     };
 }TOKEN;
 
