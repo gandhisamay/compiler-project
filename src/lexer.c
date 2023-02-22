@@ -3,12 +3,40 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include "helper.h"
+#include "hash_table.h"
 
-void retract(int num)
+void retract(int num,FILE* fp )
 {
-    ptr -= num;
-    if (ptr < 0)
-        ptr += 20;
+    fseek(fp,-num,SEEK_CUR);
+}
+
+void populate_lookup(){
+    insert("integer", INTEGER, Lookup_Table);
+    insert("real", REAL, Lookup_Table);
+    insert("boolean", BOOLEAN, Lookup_Table);
+    insert("of", OF, Lookup_Table);
+    insert("array", ARRAY, Lookup_Table);
+    insert("start", START, Lookup_Table);
+    insert("end", END, Lookup_Table);
+    insert("declare", DECLARE, Lookup_Table);
+    insert("module", MODULE, Lookup_Table);
+    insert("driver", DRIVER, Lookup_Table);
+    insert("program", PROGRAM, Lookup_Table);
+    insert("get_value", GET_VALUE, Lookup_Table);
+    insert("print", PRINT, Lookup_Table);
+    insert("use", USE, Lookup_Table);
+    insert("with", WITH, Lookup_Table);
+    insert("parameters", PARAMETERS, Lookup_Table);
+    insert("takes", TAKES, Lookup_Table);
+    insert("input", INPUT, Lookup_Table);
+    insert("returns", RETURNS, Lookup_Table);
+    insert("for", FOR, Lookup_Table);
+    insert("in", IN, Lookup_Table);
+    insert("switch", SWITCH, Lookup_Table);
+    insert("case", CASE, Lookup_Table);
+    insert("break", BREAK, Lookup_Table);
+    insert("default", DEFAULT, Lookup_Table);
+    insert("while", WHILE, Lookup_Table);
 }
 
 TOKEN is_tkn(FILE *fp)
@@ -54,8 +82,8 @@ TOKEN is_tkn(FILE *fp)
 
 tokens lookup(char *lexeme)
 {   
-    int result = search_lookup_table(lexeme);
-    if( result == -1) {
+    tokens result = search(lexeme, Lookup_Table);
+    if( result == NULL) {
         return ID;
     }
     else {
@@ -187,7 +215,7 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 2:
-            retract(1);
+            retract(1,fp);
             tkn = is_tkn(fp);
             start = ptr;
             state = 0;
@@ -211,7 +239,7 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 4:
-            retract(1);
+            retract(1,fp);
             tkn = is_tkn(fp);
             start = ptr;
             state = 0;
@@ -251,7 +279,7 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 7:
-            retract(1);
+            retract(1,fp);
             tkn = is_tkn(fp);
             start = ptr;
             state = 0;
@@ -299,7 +327,7 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 11:
-            retract(1);
+            retract(1,fp);
             tkn = is_tkn(fp);
             start = ptr;
             state = 0;
@@ -307,7 +335,7 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 12:
-            retract(2);
+            retract(2,fp);
             tkn = is_tkn(fp);
             start = ptr;
             state = 0;
@@ -327,7 +355,7 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 14:
-            retract(1);
+            retract(1,fp);
             start = ptr;
             state = 0;
 
@@ -362,7 +390,7 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 18:
-            retract(1);
+            retract(1,fp);
             tkn.name = MUL;
             start = ptr;
             state = 0;
@@ -425,7 +453,7 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 24:
-            retract(1);
+            retract(1,fp);
             tkn.name = LT;
             start = ptr;
             state = 0;
@@ -454,7 +482,7 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 27:
-            retract(1);
+            retract(1,fp);
             tkn.name = DEF;
             start = ptr;
             state = 0;
@@ -487,7 +515,7 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 30:
-            retract(1);
+            retract(1,fp);
             tkn.name = GT;
             start = ptr;
             state = 0;
@@ -516,7 +544,7 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 33:
-            retract(1);
+            retract(1,fp);
             tkn.name = ENDDEF;
             start = ptr;
             state = 0;
@@ -593,7 +621,7 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 41:
-            retract(1);
+            retract(1,fp);
             tkn.name = COLON;
             start = ptr;
             state = 0;
