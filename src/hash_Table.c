@@ -10,7 +10,7 @@
 
 // To be taken from data struct created by samay
 typedef struct sym
-{
+{ 
 
 } Symbol;
 
@@ -24,7 +24,7 @@ int hash_code(char s[])
     for (int i = 0; i < size; i++)
     {
         code = (code + (s[i] - 'a' + 1) * pow) % HASH_SIZE;
-        pow = (pow * p) % HASH_SIZE;
+        pow = (pow * P) % HASH_SIZE;
     }
     return code;
 }
