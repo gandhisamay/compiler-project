@@ -2,10 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "helper.h"
-#include "hash_table.h"
-
-
+#include "lexer_helper.h"
 
 
 int hash_code(char s[])
@@ -35,7 +32,7 @@ tokens search(char key[], Element *table[])
         index %= HASH_SIZE;
     }
 
-    return NULL;
+    return ID;
 }
 
 void insert(char key[], tokens name, Element *table[])
