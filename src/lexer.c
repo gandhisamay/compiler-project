@@ -4,19 +4,15 @@
 #include <stdbool.h>
 #include "lexer_helper.h"
 
-
-
-
-
-
 void retract(int num, FILE *fp)
 {
     ptr -= num;
-    fseek(fp,-num,SEEK_CUR);
+    fseek(fp, -num, SEEK_CUR);
+    printf("called retract %d \n", ftell(fp));
 }
 
 tokens lookup(char *lexeme)
-{   
+{
     tokens result = search(lexeme, Lookup_Table);
     return result;
     /* if( result == NULL) { */
@@ -25,10 +21,10 @@ tokens lookup(char *lexeme)
     /* else { */
     /*     return result; */
     /* } */
-
 }
 
-void populate_lookup(){
+void populate_lookup()
+{
     insert("integer", INTEGER, Lookup_Table);
     insert("real", REAL, Lookup_Table);
     insert("boolean", BOOLEAN, Lookup_Table);
@@ -70,34 +66,35 @@ TOKEN is_tkn(FILE *fp)
     }
     fseek(fp, -lex_size, SEEK_CUR);
     fread(buffer, lex_size + 1, 1, fp);
-    printf("\n ptr %d start %d lex_size %d\nbuffer %s \n",ptr, start, lex_size, buffer);
-    switch(state){
-        case 2:
-            tkn.name = lookup(buffer);
-            strncpy(tkn.id,buffer,lex_size);
-            tkn.id[lex_size] = '\0';
-            printf("\n buf %s tkn %s \n", buffer, tkn.id);
-            break;
-        
-        case 4:
-            tkn.name = NUM;
-            tkn.num = atoi(buffer);
-            break;
-        
-        case 7:
-            tkn.name = RNUM;
-            tkn.rnum = atof(buffer);
-            break;
+    printf("\n ptr %d start %d lex_size %d\nbuffer %s \n", ptr, start, lex_size, buffer);
+    switch (state)
+    {
+    case 2:
+        tkn.name = lookup(buffer);
+        strncpy(tkn.id, buffer, lex_size);
+        tkn.id[lex_size] = '\0';
+        printf("\n buf %s tkn %s \n", buffer, tkn.id);
+        break;
 
-        case 11:
-            tkn.name = RNUM;
-            tkn.rnum = atof(buffer);
-            break;
+    case 4:
+        tkn.name = NUM;
+        tkn.num = atoi(buffer);
+        break;
 
-        case 12:
-            tkn.name = NUM;
-            tkn.num = atoi(buffer);
-            break;
+    case 7:
+        tkn.name = RNUM;
+        tkn.rnum = atof(buffer);
+        break;
+
+    case 11:
+        tkn.name = RNUM;
+        tkn.rnum = atof(buffer);
+        break;
+
+    case 12:
+        tkn.name = NUM;
+        tkn.num = atoi(buffer);
+        break;
     }
     return tkn;
 }
@@ -122,7 +119,12 @@ TOKEN eval_token(FILE *fp)
         {
         case 0:
             c = getc(fp);
-            printf("new char ptr %d %c \n", ptr, c);
+            printf("new char curr %d ptr %d %c \n", ftell(fp), ptr, c);
+
+            if (c == ';')
+                printf("SEMICOl");
+            if (c == '\n')
+                printf("newline");
             ptr++;
             if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_')
             {
@@ -209,6 +211,7 @@ TOKEN eval_token(FILE *fp)
             }
             else
             {
+                printf("to 50");
                 state = 50;
             }
 
@@ -362,6 +365,8 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 13:
+            c = getc(fp);
+            ptr++;
             if (c == ' ' || c == '\t' || c == '\n')
             {
                 state = 13;
@@ -558,8 +563,10 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 32:
+            printf("in 32 pos %d ", ftell(fp));
             c = getc(fp);
             ptr++;
+            printf("in 32 c %c \n", c);
             if (c == '>')
             {
                 state = 34;
@@ -685,7 +692,7 @@ TOKEN eval_token(FILE *fp)
             printf("semicol ptr %d start %d \n", ptr, start);
             start = ptr;
             state = 0;
-            strncpy(tkn.id, ";", 20);
+            strcpy(tkn.id, ";");
             return tkn;
             break;
 
@@ -730,7 +737,10 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 50:
+            printf("inside 50");
             tkn.name = LEX_ERROR;
+            strncpy(tkn.id, "error", 5);
+            return tkn;
             break;
 
         default:
@@ -739,19 +749,23 @@ TOKEN eval_token(FILE *fp)
     }
 }
 
-int main(int argc, char *argv[]){
+int main(int argc, char *argv[])
+{
     printf("Hey there %d %s %s \n", argc, argv[0], argv[1]);
     /* FILE *f = fopen(argv[1], "r"); */
     lexer_reset();
-    FILE *f = fopen("test_lexer_1.txt", "r");
+    FILE *f = fopen(argv[1], "r");
     /* char c = getc(f); */
     /* while(c != ';'){ */
     /*     printf("new char %c \n", c); */
     /*     c = getc(f); */
     /* } */
     TOKEN curr = eval_token(f);
-    while(curr.name != DOLLAR){
+    while (curr.name != DOLLAR)
+    {
         curr = eval_token(f);
+        if (curr.id == ";")
+            printf("SEMICOl");
         printf("token %d id %s \n", curr.line, curr.id);
     }
 }
