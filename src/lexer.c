@@ -7,6 +7,7 @@
 #define BUFFER_SIZE 100
 
 char Buffer[BUFFER_SIZE];
+int stop = -1;
 
 void populate_buffer(FILE *fp)
 {
@@ -18,8 +19,10 @@ void populate_buffer(FILE *fp)
     // printf("\ncheck %d\n", check);
     // printf("\n %s \n", Buffer);
     to_be_scanned += check;
-    if (check != (BUFFER_SIZE / 2))
+    if (check != (BUFFER_SIZE / 2)){
         Buffer[check + ptr] = '$';
+        stop = check + ptr;
+    }
 }
 
 char next_char(FILE *fp)
@@ -177,7 +180,7 @@ TOKEN eval_token(FILE *fp)
 
     while (c != EOF)
     {
-        // printf("curr state %d\n", state);
+        /* printf("c %c ptr %d stop %d\n", c, ptr, stop); */
         tkn.line = line_no;
         switch (state)
         {
@@ -268,7 +271,7 @@ TOKEN eval_token(FILE *fp)
             {
                 state = 49;
             }
-            else if (c == '$')
+            else if (c == '$' && ptr == stop + 1)
             {
                 printf("EOF Detected");
                 tkn.name = DOLLAR;
@@ -807,6 +810,8 @@ TOKEN eval_token(FILE *fp)
             printf("inside 50");
             tkn.name = LEX_ERROR;
             strncpy(tkn.id, "error", 5);
+            start = ptr;
+            state = 0;
             return tkn;
             break;
 
@@ -832,8 +837,8 @@ int main(int argc, char *argv[])
     TOKEN arr[200];
     int i = 0;
     curr = eval_token(f);
-    while ((curr.name != DOLLAR) && (curr.name != LEX_ERROR))
-    // for(int i=0;i<22;i++)
+    /* while ((curr.name != DOLLAR) && (curr.name != LEX_ERROR)) */
+    while ((curr.name != DOLLAR))
     {
         curr = eval_token(f);
         // if (curr.id == ";")
