@@ -834,6 +834,76 @@ TOKEN eval_token(FILE *fp)
     }
 }
 
+void remove_comments(FILE *ipt, char *opt_name)
+{
+    FILE *opt = fopen(opt_name, "w");
+    int state = 0;
+    char c = fgetc(ipt);
+
+    while (c!=EOF)
+    {
+        switch (state)
+        {
+        case 0:
+            if (c == '*')
+            {
+                state = 1;
+            }
+            else
+            {
+                fputc(c, opt);
+            }
+            break;
+
+        case 1:
+            if (c == '*')
+            {
+                state = 2;
+            }
+            else
+            {
+                state = 0;
+                fputc('*', opt);
+                fputc(c, opt);
+            }
+            break;
+
+        case 2:
+            if (c == '*')
+            {
+                state = 3;
+            }
+            else
+            {
+                state = 2;
+                if (c == '\n')
+                {
+                    fputc(c, opt);
+                }
+            }
+            break;
+
+        case 3:
+            if (c == '*')
+            {
+                state = 0;
+            }
+            else
+            {
+                state = 2;
+            }
+            break;
+
+        default:
+            break;
+        }
+        c = fgetc(ipt);
+    }
+
+    fclose(opt);
+}
+
+
 int main(int argc, char *argv[])
 {
     // printf("Hey there %d %s %s \n", argc, argv[0], argv[1]);
@@ -844,12 +914,17 @@ int main(int argc, char *argv[])
     /*     printf("new char %c \n", c); */
     /*     c = getc(f); */
     /* } */
-    lexer_reset(f);
+    
 
+    remove_comments(f,"new.txt");
+    fclose(f);
+    f = fopen("new.txt","r");
+
+    lexer_reset(f);
     TOKEN curr;
     TOKEN arr[200];
     int i = 0;
-    curr = eval_token(f);
+    // curr = eval_token(f);
     /* while ((curr.name != DOLLAR) && (curr.name != LEX_ERROR)) */
     while ((curr.name != DOLLAR))
     {
@@ -877,71 +952,5 @@ int main(int argc, char *argv[])
         else
             printf("token %d id %s \n", curr.line, curr.id);
     }
-}
-
-void remove_comments(FILE *ipt, char *opt_name)
-{
-    FILE *opt = fopen(opt_name, "w");
-    int state = 0;
-    char c = getc(ipt);
-
-    while (c != EOF)
-    {
-        switch (state)
-        {
-        case 0:
-            if (c == '*')
-            {
-                state = 2;
-            }
-            else
-            {
-                putc(c, opt);
-            }
-            break;
-
-        case 1:
-            if (c == '*')
-            {
-                state = 2;
-            }
-            else
-            {
-                state = 0;
-                putc('*', opt);
-                putc(c, opt);
-            }
-            break;
-
-        case 2:
-            if (c == '*')
-            {
-                state = 3;
-            }
-            else
-            {
-                state = 2;
-                if (c == '\n')
-                {
-                    putc(c, opt);
-                }
-            }
-            break;
-
-        case 3:
-            if (c == '*')
-            {
-                state = 0;
-            }
-            else
-            {
-                state = 2;
-            }
-            break;
-
-        default:
-            break;
-        }
-        c = getc(ipt);
-    }
+    fclose(f);
 }
