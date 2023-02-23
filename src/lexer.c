@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include "lexer_helper.h"
 
-#define BUFFER_SIZE 100
+#define BUFFER_SIZE 30
 
 char Buffer[BUFFER_SIZE];
 int stop = -1;
@@ -150,6 +150,11 @@ TOKEN is_tkn(FILE *fp)
     case 12:
         tkn.name = NUM;
         tkn.num = atoi(lexeme);
+        break;
+
+    case 51:
+        tkn.name = LEX_ERROR;
+        strcpy(tkn.id,lexeme);
         break;
     }
 
@@ -345,7 +350,7 @@ TOKEN eval_token(FILE *fp)
             }
             else
             {
-                state = 50;
+                state = 51;
             }
             break;
 
@@ -387,7 +392,7 @@ TOKEN eval_token(FILE *fp)
             }
             else
             {
-                state = 50;
+                state = 51;
             }
             break;
 
@@ -400,7 +405,7 @@ TOKEN eval_token(FILE *fp)
             }
             else
             {
-                state = 50;
+                state = 51;
             }
             break;
 
@@ -672,7 +677,7 @@ TOKEN eval_token(FILE *fp)
             }
             else
             {
-                state = 50;
+                state = 51;
             }
             break;
 
@@ -693,7 +698,7 @@ TOKEN eval_token(FILE *fp)
             }
             else
             {
-                state = 50;
+                state = 51;
             }
             break;
 
@@ -744,7 +749,7 @@ TOKEN eval_token(FILE *fp)
             }
             else
             {
-                state = 50;
+                state = 51;
             }
             break;
 
@@ -814,6 +819,14 @@ TOKEN eval_token(FILE *fp)
             state = 0;
             return tkn;
             break;
+        case 51:
+            retract(1);
+            tkn = is_tkn(fp);
+            start = ptr;
+            state = 0;
+            return tkn;
+            break;
+
 
         default:
             break;
@@ -859,6 +872,8 @@ int main(int argc, char *argv[])
             printf("token %d idrnum %f \n", curr.line, curr.rnum);
         else if (curr.name == DOLLAR)
             printf("ideof %s\n", curr.id);
+        else if (curr.name == LEX_ERROR)
+            printf("error %s\n", curr.id);
         else
             printf("token %d id %s \n", curr.line, curr.id);
         
