@@ -5,7 +5,8 @@ start
     num:=5;
     for( k in -7..10)
     start
-        A[k]:=(num – k)*(num-k);
+        A[k]:=(num - k)*(num-k);
         print(A[k]);
     end
+    ** mohit ko quantum nhi aata **
 end
