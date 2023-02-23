@@ -19,7 +19,8 @@ void populate_buffer(FILE *fp)
     // printf("\ncheck %d\n", check);
     // printf("\n %s \n", Buffer);
     to_be_scanned += check;
-    if (check != (BUFFER_SIZE / 2)){
+    if (check != (BUFFER_SIZE / 2))
+    {
         Buffer[check + ptr] = '$';
         stop = check + ptr;
     }
@@ -154,7 +155,7 @@ TOKEN is_tkn(FILE *fp)
 
     case 51:
         tkn.name = LEX_ERROR;
-        strcpy(tkn.id,lexeme);
+        strcpy(tkn.id, lexeme);
         break;
     }
 
@@ -827,7 +828,6 @@ TOKEN eval_token(FILE *fp)
             return tkn;
             break;
 
-
         default:
             break;
         }
@@ -859,7 +859,7 @@ int main(int argc, char *argv[])
         // printf("is eof  - %d", curr.name == DOLLAR);
         // printf("ptr %d  Buffer %s\n\n",ptr,Buffer);
         arr[i] = curr;
-        
+
         i++;
     }
     // printf("%d\n",i);
@@ -876,6 +876,72 @@ int main(int argc, char *argv[])
             printf("error %s\n", curr.id);
         else
             printf("token %d id %s \n", curr.line, curr.id);
-        
+    }
+}
+
+void remove_comments(FILE *ipt, char *opt_name)
+{
+    FILE *opt = fopen(opt_name, "w");
+    int state = 0;
+    char c = getc(ipt);
+
+    while (c != EOF)
+    {
+        switch (state)
+        {
+        case 0:
+            if (c == '*')
+            {
+                state = 2;
+            }
+            else
+            {
+                putc(c, opt);
+            }
+            break;
+
+        case 1:
+            if (c == '*')
+            {
+                state = 2;
+            }
+            else
+            {
+                state = 0;
+                putc('*', opt);
+                putc(c, opt);
+            }
+            break;
+
+        case 2:
+            if (c == '*')
+            {
+                state = 3;
+            }
+            else
+            {
+                state = 2;
+                if (c == '\n')
+                {
+                    putc(c, opt);
+                }
+            }
+            break;
+
+        case 3:
+            if (c == '*')
+            {
+                state = 0;
+            }
+            else
+            {
+                state = 2;
+            }
+            break;
+
+        default:
+            break;
+        }
+        c = getc(ipt);
     }
 }
