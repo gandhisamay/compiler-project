@@ -19,7 +19,7 @@ void populate_buffer(FILE *fp)
     // printf("\n %s \n", Buffer);
     to_be_scanned += check;
     if (check != (BUFFER_SIZE / 2))
-        Buffer[check + ptr] = EOF;
+        Buffer[check + ptr] = '$';
 }
 
 char next_char(FILE *fp)
@@ -268,11 +268,11 @@ TOKEN eval_token(FILE *fp)
             {
                 state = 49;
             }
-            else if (c == EOF)
+            else if (c == '$')
             {
                 printf("EOF Detected");
                 tkn.name = DOLLAR;
-                strcpy(tkn.id,"EOF");
+                strcpy(tkn.id, "EOF");
                 return tkn;
             }
             else
@@ -749,7 +749,7 @@ TOKEN eval_token(FILE *fp)
             tkn.name = RANGEOP;
             start = ptr;
             state = 0;
-            printf("called .. %d\n",ptr);
+            printf("called .. %d\n", ptr);
             strncpy(tkn.id, "..", 20);
             return tkn;
             break;
@@ -831,6 +831,7 @@ int main(int argc, char *argv[])
     TOKEN curr;
     TOKEN arr[200];
     int i = 0;
+    curr = eval_token(f);
     while ((curr.name != DOLLAR) && (curr.name != LEX_ERROR))
     // for(int i=0;i<22;i++)
     {
@@ -838,20 +839,23 @@ int main(int argc, char *argv[])
         // if (curr.id == ";")
         //     printf("SEMICOl");
         // printf("is eof  - %d", curr.name == DOLLAR);
+        // printf("ptr %d  Buffer %s\n\n",ptr,Buffer);
         arr[i] = curr;
+        
         i++;
     }
-    printf("%d\n",i);
-        for (int j=0; j <i; j++)
-    {   curr = arr[j];
+    // printf("%d\n",i);
+    for (int j = 0; j < i; j++)
+    {
+        curr = arr[j];
         if (curr.name == NUM)
             printf("token %d idnum %d \n", curr.line, curr.num);
         else if (curr.name == RNUM)
-            printf("token %d idrnum %ld \n", curr.line, curr.rnum);
-        else if(curr.name == DOLLAR)
-            printf("ideof %s\n",curr.id);
-        else 
+            printf("token %d idrnum %f \n", curr.line, curr.rnum);
+        else if (curr.name == DOLLAR)
+            printf("ideof %s\n", curr.id);
+        else
             printf("token %d id %s \n", curr.line, curr.id);
+        
     }
-    
 }
