@@ -44,7 +44,7 @@ void insert(char key[], tokens name, Element *table[])
 
     int index = hash_code(key);
 
-    while (table[index] != NULL && table[index]->key != -1)
+    while (table[index] != NULL && table[index]->key != NULL)
     {
 
         ++index;

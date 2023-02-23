@@ -4,11 +4,51 @@
 #include <stdbool.h>
 #include "lexer_helper.h"
 
-void retract(int num, FILE *fp)
+#define BUFFER_SIZE 100
+
+char Buffer[BUFFER_SIZE];
+
+void populate_buffer(FILE *fp)
+{
+    if (ptr == BUFFER_SIZE)
+    {
+        ptr = 0;
+    }
+    int check = fread(&Buffer[ptr], 1, (BUFFER_SIZE / 2), fp);
+    // printf("\ncheck %d\n", check);
+    // printf("\n %s \n", Buffer);
+    to_be_scanned += check;
+    if (check != (BUFFER_SIZE / 2))
+        Buffer[check + ptr] = EOF;
+}
+
+char next_char(FILE *fp)
+{
+    if (to_be_scanned == 0)
+    {
+        if (ptr == BUFFER_SIZE || ptr == BUFFER_SIZE / 2)
+            populate_buffer(fp);
+    }
+    int curr_lex_size = ptr - start;
+    if (curr_lex_size < 0)
+        curr_lex_size += BUFFER_SIZE;
+
+    if (curr_lex_size < MAX_LEX)
+        lexeme[curr_lex_size] = Buffer[ptr];
+    ptr++;
+    to_be_scanned--;
+    return Buffer[ptr - 1];
+}
+
+void retract(int num)
 {
     ptr -= num;
-    fseek(fp, -num, SEEK_CUR);
-    printf("called retract %d \n", ftell(fp));
+    to_be_scanned += num;
+    // fseek(fp, -num, SEEK_CUR);
+    // printf("called retract %d \n", ptr);
+    // printf("\n %s \n", Buffer);
+    if (ptr < 0)
+        ptr += BUFFER_SIZE;
 }
 
 tokens lookup(char *lexeme)
@@ -57,54 +97,77 @@ TOKEN is_tkn(FILE *fp)
 {
     TOKEN tkn;
     tkn.line = line_no;
+
+    // printf("inside is_tkn0\n");
+    if (start == BUFFER_SIZE)
+        start = 0;
     int lex_size = ptr - start;
+
+    while (lex_size < 0)
+        lex_size += BUFFER_SIZE;
+    lexeme[(lex_size > MAX_LEX ? MAX_LEX : lex_size)] = '\0';
+    // printf("inside is_tkn1\n ptr %d start %d lex %d", ptr, start, lex_size);
 
     if (lex_size > 20)
     {
         tkn.name = LEX_ERROR;
         return tkn;
     }
-    fseek(fp, -lex_size, SEEK_CUR);
-    fread(buffer, lex_size + 1, 1, fp);
-    printf("\n ptr %d start %d lex_size %d\nbuffer %s \n", ptr, start, lex_size, buffer);
+    // fseek(fp, -(lex_size), SEEK_CUR);
+    // fread(buffer, lex_size, 1, fp);
+
+    // printf("\n ptr %d start %d lex_size %d\nbuffer %s \n", ptr, start, lex_size, lexeme);
     switch (state)
     {
+
     case 2:
-        tkn.name = lookup(buffer);
-        strncpy(tkn.id, buffer, lex_size);
-        tkn.id[lex_size] = '\0';
-        printf("\n buf %s tkn %s \n", buffer, tkn.id);
+        tkn.name = lookup(lexeme);
+        // lexeme[lex_size] = '\0';
+        // printf("lexeme %s\n", lexeme);
+        strcpy(tkn.id, lexeme);
+        // tkn.id[lex_size] = '\0';
+        // printf("\n buf %s tkn %s \n", lexeme, tkn.id);
         break;
 
     case 4:
         tkn.name = NUM;
-        tkn.num = atoi(buffer);
+        tkn.num = atoi(lexeme);
         break;
 
     case 7:
         tkn.name = RNUM;
-        tkn.rnum = atof(buffer);
+        tkn.rnum = atof(lexeme);
         break;
 
     case 11:
         tkn.name = RNUM;
-        tkn.rnum = atof(buffer);
+        tkn.rnum = atof(lexeme);
         break;
 
     case 12:
         tkn.name = NUM;
-        tkn.num = atoi(buffer);
+        tkn.num = atoi(lexeme);
         break;
     }
+
+    // printf("pos now %d \n", ftell(fp));
     return tkn;
 }
 
-void lexer_reset()
+void lexer_reset(FILE *fp)
 {
     state = 0;
     line_no = 0;
     ptr = 0;
     start = 0;
+    Buffer[0] = '\0';
+    to_be_scanned = 0;
+
+    populate_lookup();
+
+    fseek(fp, 0, SEEK_SET);
+    populate_buffer(fp);
+    // printf("buffer %s\n", Buffer);
 }
 
 TOKEN eval_token(FILE *fp)
@@ -112,20 +175,21 @@ TOKEN eval_token(FILE *fp)
     char c;
     TOKEN tkn;
 
-    while (true)
+    while (c != EOF)
     {
+        // printf("curr state %d\n", state);
         tkn.line = line_no;
         switch (state)
         {
         case 0:
-            c = getc(fp);
-            printf("new char curr %d ptr %d %c \n", ftell(fp), ptr, c);
+            c = next_char(fp);
+            // printf("new char curr %d ptr %d %c \n", ftell(fp), ptr, c);
 
-            if (c == ';')
-                printf("SEMICOl");
-            if (c == '\n')
-                printf("newline");
-            ptr++;
+            // if (c == ';')
+            //     printf("SEMICOl");
+            // if (c == EOF)
+            //     printf("newline");
+            // ptr++;
             if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_')
             {
                 state = 1;
@@ -206,7 +270,9 @@ TOKEN eval_token(FILE *fp)
             }
             else if (c == EOF)
             {
+                printf("EOF Detected");
                 tkn.name = DOLLAR;
+                strcpy(tkn.id,"EOF");
                 return tkn;
             }
             else
@@ -218,8 +284,8 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 1:
-            c = getc(fp);
-            ptr++;
+            c = next_char(fp);
+            // ptr++;
             if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_' || (c >= '0' && c <= '9'))
             {
                 state = 1;
@@ -231,7 +297,7 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 2:
-            retract(1, fp);
+            retract(1);
             tkn = is_tkn(fp);
             start = ptr;
             state = 0;
@@ -239,8 +305,8 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 3:
-            c = getc(fp);
-            ptr++;
+            c = next_char(fp);
+            // ptr++;
             if (c >= '0' && c <= '9')
             {
                 state = 3;
@@ -256,7 +322,7 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 4:
-            retract(1, fp);
+            retract(1);
             tkn = is_tkn(fp);
             start = ptr;
             state = 0;
@@ -264,8 +330,8 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 5:
-            c = getc(fp);
-            ptr++;
+            c = next_char(fp);
+            // ptr++;
             if (c == '.')
             {
                 state = 12;
@@ -281,8 +347,8 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 6:
-            c = getc(fp);
-            ptr++;
+            c = next_char(fp);
+            // ptr++;
             if (c >= '0' && c <= '9')
             {
                 state = 6;
@@ -298,7 +364,7 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 7:
-            retract(1, fp);
+            retract(1);
             tkn = is_tkn(fp);
             start = ptr;
             state = 0;
@@ -306,8 +372,8 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 8:
-            c = getc(fp);
-            ptr++;
+            c = next_char(fp);
+            // ptr++;
             if (c >= '0' && c <= '9')
             {
                 state = 10;
@@ -323,8 +389,8 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 9:
-            c = getc(fp);
-            ptr++;
+            c = next_char(fp);
+            // ptr++;
             if (c >= '0' && c <= '9')
             {
                 state = 10;
@@ -336,8 +402,8 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 10:
-            c = getc(fp);
-            ptr++;
+            c = next_char(fp);
+            // ptr++;
             if (c >= '0' && c <= '9')
             {
                 state = 10;
@@ -349,7 +415,7 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 11:
-            retract(1, fp);
+            retract(1);
             tkn = is_tkn(fp);
             start = ptr;
             state = 0;
@@ -357,7 +423,7 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 12:
-            retract(2, fp);
+            retract(2);
             tkn = is_tkn(fp);
             start = ptr;
             state = 0;
@@ -365,8 +431,8 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 13:
-            c = getc(fp);
-            ptr++;
+            c = next_char(fp);
+            // ptr++;
             if (c == ' ' || c == '\t' || c == '\n')
             {
                 state = 13;
@@ -380,7 +446,7 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 14:
-            retract(1, fp);
+            retract(1);
             start = ptr;
             state = 0;
 
@@ -403,8 +469,8 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 17:
-            c = getc(fp);
-            ptr++;
+            c = next_char(fp);
+            // ptr++;
             if (c == '*')
             {
                 state = 19;
@@ -416,7 +482,7 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 18:
-            retract(1, fp);
+            retract(1);
             tkn.name = MUL;
             start = ptr;
             state = 0;
@@ -425,8 +491,8 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 19:
-            c = getc(fp);
-            ptr++;
+            c = next_char(fp);
+            // ptr++;
             if (c == '*')
             {
                 state = 20;
@@ -438,8 +504,8 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 20:
-            c = getc(fp);
-            ptr++;
+            c = next_char(fp);
+            // ptr++;
             if (c == '*')
             {
                 state = 21;
@@ -465,8 +531,8 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 23:
-            c = getc(fp);
-            ptr++;
+            c = next_char(fp);
+            // ptr++;
             if (c == '=')
             {
                 state = 25;
@@ -482,7 +548,7 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 24:
-            retract(1, fp);
+            retract(1);
             tkn.name = LT;
             start = ptr;
             state = 0;
@@ -499,8 +565,8 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 26:
-            c = getc(fp);
-            ptr++;
+            c = next_char(fp);
+            // ptr++;
             if (c == '<')
             {
                 state = 28;
@@ -512,7 +578,7 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 27:
-            retract(1, fp);
+            retract(1);
             tkn.name = DEF;
             start = ptr;
             state = 0;
@@ -529,8 +595,8 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 29:
-            c = getc(fp);
-            ptr++;
+            c = next_char(fp);
+            // ptr++;
             if (c == '=')
             {
                 state = 31;
@@ -546,7 +612,7 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 30:
-            retract(1, fp);
+            retract(1);
             tkn.name = GT;
             start = ptr;
             state = 0;
@@ -563,10 +629,10 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 32:
-            printf("in 32 pos %d ", ftell(fp));
-            c = getc(fp);
-            ptr++;
-            printf("in 32 c %c \n", c);
+            // printf("in 32 pos %d ", ftell(fp));
+            c = next_char(fp);
+            // ptr++;
+            // printf("in 32 c %c \n", c);
             if (c == '>')
             {
                 state = 34;
@@ -578,7 +644,7 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 33:
-            retract(1, fp);
+            retract(1);
             tkn.name = ENDDEF;
             start = ptr;
             state = 0;
@@ -595,8 +661,8 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 35:
-            c = getc(fp);
-            ptr++;
+            c = next_char(fp);
+            // ptr++;
             if (c == '=')
             {
                 state = 36;
@@ -616,8 +682,8 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 37:
-            c = getc(fp);
-            ptr++;
+            c = next_char(fp);
+            // ptr++;
             if (c == '=')
             {
                 state = 38;
@@ -637,8 +703,8 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 39:
-            c = getc(fp);
-            ptr++;
+            c = next_char(fp);
+            // ptr++;
             if (c == '=')
             {
                 state = 40;
@@ -658,7 +724,7 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 41:
-            retract(1, fp);
+            retract(1);
             tkn.name = COLON;
             start = ptr;
             state = 0;
@@ -667,8 +733,8 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 42:
-            c = getc(fp);
-            ptr++;
+            c = next_char(fp);
+            // ptr++;
             if (c == '.')
             {
                 state = 43;
@@ -683,13 +749,14 @@ TOKEN eval_token(FILE *fp)
             tkn.name = RANGEOP;
             start = ptr;
             state = 0;
+            printf("called .. %d\n",ptr);
             strncpy(tkn.id, "..", 20);
             return tkn;
             break;
 
         case 44:
             tkn.name = SEMICOL;
-            printf("semicol ptr %d start %d \n", ptr, start);
+            // printf("semicol ptr %d start %d \n", ptr, start);
             start = ptr;
             state = 0;
             strcpy(tkn.id, ";");
@@ -751,21 +818,40 @@ TOKEN eval_token(FILE *fp)
 
 int main(int argc, char *argv[])
 {
-    printf("Hey there %d %s %s \n", argc, argv[0], argv[1]);
+    // printf("Hey there %d %s %s \n", argc, argv[0], argv[1]);
     /* FILE *f = fopen(argv[1], "r"); */
-    lexer_reset();
     FILE *f = fopen(argv[1], "r");
     /* char c = getc(f); */
     /* while(c != ';'){ */
     /*     printf("new char %c \n", c); */
     /*     c = getc(f); */
     /* } */
-    TOKEN curr = eval_token(f);
-    while (curr.name != DOLLAR)
+    lexer_reset(f);
+
+    TOKEN curr;
+    TOKEN arr[200];
+    int i = 0;
+    while ((curr.name != DOLLAR) && (curr.name != LEX_ERROR))
+    // for(int i=0;i<22;i++)
     {
         curr = eval_token(f);
-        if (curr.id == ";")
-            printf("SEMICOl");
-        printf("token %d id %s \n", curr.line, curr.id);
+        // if (curr.id == ";")
+        //     printf("SEMICOl");
+        // printf("is eof  - %d", curr.name == DOLLAR);
+        arr[i] = curr;
+        i++;
     }
+    printf("%d\n",i);
+        for (int j=0; j <i; j++)
+    {   curr = arr[j];
+        if (curr.name == NUM)
+            printf("token %d idnum %d \n", curr.line, curr.num);
+        else if (curr.name == RNUM)
+            printf("token %d idrnum %ld \n", curr.line, curr.rnum);
+        else if(curr.name == DOLLAR)
+            printf("ideof %s\n",curr.id);
+        else 
+            printf("token %d id %s \n", curr.line, curr.id);
+    }
+    
 }
