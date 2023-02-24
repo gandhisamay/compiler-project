@@ -1,4 +1,4 @@
-declare module mod1
+declare module mod1;
 <<<driver Program>>>
 start
     declare v, w, r :integer;
@@ -9,6 +9,11 @@ start
     print(r);
     print(m);
 end
+
+
+
+
+
 
 <<module mod1>>
 takes input [a: integer, b: integer];

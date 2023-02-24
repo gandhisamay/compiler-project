@@ -6,10 +6,10 @@ start
     b:=23:
     c:=(b-a>3);
     switch(c)
-    ** Test comment 1 **
+    
     start
         case true: b:=100;
-            break; ** Test inline comment 2 **
+            break; 
         case false: b:= -100;
             break;
     end

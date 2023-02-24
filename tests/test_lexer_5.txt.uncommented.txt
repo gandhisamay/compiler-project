@@ -8,10 +8,9 @@ start
         A[k]:=(num - k)*(num-k);
         print(A[k]);
     end
-    ** Test comment 1**
+    
 end
 
-** Test comment 2
 
 
 
@@ -27,4 +26,5 @@ end
 
 
 
-**
+
+

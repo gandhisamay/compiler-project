@@ -10,6 +10,11 @@ start
     print(m);
 end
 
+** Test comment 1 **
+** Test multiline
+comment 2
+**
+
 <<module mod1>>
 takes input [a: integer, b: integer];
 returns [x: integer, abc: real];
