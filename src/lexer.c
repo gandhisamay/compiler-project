@@ -2,12 +2,8 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdbool.h>
-#include "lexer_helper.h"
+#include "hash_Table.c"
 
-#define BUFFER_SIZE 30
-
-char Buffer[BUFFER_SIZE];
-int stop = -1;
 
 void populate_buffer(FILE *fp)
 {
@@ -16,8 +12,6 @@ void populate_buffer(FILE *fp)
         ptr = 0;
     }
     int check = fread(&Buffer[ptr], 1, (BUFFER_SIZE / 2), fp);
-    // printf("\ncheck %d\n", check);
-    // printf("\n %s \n", Buffer);
     to_be_scanned += check;
     if (check != (BUFFER_SIZE / 2))
     {
@@ -279,14 +273,14 @@ TOKEN eval_token(FILE *fp)
             }
             else if (c == '$' && ptr == stop + 1)
             {
-                printf("EOF Detected");
+                /* printf("EOF Detected"); */
                 tkn.name = DOLLAR;
                 strcpy(tkn.id, "EOF");
                 return tkn;
             }
             else
             {
-                printf("to 50");
+                /* printf("to 50"); */
                 state = 50;
             }
 
@@ -758,7 +752,7 @@ TOKEN eval_token(FILE *fp)
             tkn.name = RANGEOP;
             start = ptr;
             state = 0;
-            printf("called .. %d\n", ptr);
+            /* printf("called .. %d\n", ptr); */
             strncpy(tkn.id, "..", 20);
             return tkn;
             break;
@@ -813,7 +807,7 @@ TOKEN eval_token(FILE *fp)
             break;
 
         case 50:
-            printf("inside 50");
+            /* printf("inside 50"); */
             tkn.name = LEX_ERROR;
             strncpy(tkn.id, "error", 5);
             start = ptr;
