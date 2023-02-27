@@ -4,22 +4,25 @@
 #include <stdlib.h>
 #include <string.h>
 
-void populate_buffer(FILE* fp)
+void populate_buffer(FILE *fp)
 {
-    if (ptr == BUFFER_SIZE) {
+    if (ptr == BUFFER_SIZE)
+    {
         ptr = 0;
     }
     int check = fread(&Buffer[ptr], 1, (BUFFER_SIZE / 2), fp);
     to_be_scanned += check;
-    if (check != (BUFFER_SIZE / 2)) {
+    if (check != (BUFFER_SIZE / 2))
+    {
         Buffer[check + ptr] = '$';
         stop = check + ptr;
     }
 }
 
-char next_char(FILE* fp)
+char next_char(FILE *fp)
 {
-    if (to_be_scanned == 0) {
+    if (to_be_scanned == 0)
+    {
         if (ptr == BUFFER_SIZE || ptr == BUFFER_SIZE / 2)
             populate_buffer(fp);
     }
@@ -42,7 +45,7 @@ void retract(int num)
         ptr += BUFFER_SIZE;
 }
 
-tokens lookup(char* lexeme)
+tokens lookup(char *lexeme)
 {
     tokens result = search(lexeme, Lookup_Table);
     return result;
@@ -50,35 +53,35 @@ tokens lookup(char* lexeme)
 
 void populate_lookup()
 {
-    insert("integer", INTEGER, Lookup_Table);
-    insert("real", REAL, Lookup_Table);
-    insert("boolean", BOOLEAN, Lookup_Table);
-    insert("of", OF, Lookup_Table);
-    insert("array", ARRAY, Lookup_Table);
-    insert("start", START, Lookup_Table);
-    insert("end", END, Lookup_Table);
-    insert("declare", DECLARE, Lookup_Table);
-    insert("module", MODULE, Lookup_Table);
-    insert("driver", DRIVER, Lookup_Table);
-    insert("program", PROGRAM, Lookup_Table);
-    insert("get_value", GET_VALUE, Lookup_Table);
-    insert("print", PRINT, Lookup_Table);
-    insert("use", USE, Lookup_Table);
-    insert("with", WITH, Lookup_Table);
-    insert("parameters", PARAMETERS, Lookup_Table);
-    insert("takes", TAKES, Lookup_Table);
-    insert("input", INPUT, Lookup_Table);
-    insert("returns", RETURNS, Lookup_Table);
-    insert("for", FOR, Lookup_Table);
-    insert("in", IN, Lookup_Table);
-    insert("switch", SWITCH, Lookup_Table);
-    insert("case", CASE, Lookup_Table);
-    insert("break", BREAK, Lookup_Table);
-    insert("default", DEFAULT, Lookup_Table);
-    insert("while", WHILE, Lookup_Table);
+    insert("integer", iNTEGER, Lookup_Table);
+    insert("real", rEAL, Lookup_Table);
+    insert("boolean", bOOLEAN, Lookup_Table);
+    insert("of", oF, Lookup_Table);
+    insert("array", aRRAY, Lookup_Table);
+    insert("start", sTART, Lookup_Table);
+    insert("end", eND, Lookup_Table);
+    insert("declare", dECLARE, Lookup_Table);
+    insert("module", mODULE, Lookup_Table);
+    insert("driver", dRIVER, Lookup_Table);
+    insert("program", pROGRAM, Lookup_Table);
+    insert("get_value", gET_VALUE, Lookup_Table);
+    insert("print", pRINT, Lookup_Table);
+    insert("use", uSE, Lookup_Table);
+    insert("with", wITH, Lookup_Table);
+    insert("parameters", pARAMETERS, Lookup_Table);
+    insert("takes", tAKES, Lookup_Table);
+    insert("input", iNPUT, Lookup_Table);
+    insert("returns", rETURNS, Lookup_Table);
+    insert("for", fOR, Lookup_Table);
+    insert("in", iN, Lookup_Table);
+    insert("switch", sWITCH, Lookup_Table);
+    insert("case", cASE, Lookup_Table);
+    insert("break", bREAK, Lookup_Table);
+    insert("default", dEFAULT, Lookup_Table);
+    insert("while", wHILE, Lookup_Table);
 }
 
-TOKEN is_tkn(FILE* fp)
+TOKEN is_tkn(FILE *fp)
 {
     TOKEN tkn;
     tkn.line = line_no;
@@ -88,46 +91,48 @@ TOKEN is_tkn(FILE* fp)
     while (lex_size < 0)
         lex_size += BUFFER_SIZE;
     lexeme[(lex_size > MAX_LEX ? MAX_LEX : lex_size)] = '\0';
-    if (lex_size > 20) {
-        tkn.name = LEX_ERROR;
+    if (lex_size > 20)
+    {
+        tkn.name = lEX_ERROR;
         return tkn;
     }
 
-    switch (state) {
+    switch (state)
+    {
     case 2:
         tkn.name = lookup(lexeme);
         strcpy(tkn.id, lexeme);
         break;
 
     case 4:
-        tkn.name = NUM;
+        tkn.name = nUM;
         tkn.num = atoi(lexeme);
         break;
 
     case 7:
-        tkn.name = RNUM;
+        tkn.name = rNUM;
         tkn.rnum = atof(lexeme);
         break;
 
     case 11:
-        tkn.name = RNUM;
+        tkn.name = rNUM;
         tkn.rnum = atof(lexeme);
         break;
 
     case 12:
-        tkn.name = NUM;
+        tkn.name = nUM;
         tkn.num = atoi(lexeme);
         break;
 
     case 51:
-        tkn.name = LEX_ERROR;
+        tkn.name = lEX_ERROR;
         strcpy(tkn.id, lexeme);
         break;
     }
     return tkn;
 }
 
-void lexer_reset(FILE* fp)
+void lexer_reset(FILE *fp)
 {
     state = 0;
     line_no = 0;
@@ -136,68 +141,112 @@ void lexer_reset(FILE* fp)
     Buffer[0] = '\0';
     to_be_scanned = 0;
 
-    if (LOOKUP_SET == 0){
+    if (LOOKUP_SET == 0)
+    {
         LOOKUP_SET = 1;
         populate_lookup();
-    } 
+    }
     fseek(fp, 0, SEEK_SET);
     populate_buffer(fp);
 }
 
-TOKEN eval_token(FILE* fp)
+TOKEN eval_token(FILE *fp)
 {
     char c;
     TOKEN tkn;
-    while (c != EOF) {
+    while (c != EOF)
+    {
         tkn.line = line_no;
-        switch (state) {
+        switch (state)
+        {
         case 0:
             c = next_char(fp);
-            if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_') {
+            if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_')
+            {
                 state = 1;
-            } else if (c >= '0' && c <= '9') {
+            }
+            else if (c >= '0' && c <= '9')
+            {
                 state = 3;
-            } else if (c == ' ' || c == '\t' || c == '\n') {
+            }
+            else if (c == ' ' || c == '\t' || c == '\n')
+            {
                 if (c == '\n')
                     line_no++;
                 state = 13;
-            } else if (c == '+') {
+            }
+            else if (c == '+')
+            {
                 state = 15;
-            } else if (c == '-') {
+            }
+            else if (c == '-')
+            {
                 state = 16;
-            } else if (c == '*') {
+            }
+            else if (c == '*')
+            {
                 state = 17;
-            } else if (c == '/') {
+            }
+            else if (c == '/')
+            {
                 state = 22;
-            } else if (c == '<') {
+            }
+            else if (c == '<')
+            {
                 state = 23;
-            } else if (c == '>') {
+            }
+            else if (c == '>')
+            {
                 state = 29;
-            } else if (c == '=') {
+            }
+            else if (c == '=')
+            {
                 state = 35;
-            } else if (c == '!') {
+            }
+            else if (c == '!')
+            {
                 state = 37;
-            } else if (c == ':') {
+            }
+            else if (c == ':')
+            {
                 state = 39;
-            } else if (c == '.') {
+            }
+            else if (c == '.')
+            {
                 state = 42;
-            } else if (c == ';') {
+            }
+            else if (c == ';')
+            {
                 state = 44;
-            } else if (c == ',') {
+            }
+            else if (c == ',')
+            {
                 state = 45;
-            } else if (c == '[') {
+            }
+            else if (c == '[')
+            {
                 state = 46;
-            } else if (c == ']') {
+            }
+            else if (c == ']')
+            {
                 state = 47;
-            } else if (c == '(') {
+            }
+            else if (c == '(')
+            {
                 state = 48;
-            } else if (c == ')') {
+            }
+            else if (c == ')')
+            {
                 state = 49;
-            } else if (c == '$' && ptr == stop + 1) {
-                tkn.name = DOLLAR;
+            }
+            else if (c == '$' && ptr == stop + 1)
+            {
+                tkn.name = $;
                 strcpy(tkn.id, "EOF");
                 return tkn;
-            } else {
+            }
+            else
+            {
                 state = 50;
             }
 
@@ -205,9 +254,12 @@ TOKEN eval_token(FILE* fp)
 
         case 1:
             c = next_char(fp);
-            if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_' || (c >= '0' && c <= '9')) {
+            if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_' || (c >= '0' && c <= '9'))
+            {
                 state = 1;
-            } else {
+            }
+            else
+            {
                 state = 2;
             }
             break;
@@ -222,11 +274,16 @@ TOKEN eval_token(FILE* fp)
 
         case 3:
             c = next_char(fp);
-            if (c >= '0' && c <= '9') {
+            if (c >= '0' && c <= '9')
+            {
                 state = 3;
-            } else if (c == '.') {
+            }
+            else if (c == '.')
+            {
                 state = 5;
-            } else {
+            }
+            else
+            {
                 state = 4;
             }
             break;
@@ -241,22 +298,32 @@ TOKEN eval_token(FILE* fp)
 
         case 5:
             c = next_char(fp);
-            if (c == '.') {
+            if (c == '.')
+            {
                 state = 12;
-            } else if (c >= '0' && c <= '9') {
+            }
+            else if (c >= '0' && c <= '9')
+            {
                 state = 6;
-            } else {
+            }
+            else
+            {
                 state = 51;
             }
             break;
 
         case 6:
             c = next_char(fp);
-            if (c >= '0' && c <= '9') {
+            if (c >= '0' && c <= '9')
+            {
                 state = 6;
-            } else if (c == 'e' || c == 'E') {
+            }
+            else if (c == 'e' || c == 'E')
+            {
                 state = 8;
-            } else {
+            }
+            else
+            {
                 state = 7;
             }
             break;
@@ -271,29 +338,40 @@ TOKEN eval_token(FILE* fp)
 
         case 8:
             c = next_char(fp);
-            if (c >= '0' && c <= '9') {
+            if (c >= '0' && c <= '9')
+            {
                 state = 10;
-            } else if (c == '+' || c == '-') {
+            }
+            else if (c == '+' || c == '-')
+            {
                 state = 9;
-            } else {
+            }
+            else
+            {
                 state = 51;
             }
             break;
 
         case 9:
             c = next_char(fp);
-            if (c >= '0' && c <= '9') {
+            if (c >= '0' && c <= '9')
+            {
                 state = 10;
-            } else {
+            }
+            else
+            {
                 state = 51;
             }
             break;
 
         case 10:
             c = next_char(fp);
-            if (c >= '0' && c <= '9') {
+            if (c >= '0' && c <= '9')
+            {
                 state = 10;
-            } else {
+            }
+            else
+            {
                 state = 11;
             }
             break;
@@ -316,11 +394,14 @@ TOKEN eval_token(FILE* fp)
 
         case 13:
             c = next_char(fp);
-            if (c == ' ' || c == '\t' || c == '\n') {
+            if (c == ' ' || c == '\t' || c == '\n')
+            {
                 state = 13;
                 if (c == '\n')
                     line_no++;
-            } else {
+            }
+            else
+            {
                 state = 14;
             }
             break;
@@ -332,7 +413,7 @@ TOKEN eval_token(FILE* fp)
             break;
 
         case 15:
-            tkn.name = PLUS;
+            tkn.name = pLUS;
             start = ptr;
             state = 0;
             strncpy(tkn.id, "+", 20);
@@ -340,7 +421,7 @@ TOKEN eval_token(FILE* fp)
             break;
 
         case 16:
-            tkn.name = MINUS;
+            tkn.name = mINUS;
             start = ptr;
             state = 0;
             strncpy(tkn.id, "-", 20);
@@ -349,16 +430,19 @@ TOKEN eval_token(FILE* fp)
 
         case 17:
             c = next_char(fp);
-            if (c == '*') {
+            if (c == '*')
+            {
                 state = 19;
-            } else {
+            }
+            else
+            {
                 state = 18;
             }
             break;
 
         case 18:
             retract(1);
-            tkn.name = MUL;
+            tkn.name = mUL;
             start = ptr;
             state = 0;
             strncpy(tkn.id, "*", 20);
@@ -367,18 +451,24 @@ TOKEN eval_token(FILE* fp)
 
         case 19:
             c = next_char(fp);
-            if (c == '*') {
+            if (c == '*')
+            {
                 state = 20;
-            } else {
+            }
+            else
+            {
                 state = 19;
             }
             break;
 
         case 20:
             c = next_char(fp);
-            if (c == '*') {
+            if (c == '*')
+            {
                 state = 21;
-            } else {
+            }
+            else
+            {
                 state = 19;
             }
             break;
@@ -389,7 +479,7 @@ TOKEN eval_token(FILE* fp)
             break;
 
         case 22:
-            tkn.name = DIV;
+            tkn.name = dIV;
             start = ptr;
             state = 0;
             strncpy(tkn.id, "/", 20);
@@ -398,18 +488,23 @@ TOKEN eval_token(FILE* fp)
 
         case 23:
             c = next_char(fp);
-            if (c == '=') {
+            if (c == '=')
+            {
                 state = 25;
-            } else if (c == '<') {
+            }
+            else if (c == '<')
+            {
                 state = 26;
-            } else {
+            }
+            else
+            {
                 state = 24;
             }
             break;
 
         case 24:
             retract(1);
-            tkn.name = LT;
+            tkn.name = lT;
             start = ptr;
             state = 0;
             strncpy(tkn.id, "<", 20);
@@ -417,7 +512,7 @@ TOKEN eval_token(FILE* fp)
             break;
 
         case 25:
-            tkn.name = LE;
+            tkn.name = lE;
             start = ptr;
             state = 0;
             strncpy(tkn.id, "<=", 20);
@@ -426,16 +521,19 @@ TOKEN eval_token(FILE* fp)
 
         case 26:
             c = next_char(fp);
-            if (c == '<') {
+            if (c == '<')
+            {
                 state = 28;
-            } else {
+            }
+            else
+            {
                 state = 27;
             }
             break;
 
         case 27:
             retract(1);
-            tkn.name = DEF;
+            tkn.name = dEF;
             start = ptr;
             state = 0;
             strncpy(tkn.id, "<<", 20);
@@ -443,7 +541,7 @@ TOKEN eval_token(FILE* fp)
             break;
 
         case 28:
-            tkn.name = DRIVERDEF;
+            tkn.name = dRIVERDEF;
             start = ptr;
             state = 0;
             strncpy(tkn.id, "<<<", 20);
@@ -452,18 +550,23 @@ TOKEN eval_token(FILE* fp)
 
         case 29:
             c = next_char(fp);
-            if (c == '=') {
+            if (c == '=')
+            {
                 state = 31;
-            } else if (c == '>') {
+            }
+            else if (c == '>')
+            {
                 state = 32;
-            } else {
+            }
+            else
+            {
                 state = 30;
             }
             break;
 
         case 30:
             retract(1);
-            tkn.name = GT;
+            tkn.name = gT;
             start = ptr;
             state = 0;
             strncpy(tkn.id, ">", 20);
@@ -471,7 +574,7 @@ TOKEN eval_token(FILE* fp)
             break;
 
         case 31:
-            tkn.name = GE;
+            tkn.name = gE;
             start = ptr;
             state = 0;
             strncpy(tkn.id, ">=", 20);
@@ -480,16 +583,19 @@ TOKEN eval_token(FILE* fp)
 
         case 32:
             c = next_char(fp);
-            if (c == '>') {
+            if (c == '>')
+            {
                 state = 34;
-            } else {
+            }
+            else
+            {
                 state = 33;
             }
             break;
 
         case 33:
             retract(1);
-            tkn.name = ENDDEF;
+            tkn.name = eNDDEF;
             start = ptr;
             state = 0;
             strncpy(tkn.id, ">>", 20);
@@ -497,7 +603,7 @@ TOKEN eval_token(FILE* fp)
             break;
 
         case 34:
-            tkn.name = DRIVERENDDEF;
+            tkn.name = dRIVERENDDEF;
             start = ptr;
             state = 0;
             strncpy(tkn.id, ">>>", 20);
@@ -506,15 +612,18 @@ TOKEN eval_token(FILE* fp)
 
         case 35:
             c = next_char(fp);
-            if (c == '=') {
+            if (c == '=')
+            {
                 state = 36;
-            } else {
+            }
+            else
+            {
                 state = 51;
             }
             break;
 
         case 36:
-            tkn.name = EQ;
+            tkn.name = eQ;
             start = ptr;
             state = 0;
             strncpy(tkn.id, "==", 20);
@@ -523,15 +632,18 @@ TOKEN eval_token(FILE* fp)
 
         case 37:
             c = next_char(fp);
-            if (c == '=') {
+            if (c == '=')
+            {
                 state = 38;
-            } else {
+            }
+            else
+            {
                 state = 51;
             }
             break;
 
         case 38:
-            tkn.name = NE;
+            tkn.name = nE;
             start = ptr;
             state = 0;
             strncpy(tkn.id, "!=", 20);
@@ -540,15 +652,18 @@ TOKEN eval_token(FILE* fp)
 
         case 39:
             c = next_char(fp);
-            if (c == '=') {
+            if (c == '=')
+            {
                 state = 40;
-            } else {
+            }
+            else
+            {
                 state = 41;
             }
             break;
 
         case 40:
-            tkn.name = ASSIGNOP;
+            tkn.name = aSSIGNOP;
             start = ptr;
             state = 0;
             strncpy(tkn.id, ":=", 20);
@@ -557,7 +672,7 @@ TOKEN eval_token(FILE* fp)
 
         case 41:
             retract(1);
-            tkn.name = COLON;
+            tkn.name = cOLON;
             start = ptr;
             state = 0;
             strncpy(tkn.id, ":", 20);
@@ -566,15 +681,18 @@ TOKEN eval_token(FILE* fp)
 
         case 42:
             c = next_char(fp);
-            if (c == '.') {
+            if (c == '.')
+            {
                 state = 43;
-            } else {
+            }
+            else
+            {
                 state = 51;
             }
             break;
 
         case 43:
-            tkn.name = RANGEOP;
+            tkn.name = rANGEOP;
             start = ptr;
             state = 0;
             strncpy(tkn.id, "..", 20);
@@ -582,7 +700,7 @@ TOKEN eval_token(FILE* fp)
             break;
 
         case 44:
-            tkn.name = SEMICOL;
+            tkn.name = sEMICOL;
             start = ptr;
             state = 0;
             strcpy(tkn.id, ";");
@@ -590,7 +708,7 @@ TOKEN eval_token(FILE* fp)
             break;
 
         case 45:
-            tkn.name = COMMA;
+            tkn.name = cOMMA;
             start = ptr;
             state = 0;
             strncpy(tkn.id, ",", 20);
@@ -598,7 +716,7 @@ TOKEN eval_token(FILE* fp)
             break;
 
         case 46:
-            tkn.name = SQBO;
+            tkn.name = sQBO;
             start = ptr;
             state = 0;
             strncpy(tkn.id, "[", 20);
@@ -606,7 +724,7 @@ TOKEN eval_token(FILE* fp)
             break;
 
         case 47:
-            tkn.name = SQBC;
+            tkn.name = sQBC;
             start = ptr;
             state = 0;
             strncpy(tkn.id, "]", 20);
@@ -614,7 +732,7 @@ TOKEN eval_token(FILE* fp)
             break;
 
         case 48:
-            tkn.name = BO;
+            tkn.name = bO;
             start = ptr;
             state = 0;
             strncpy(tkn.id, "(", 20);
@@ -622,7 +740,7 @@ TOKEN eval_token(FILE* fp)
             break;
 
         case 49:
-            tkn.name = BC;
+            tkn.name = bC;
             start = ptr;
             state = 0;
             strncpy(tkn.id, ")", 20);
@@ -630,7 +748,7 @@ TOKEN eval_token(FILE* fp)
             break;
 
         case 50:
-            tkn.name = LEX_ERROR;
+            tkn.name = lEX_ERROR;
             strncpy(tkn.id, "error", 5);
             start = ptr;
             state = 0;
@@ -651,26 +769,34 @@ TOKEN eval_token(FILE* fp)
     }
 }
 
-void remove_comments(FILE* ipt, char* opt_name)
+void remove_comments(FILE *ipt, char *opt_name)
 {
-    FILE* opt = fopen(opt_name, "w");
+    FILE *opt = fopen(opt_name, "w");
     int state = 0;
     char c = fgetc(ipt);
 
-    while (c != EOF) {
-        switch (state) {
+    while (c != EOF)
+    {
+        switch (state)
+        {
         case 0:
-            if (c == '*') {
+            if (c == '*')
+            {
                 state = 1;
-            } else {
+            }
+            else
+            {
                 fputc(c, opt);
             }
             break;
 
         case 1:
-            if (c == '*') {
+            if (c == '*')
+            {
                 state = 2;
-            } else {
+            }
+            else
+            {
                 state = 0;
                 fputc('*', opt);
                 fputc(c, opt);
@@ -678,20 +804,27 @@ void remove_comments(FILE* ipt, char* opt_name)
             break;
 
         case 2:
-            if (c == '*') {
+            if (c == '*')
+            {
                 state = 3;
-            } else {
+            }
+            else
+            {
                 state = 2;
-                if (c == '\n') {
+                if (c == '\n')
+                {
                     fputc(c, opt);
                 }
             }
             break;
 
         case 3:
-            if (c == '*') {
+            if (c == '*')
+            {
                 state = 0;
-            } else {
+            }
+            else
+            {
                 state = 2;
             }
             break;
@@ -705,16 +838,18 @@ void remove_comments(FILE* ipt, char* opt_name)
     fclose(opt);
 }
 
-int test_lexer_run(char* program_file, char* tokenized_file) {
-    FILE* token_fp = fopen(tokenized_file, "w");
-    FILE* test_fp = fopen(program_file, "r");
+int test_lexer_run(char *program_file, char *tokenized_file)
+{
+    FILE *token_fp = fopen(tokenized_file, "w");
+    FILE *test_fp = fopen(program_file, "r");
 
     printf("\n lookup set %d \n", LOOKUP_SET);
     lexer_reset(test_fp);
     TOKEN curr;
     TOKEN arr[200];
     int i = 0;
-    while ((curr.name != DOLLAR)) {
+    while ((curr.name != $))
+    {
         curr = eval_token(test_fp);
         arr[i] = curr;
         i++;
@@ -722,25 +857,31 @@ int test_lexer_run(char* program_file, char* tokenized_file) {
 
     fprintf(token_fp, "\n\nTOKENIZATION COMPLETE:- %d TOKENS\n\n", i);
     printf("\n\nTOKENIZATION COMPLETE:- %d TOKENS\n\n", i);
-    for (int j = 0; j < i; j++) {
+    for (int j = 0; j < i; j++)
+    {
         curr = arr[j];
-        if (curr.name == NUM){
+        if (curr.name == nUM)
+        {
             fprintf(token_fp, "LINE: [%d] TOKEN: NUM       : %d \n", curr.line, curr.num);
             printf("LINE: [%d] TOKEN: NUM       : %d \n", curr.line, curr.num);
         }
-        else if (curr.name == RNUM){
+        else if (curr.name == rNUM)
+        {
             fprintf(token_fp, "LINE: [%d] TOKEN: RNUM      : %f \n", curr.line, curr.rnum);
             printf("LINE: [%d] TOKEN: RNUM      : %f \n", curr.line, curr.rnum);
         }
-        else if (curr.name == DOLLAR){
+        else if (curr.name == $)
+        {
             fprintf(token_fp, "LINE: [%d] TOKEN: EOF/DOLLAR: %s\n", curr.line, curr.id);
             printf("LINE: [%d] TOKEN: EOF/DOLLAR: %s\n", curr.line, curr.id);
         }
-        else if (curr.name == LEX_ERROR){
+        else if (curr.name == lEX_ERROR)
+        {
             fprintf(token_fp, "LINE: [%d] TOKEN: ERROR     : %s\n", curr.line, curr.id);
             printf("LINE: [%d] TOKEN: ERROR     : %s\n", curr.line, curr.id);
         }
-        else{
+        else
+        {
             fprintf(token_fp, "LINE: [%d] TOKEN: ID        : %s\n", curr.line, curr.id);
             printf("LINE: [%d] TOKEN: ID        : %s\n", curr.line, curr.id);
         }
@@ -751,9 +892,9 @@ int test_lexer_run(char* program_file, char* tokenized_file) {
     return 1;
 }
 
-/* int main(){ */
-/*     char* test_file_1 = "../tests/test_lexer_1.txt.uncommented.txt"; */
-/*     char* tokenized_file = "test_tokenized.txt"; */
-/*     test_lexer_run(test_file_1, tokenized_file); */
-/*     return 0; */
-/* } */
+//  int main(){ 
+//      char* test_file_1 = "../tests/test_lexer_1.txt.uncommented.txt"; 
+//      char* tokenized_file = "test_tokenized.txt"; 
+//      test_lexer_run(test_file_1, tokenized_file); 
+//      return 0; 
+//  } 
