@@ -7,4 +7,5 @@ typedef struct TreeNode{
     struct Symbol *symbol;
 } TreeNode;
 
-typedef struct LinkedList LinkedList;
+TreeNode* ParseTree;
+/* typedef struct LinkedList LinkedList; */

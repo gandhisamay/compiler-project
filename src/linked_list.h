@@ -28,6 +28,7 @@ struct LinkedList {
 
 typedef struct LinkedList LinkedList;
 
+LinkedList *ParserStack;
 Node *create_new_node(Symbol *symbol);
 LinkedList *create_linked_list();
 void insert_node(Symbol *symbol, LinkedList *ll, bool check_if_present);

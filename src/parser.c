@@ -6,5 +6,6 @@
 #include "parse_tree.c"
 
 void initialize_parser(){
-
+    ParseTree = create_parse_tree();    
+    ParserStack = create_stack();
 }
