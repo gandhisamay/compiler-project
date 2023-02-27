@@ -32,7 +32,7 @@ tokens search(char key[], Element *table[])
         index %= HASH_SIZE;
     }
 
-    return ID;
+    return iD;
 }
 
 void insert(char key[], tokens name, Element *table[])
