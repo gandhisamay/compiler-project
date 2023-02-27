@@ -749,7 +749,8 @@ TOKEN eval_token(FILE *fp)
 
         case 50:
             tkn.name = lEX_ERROR;
-            strncpy(tkn.id, "error", 5);
+            /* strncpy(tkn.id, "error", 5); */
+            strcpy(tkn.id, "error");
             start = ptr;
             state = 0;
             return tkn;
@@ -843,12 +844,12 @@ int test_lexer_run(char *program_file, char *tokenized_file)
     FILE *token_fp = fopen(tokenized_file, "w");
     FILE *test_fp = fopen(program_file, "r");
 
-    printf("\n lookup set %d \n", LOOKUP_SET);
     lexer_reset(test_fp);
     TOKEN curr;
     TOKEN arr[200];
     int i = 0;
-    while ((curr.name != $))
+    curr.name = lEX_ERROR; // setting initially for multiple rounds of tests
+    while (curr.name != $)
     {
         curr = eval_token(test_fp);
         arr[i] = curr;
@@ -892,9 +893,9 @@ int test_lexer_run(char *program_file, char *tokenized_file)
     return 1;
 }
 
-//  int main(){ 
-//      char* test_file_1 = "../tests/test_lexer_1.txt.uncommented.txt"; 
-//      char* tokenized_file = "test_tokenized.txt"; 
-//      test_lexer_run(test_file_1, tokenized_file); 
-//      return 0; 
-//  } 
+/* int main(){  */
+/*     char* test_file_1 = "../tests/test_lexer_1.txt.uncommented.txt";  */
+/*     char* tokenized_file = "test_tokenized.txt";  */
+/*     test_lexer_run(test_file_1, tokenized_file);  */
+/*     return 0;  */
+/* }  */

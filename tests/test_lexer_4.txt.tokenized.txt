@@ -1,0 +1,55 @@
+
+
+TOKENIZATION COMPLETE:- 51 TOKENS
+
+LINE: [0] TOKEN: ID        : <<<
+LINE: [0] TOKEN: ID        : driver
+LINE: [0] TOKEN: ID        : Program
+LINE: [0] TOKEN: ID        : >>>
+LINE: [1] TOKEN: ID        : start
+LINE: [2] TOKEN: ID        : declare
+LINE: [2] TOKEN: ID        : num
+LINE: [2] TOKEN: ID        : ,
+LINE: [2] TOKEN: ID        : a
+LINE: [2] TOKEN: ID        : ,
+LINE: [2] TOKEN: ID        : k
+LINE: [2] TOKEN: ID        : :
+LINE: [2] TOKEN: ID        : integer
+LINE: [2] TOKEN: ID        : ;
+LINE: [3] TOKEN: ID        : num
+LINE: [3] TOKEN: ID        : :=
+LINE: [3] TOKEN: NUM       : 9 
+LINE: [3] TOKEN: ID        : ;
+LINE: [4] TOKEN: ID        : for
+LINE: [4] TOKEN: ID        : (
+LINE: [4] TOKEN: ID        : k
+LINE: [4] TOKEN: ID        : in
+LINE: [4] TOKEN: NUM       : 2 
+LINE: [4] TOKEN: ID        : ..
+LINE: [4] TOKEN: NUM       : 8 
+LINE: [4] TOKEN: ID        : )
+LINE: [5] TOKEN: ID        : start
+LINE: [7] TOKEN: ID        : a
+LINE: [7] TOKEN: ID        : :=
+LINE: [7] TOKEN: ID        : (
+LINE: [7] TOKEN: ID        : num
+LINE: [7] TOKEN: ERROR     : error
+LINE: [7] TOKEN: ERROR     : error
+LINE: [7] TOKEN: ERROR     : error
+LINE: [7] TOKEN: ID        : k
+LINE: [7] TOKEN: ID        : )
+LINE: [7] TOKEN: ID        : *
+LINE: [7] TOKEN: ID        : (
+LINE: [7] TOKEN: ID        : num
+LINE: [7] TOKEN: ID        : -
+LINE: [7] TOKEN: ID        : k
+LINE: [7] TOKEN: ID        : )
+LINE: [7] TOKEN: ID        : ;
+LINE: [11] TOKEN: ID        : print
+LINE: [11] TOKEN: ID        : (
+LINE: [11] TOKEN: ID        : a
+LINE: [11] TOKEN: ID        : )
+LINE: [11] TOKEN: ID        : ;
+LINE: [12] TOKEN: ID        : end
+LINE: [13] TOKEN: ID        : end
+LINE: [14] TOKEN: EOF/DOLLAR: EOF

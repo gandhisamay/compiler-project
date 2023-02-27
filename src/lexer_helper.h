@@ -15,8 +15,8 @@ int LOOKUP_SET = 0;
 char Buffer[BUFFER_SIZE];
 typedef enum
 {
-    $,
     dECLARE,
+    $,
     mODULE,
     iD,
     sEMICOL,
