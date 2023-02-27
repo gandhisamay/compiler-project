@@ -81,41 +81,29 @@ void test_lexer_comments_remover(){
     CU_ASSERT_EQUAL(results_7, 0);
 }
 
+int helper_lexer_tokenizer(char* test_file, char* correct_tokenized_file) {
+    char* tokenized_file = "test_tokenized.txt";
+    int tokenized = test_lexer_run(test_file, tokenized_file);
+    CU_ASSERT_EQUAL(tokenized, 1); // Lexer should have completed run successfully
+    FILE* tokenized_fp = fopen(tokenized_file, "r");
+    FILE* correct_tokenized_fp = fopen(correct_tokenized_file, "r");
+    int errors = helper_compare_files(tokenized_fp, correct_tokenized_fp, 0);
+    fclose(tokenized_fp);
+    fclose(correct_tokenized_fp);
+    return errors;    
+}
+
 void test_lexer_tokenizer() {
-    printf("\nAHOYYYYYYYY\n");
-    char* test_file = "../tests/test_lexer_1.txt";
-    FILE* f = fopen(test_file, "r");
-    char* uncommented_file = "../tests/test_lexer_1.txt.uncommented.txt";
-    printf("AHOYYYYYYYY %s\n", uncommented_file);
+    char* test_file_1 = "../tests/test_lexer_1.txt.uncommented.txt";
+    char* correct_tokenized_file_1 = "../tests/test_lexer_1.txt.tokenized.txt";
+    int results_1 = helper_lexer_tokenizer(test_file_1, correct_tokenized_file_1);
 
-    remove_comments(f, uncommented_file);
-    fclose(f);
-    f = fopen(uncommented_file, "r");
+    char* test_file_2 = "../tests/test_lexer_2.txt.uncommented.txt";
+    char* correct_tokenized_file_2 = "../tests/test_lexer_2.txt.tokenized.txt";
+    int results_2 = helper_lexer_tokenizer(test_file_2, correct_tokenized_file_2);
 
-    lexer_reset(f);
-    TOKEN curr;
-    TOKEN arr[200];
-    int i = 0;
-
-    while ((curr.name != DOLLAR)) {
-        curr = eval_token(f);
-        arr[i] = curr;
-        i++;
-    }
-    for (int j = 0; j < i; j++) {
-        curr = arr[j];
-        if (curr.name == NUM)
-            printf("token %d idnum %d \n", curr.line, curr.num);
-        else if (curr.name == RNUM)
-            printf("token %d idrnum %f \n", curr.line, curr.rnum);
-        else if (curr.name == DOLLAR)
-            printf("ideof %s\n", curr.id);
-        else if (curr.name == LEX_ERROR)
-            printf("error %s\n", curr.id);
-        else
-            printf("token %d id %s \n", curr.line, curr.id);
-    }
-    fclose(f);
+    CU_ASSERT_EQUAL(results_1, 0);
+    CU_ASSERT_EQUAL(results_2, 0);
 }
 // @TODO: Add unit tests above ---------------------------------------------------
 
@@ -134,7 +122,9 @@ int main(){
     //--------------------------------------------------- @NOTE: Ignore above configs ---------------------------------------------------
 
     // @TODO: Add tests to suite below ---------------------------------------------------
-   if ((NULL == CU_add_test(pSuite, "Lexer Test 1", test_lexer_comments_remover)))
+   if ((NULL == CU_add_test(pSuite, "Lexer Test - Removing Comments", test_lexer_comments_remover))
+        || (NULL == CU_add_test(pSuite, "Lexer Test - Tokenizing lexemes", test_lexer_tokenizer))
+    )
    {
       CU_cleanup_registry();
       return CU_get_error();
@@ -153,8 +143,8 @@ int main(){
 
     // AUTO RUN AND SAVE RESULTS IN XML
    /* Run all tests using the automated interface */
-   CU_automated_run_tests();
-   CU_list_tests_to_file();
+   /* CU_automated_run_tests(); */
+   /* CU_list_tests_to_file(); */
 
     // MANUAL TESTING
    /* Run all tests using the console interface */

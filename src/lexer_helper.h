@@ -11,6 +11,7 @@ int line_no;
 char lexeme[MAX_LEX+5];
 int to_be_scanned;
 int stop = -1;
+int LOOKUP_SET = 0;
 
 char Buffer[BUFFER_SIZE];
 typedef enum{

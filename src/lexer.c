@@ -136,7 +136,10 @@ void lexer_reset(FILE* fp)
     Buffer[0] = '\0';
     to_be_scanned = 0;
 
-    populate_lookup();
+    if (LOOKUP_SET == 0){
+        LOOKUP_SET = 1;
+        populate_lookup();
+    } 
     fseek(fp, 0, SEEK_SET);
     populate_buffer(fp);
 }
@@ -701,3 +704,56 @@ void remove_comments(FILE* ipt, char* opt_name)
 
     fclose(opt);
 }
+
+int test_lexer_run(char* program_file, char* tokenized_file) {
+    FILE* token_fp = fopen(tokenized_file, "w");
+    FILE* test_fp = fopen(program_file, "r");
+
+    printf("\n lookup set %d \n", LOOKUP_SET);
+    lexer_reset(test_fp);
+    TOKEN curr;
+    TOKEN arr[200];
+    int i = 0;
+    while ((curr.name != DOLLAR)) {
+        curr = eval_token(test_fp);
+        arr[i] = curr;
+        i++;
+    }
+
+    fprintf(token_fp, "\n\nTOKENIZATION COMPLETE:- %d TOKENS\n\n", i);
+    printf("\n\nTOKENIZATION COMPLETE:- %d TOKENS\n\n", i);
+    for (int j = 0; j < i; j++) {
+        curr = arr[j];
+        if (curr.name == NUM){
+            fprintf(token_fp, "LINE: [%d] TOKEN: NUM       : %d \n", curr.line, curr.num);
+            printf("LINE: [%d] TOKEN: NUM       : %d \n", curr.line, curr.num);
+        }
+        else if (curr.name == RNUM){
+            fprintf(token_fp, "LINE: [%d] TOKEN: RNUM      : %f \n", curr.line, curr.rnum);
+            printf("LINE: [%d] TOKEN: RNUM      : %f \n", curr.line, curr.rnum);
+        }
+        else if (curr.name == DOLLAR){
+            fprintf(token_fp, "LINE: [%d] TOKEN: EOF/DOLLAR: %s\n", curr.line, curr.id);
+            printf("LINE: [%d] TOKEN: EOF/DOLLAR: %s\n", curr.line, curr.id);
+        }
+        else if (curr.name == LEX_ERROR){
+            fprintf(token_fp, "LINE: [%d] TOKEN: ERROR     : %s\n", curr.line, curr.id);
+            printf("LINE: [%d] TOKEN: ERROR     : %s\n", curr.line, curr.id);
+        }
+        else{
+            fprintf(token_fp, "LINE: [%d] TOKEN: ID        : %s\n", curr.line, curr.id);
+            printf("LINE: [%d] TOKEN: ID        : %s\n", curr.line, curr.id);
+        }
+    }
+    fclose(test_fp);
+    fclose(token_fp);
+    printf("\n\nSubroutine Complete:- %d TOKENS\n\n", i);
+    return 1;
+}
+
+/* int main(){ */
+/*     char* test_file_1 = "../tests/test_lexer_1.txt.uncommented.txt"; */
+/*     char* tokenized_file = "test_tokenized.txt"; */
+/*     test_lexer_run(test_file_1, tokenized_file); */
+/*     return 0; */
+/* } */
