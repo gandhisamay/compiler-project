@@ -1,0 +1,14 @@
+<<<driver Program>>>
+start
+    declare num, a, k:integer;
+    num:=9;
+    for( k in 2..8)
+    start
+    ** Test comment 1 **
+        a:=(num – k)*(num-k);
+        ** Test comment multiline 2
+        check
+        **
+        print(a);
+    end
+end
