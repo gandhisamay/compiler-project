@@ -67,8 +67,8 @@ void start_parsing(char *program_file, FILE *debug_fp){
                 fprintf(debug_fp, "LEXICAL ERROR: Found\n");
             }
             Curr_Token = eval_token(program_fp);
-            printf("\n after error NEW TOKEN - line - %d, type - %d, id - %s, num - %d, rnum - %f", 
-               Curr_Token.line, Curr_Token.name, Curr_Token.id, Curr_Token.num, Curr_Token.rnum);
+            /* printf("\n after error NEW TOKEN - line - %d, type - %d, id - %s, num - %d, rnum - %f",  */
+            /*    Curr_Token.line, Curr_Token.name, Curr_Token.id, Curr_Token.num, Curr_Token.rnum); */
             continue;
         }
         if (Top_Symbol->is_terminal){
@@ -89,8 +89,8 @@ void start_parsing(char *program_file, FILE *debug_fp){
                 }
                 pop_stack(Parser_Stack);
                 Curr_Token = eval_token(program_fp);
-                printf("\n NEW TOKEN - line - %d, type - %d, id - %s, num - %d, rnum - %f", 
-                   Curr_Token.line, Curr_Token.name, Curr_Token.id, Curr_Token.num, Curr_Token.rnum);
+                /* printf("\n NEW TOKEN - line - %d, type - %d, id - %s, num - %d, rnum - %f",  */
+                /*    Curr_Token.line, Curr_Token.name, Curr_Token.id, Curr_Token.num, Curr_Token.rnum); */
             } 
             else {
                 if (debug_fp == NULL){
@@ -146,7 +146,7 @@ int main(){
     initialize_parser(grammar_file);
     // starting lexer
     printf("\n\nStarting lexer...\n");
-    char *program_file = "../tests/test_cases_stage_1/t4.txt";
+    char *program_file = "../tests/test_cases_stage_1/t6_syntax_errors.txt";
     printf("Starting parsing...\n");
     FILE *debug_fp = fopen(debug_file, "w");
     start_parsing(program_file, debug_fp);
