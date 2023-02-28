@@ -12,7 +12,7 @@ start
     sum := s;
 end 
 
-<<<driver Program>>>
+<<<driver program>>>
 start
     declare num, k:integer;
     declare A:array [4..10] of integer;

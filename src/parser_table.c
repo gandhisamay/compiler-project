@@ -268,9 +268,11 @@ Symbol **generate_parse_table() {
 
   // array of first and follows.
 
+    printf("he %d\n", TOTAL_SYMBOLS);
   data = (LinkedList **)malloc(TOTAL_SYMBOLS * sizeof(LinkedList *));
 
   for (int i = 0; i < TOTAL_SYMBOLS; i++) {
+        printf("On %d\n", i);
     data[i] = create_linked_list();
     Symbol *temp = symbols[i]->right;
 

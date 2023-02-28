@@ -1,4 +1,4 @@
-<<<driver Program>>>
+<<<driver program>>>
 start
     declare num, a, k:integer;
     num:=9;

@@ -9,17 +9,17 @@ DriverModule -> dRIVERDEF dRIVER pROGRAM dRIVERENDDEF ModuleDef
 Module -> dEF mODULE iD eNDDEF tAKES iNPUT sQBO Input_plist sQBC sEMICOL Ret ModuleDef
 Ret -> rETURNS sQBO Output_plist sQBC sEMICOL
 Ret -> ε
-Input_plist -> iD cOLON DataType Inpl_1
-Inpl_1 -> cOMMA iD cOLON DataType Inpl_1
-Inpl_1 -> ε
-Output_plist -> iD cOLON Type Onpl_1
-Onpl_1 -> cOMMA iD cOLON Type Onpl_1
-Onpl_1 -> ε
+Input_plist -> iD cOLON DataType N1
+N1 -> cOMMA iD cOLON DataType N1
+N1 -> ε
+Output_plist -> iD cOLON Type N2
+N2 -> cOMMA iD cOLON Type N2
+N2 -> ε
 DataType -> iNTEGER
 DataType -> rEAL
 DataType -> bOOLEAN
-DataType -> aRRAY sQBO Range_Array sQBC oF Type
-Range_Array -> Array_Index rANGEOP Array_Index
+DataType -> aRRAY sQBO Range_arrays sQBC oF Type
+Range_arrays -> Index_arr rANGEOP Index_arr
 Type -> iNTEGER
 Type -> rEAL
 Type -> bOOLEAN
@@ -33,41 +33,45 @@ Statement -> ConditionalStmt
 Statement -> IterativeStmt
 IoStmt -> gET_VALUE bO iD bC sEMICOL
 IoStmt -> pRINT bO Var_print bC sEMICOL
+BoolConstt -> tRUE
+BoolConstt -> fALSE
+Id_num_rnum -> iD
+Id_num_rnum -> nUM
+Id_num_rnum -> rNUM
 Var_id_num -> iD
 Var_id_num -> nUM
 Var_id_num -> rNUM
-Array_element_for_print -> iD sQBO Array_Index sQBC
-Var_print -> iD Arr_value
+Array_element_for_print -> iD sQBO Index_arr sQBC
+Var_print -> iD P1
 Var_print -> nUM
 Var_print -> rNUM
 Var_print -> BoolConstt
-Arr_value -> sQBO New_index sQBC
-Arr_value -> ε
-BoolConstt -> tRUE
-BoolConstt -> fALSE
+P1 -> sQBO New_index sQBC
+P1 -> ε
 SimpleStmt -> AssignmentStmt
 SimpleStmt -> ModuleReuseStmt
 AssignmentStmt -> iD WhichStmt
-WhichStmt -> LvalueiDStmt
+WhichStmt -> LvalueIDStmt
 WhichStmt -> LvalueARRStmt
-LvalueiDStmt -> aSSIGNOP Expression sEMICOL
+LvalueIDStmt -> aSSIGNOP Expression sEMICOL
 LvalueARRStmt -> sQBO Element_index_with_expressions sQBC aSSIGNOP Expression sEMICOL
-Array_Index -> Sign New_index
+Index_arr -> Sign New_index
+Index_arr -> New_index
 New_index -> nUM
 New_index -> iD
 Sign -> pLUS
 Sign -> mINUS
-Sign -> ε
 ModuleReuseStmt -> Optional uSE mODULE iD wITH pARAMETERS Actual_para_list sEMICOL
-Actual_para_list -> nUM
-Actual_para_list -> rNUM
-Actual_para_list -> BoolConstt
-Actual_para_list -> iD N11
+Actual_para_list1 -> cOMMA Actual_para_list
+Actual_para_list -> nUM Actual_para_list1
+Actual_para_list -> rNUM Actual_para_list1
+Actual_para_list -> BoolConstt Actual_para_list1
+Actual_para_list -> iD N11 Actual_para_list1
 Optional -> sQBO IdList sQBC aSSIGNOP
 Optional -> ε
-IdList -> iD Idl_1
-Idl_1 -> cOMMA iD Idl_1
-Idl_1 -> ε
+IdList -> iD N3
+N3 -> cOMMA iD N3
+N3 -> ε
 Expression -> ArithmeticOrBooleanExpr
 Expression -> U
 U -> Unary_op New_NT
@@ -79,7 +83,6 @@ ArithmeticOrBooleanExpr -> AnyTerm N7
 N7 -> LogicalOp AnyTerm N7
 N7 -> ε
 AnyTerm -> ArithmeticExpr N8
-AnyTerm -> BoolConstt
 N8 -> RelationalOp ArithmeticExpr
 N8 -> ε
 ArithmeticExpr -> Term N4
@@ -95,9 +98,10 @@ Factor -> BoolConstt
 Factor -> iD N11
 N11 -> sQBO Element_index_with_expressions sQBC
 N11 -> ε
-Element_index_with_expressions -> Sign New_index
+Element_index_with_expressions -> Sign N10
 Element_index_with_expressions -> ArrExpr
-Element_index_with_expressions -> Sign bO ArrExpr bC
+N10 -> New_index
+N10 -> bO ArrExpr bC
 ArrExpr -> ArrTerm Arr_N4
 Arr_N4 -> Op1 ArrTerm Arr_N4
 Arr_N4 -> ε
@@ -132,14 +136,10 @@ Default -> dEFAULT cOLON Statements bREAK sEMICOL
 Default -> ε
 IterativeStmt -> fOR bO iD iN Range_for_loop bC sTART Statements eND
 IterativeStmt -> wHILE bO ArithmeticOrBooleanExpr bC sTART Statements eND
-Range -> Range_Index rANGEOP Range_Index
+Range -> nUM rANGEOP nUM
 Range_for_loop -> Index_for_loop rANGEOP Index_for_loop
 Index_for_loop -> Sign_for_loop New_index_for_loop
 New_index_for_loop -> nUM
 Sign_for_loop -> pLUS
 Sign_for_loop -> mINUS
 Sign_for_loop -> ε
-Range_Index -> nUM
-Range_Index -> Unary_op nUM
-Array_Index -> New_index
-Array_Index -> Unary_op Index
