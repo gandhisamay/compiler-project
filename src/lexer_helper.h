@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "parse_tree.h"
-#define HASH_SIZE 32
+#define HASH_SIZE 35
 #define BUFFER_SIZE 100
 #define P 7
 #define MAX_LEX 20

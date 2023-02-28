@@ -10,7 +10,7 @@ LINE: [3] ENUM: 3  TOKEN: ID        : sdf
 LINE: [6] ENUM: 32 TOKEN: NUM       : 5 
 LINE: [6] ENUM: 58  TOKEN: ERROR     : error
 LINE: [7] ENUM: 32 TOKEN: NUM       : 5515 
-LINE: [7] ENUM: 56  TOKEN: ID        : ..
+LINE: [7] ENUM: 23  TOKEN: ID        : ..
 LINE: [7] ENUM: 32 TOKEN: NUM       : 4684 
-LINE: [7] ENUM: 5  TOKEN: ID        : ;
+LINE: [7] ENUM: 4  TOKEN: ID        : ;
 LINE: [8] ENUM: 1  TOKEN: EOF/DOLLAR: EOF
