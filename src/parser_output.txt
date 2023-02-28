@@ -1,0 +1,8 @@
+Lexer setup complete
+
+    CURR STACK TOP: IS_T - 0; # - T/F? - 48; ENUM - 0:
+Current Stack: [Bottom] -> S -> [Top]
+LINE: [0] ENUM: 32 TOKEN: NUM       : 1 
+ERROR: No rule found in parser table! (STACK NT: 0, TOKEN: 32)
+
+PARSING COMPLETE.

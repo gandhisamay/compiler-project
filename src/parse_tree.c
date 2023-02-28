@@ -129,52 +129,82 @@ TreeNode* create_treeNode(){
 }
 
 TreeNode* insert_child(TreeNode* parent, Symbol *symbol){ // pointer to parent, and LHS of grammar
-    if(strcmp(parent->symbol->name,symbol->name) == 0){
+    if(strcmp(parent->symbol->name,symbol->name) == 0){   // A -> B C => parent = A, LHS = A 
       Symbol *sym = symbol->right;
       while(sym != NULL){
         TreeNode *curr = create_treeNode();
+        curr->symbol = sym;
         if(parent->head == NULL && parent->tail == NULL){
           parent->head = curr;
           parent->tail = curr;
           curr->parent = parent;
         } else {
-          TreeNode *curr = create_treeNode();
           parent->tail->sibling = curr;
           parent->tail = curr;
+          curr->parent = parent;
         }
 
-        if(curr->symbol->is_terminal){
-          if(current == NULL && previous == NULL){
-            terminal_head = curr;
-            current = curr;
-            previous = curr;
-            current->sibling = NULL;
-          } else {
-            current = curr;
-            previous->sibling = current;
-            previous = current;
-            current->sibling = NULL;
-          }
-        }
+        // if(curr->symbol->is_terminal){
+        //   if(current == NULL && previous == NULL){
+        //     terminal_head = curr;
+        //     current = curr;
+        //     previous = curr;
+        //     current->sibling = NULL;
+        //   } else {
+        //     current = curr;
+        //     previous->sibling = current;
+        //     previous = current;
+        //     current->sibling = NULL;
+        //   }
+        // }
 
         sym = sym->right;
       }
-    } else printf("The parent and given LHS do not match!!!!!!!!!!!!");
+    } else printf("The parent and given LHS do not match!!!!!!!!!!!!\n");
 }
 
-void print_terminal_list(){
-  current = terminal_head;
-  printf("[HEAD] -> ");
-  while(current != NULL){
-    printf("%s -> ", current->symbol->name);
-    current = current->sibling;
+void print_tree(TreeNode *root){
+  printf(" %s => ", root->symbol->name);
+  TreeNode *curr = root->head;
+  while(curr != NULL){
+    printf("%s ", curr->symbol->name);
+    curr = curr->sibling;
+  }
+  printf("[END]");
+  printf("\n");
+  curr = root->head;
+  while(curr!= NULL){
+    if(curr->head != NULL)
+    print_tree(curr);
+    else break;
+    curr = curr->sibling;
   }
 }
 
+// void print_terminal_list(){
+//   current = terminal_head;
+//   printf("[HEAD] -> ");
+//   while(current != NULL){
+//     printf("%s -> ", current->symbol->name);
+//     current = current->sibling;
+//   }
+//   printf("[END]\n");
+// }
+
+
 
 // parse tree functions end
-
 /* int main(){ */
+/*     char *grammar_file = "../grammar.txt"; */
+/*     build_grammar(grammar_file); */
+/*     printf("\n"); */
 /*     TreeNode *root = create_parse_tree(); */
+/*     root->symbol = symbols[0]; */
+/*     insert_child(root, root->symbol); // S */
+/*     insert_child(root->head, symbols[1]); // Program */
+/*     insert_child(root->head->head, symbols[2]); // ModuleDeclarations */
+/*     insert_child(root->head->head->head, symbols[4]); // OtherModules */
+/*     print_tree(root); */
 /*     return 0; */
 /* } */
+/*  */

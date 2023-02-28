@@ -140,5 +140,20 @@ int main(){
     char *program_file = "../tests/test_lexer_7.txt";
     printf("Starting parsing...\n");
     FILE *debug_fp = fopen(debug_file, "w");
-    start_parsing(program_file, NULL);
+    start_parsing(program_file, debug_fp);
 }
+
+/* int main(){ */
+/*     char *grammar_file = "../grammar.txt"; */
+/*     build_grammar(grammar_file); */
+/*     printf("\n"); */
+/*     TreeNode *root = create_parse_tree(); */
+/*     root->symbol = symbols[0]; */
+/*     insert_child(root, root->symbol); // S */
+/*     insert_child(root->head, symbols[1]); // Program */
+/*     insert_child(root->head->head, symbols[2]); // ModuleDeclarations */
+/*     insert_child(root->head->head->head, symbols[4]); // OtherModules */
+/*     print_tree(root); */
+/*     return 0; */
+/* } */
+/*  */
