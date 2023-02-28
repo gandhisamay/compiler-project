@@ -4,7 +4,8 @@
 #include <stdbool.h>
 #ifndef PARSE_TREE_LINKED_LIST_INCLUDED
 #define PARSE_TREE_LINKED_LIST_INCLUDED
-#include "parser_table.c"
+// #include "parser_table.c"
+#include "tree_builder.c"
 #endif
 
 LinkedList *Parser_Stack;
@@ -25,7 +26,8 @@ void initialize_parser(char *grammar_file){
     Parser_Stack = create_stack();
     // inserting S initially
     Symbol *base = symbols[0];
-    Parser_Stack = push_stack(Parser_Stack, base);
+    Parse_Tree_Root->symbol = symbols[0];
+    push_stack(Parser_Stack, base);
     printf("Generating parse table...\n");
     generate_parse_table();
     parse_table_make();
@@ -43,13 +45,18 @@ void start_parsing(char *program_file, FILE *debug_fp){
         fprintf(debug_fp, "Lexer setup complete\n");
     }
     TOKEN Curr_Token = eval_token(program_fp);
+    TreeNode* curr_node = Parse_Tree_Root;
 
     int c = 0;
     while (is_empty_stack(Parser_Stack) == 0){ // actually curr token !+ EOF
     /* while (c != 220){ */
         c++;
-        Symbol *Top_Symbol = top_stack(Parser_Stack);    
+        printf("C count : %d\n",c);
+        Symbol *Top_Symbol = top_stack(Parser_Stack);   
+        // printf("lmao ded initial\n");
         LinkedList *Aux_Stack = create_stack();
+        // printf("lmao ded\n");
+
         if (debug_fp == NULL){
             printf("\n    CURR STACK TOP: IS_T - %d; # - T/F? - %d; ENUM - %d:", Top_Symbol->is_terminal,
                strcmp(Top_Symbol->name, "#"), Top_Symbol->is_terminal ? Top_Symbol->terminal : Top_Symbol->non_terminal);
@@ -57,6 +64,7 @@ void start_parsing(char *program_file, FILE *debug_fp){
             fprintf(debug_fp, "\n    CURR STACK TOP: IS_T - %d; # - T/F? - %d; ENUM - %d:", Top_Symbol->is_terminal,
                strcmp(Top_Symbol->name, "#"), Top_Symbol->is_terminal ? Top_Symbol->terminal : Top_Symbol->non_terminal);
         }
+        // printf("lmao ded\n");
         // ignore lexical errors TODO: test this
         if (Curr_Token.name == lEX_ERROR){
             Curr_Token = eval_token(program_fp);
@@ -72,6 +80,8 @@ void start_parsing(char *program_file, FILE *debug_fp){
                     fprintf(debug_fp, "DEBUG: Found #\n");
                 }
                 pop_stack(Parser_Stack);
+                printf("calling next node\n");
+                curr_node = next_node(curr_node,Top_Symbol);
                 continue;
             } 
             else if (Top_Symbol->terminal == Curr_Token.name){
@@ -81,6 +91,8 @@ void start_parsing(char *program_file, FILE *debug_fp){
                     fprintf(debug_fp, "DEBUG: Matched Terminal: %d\n", Curr_Token.name);
                 }
                 pop_stack(Parser_Stack);
+                printf("calling next node\n");
+                curr_node = next_node(curr_node,Top_Symbol);
                 Curr_Token = eval_token(program_fp);
             } 
             else {
@@ -102,11 +114,22 @@ void start_parsing(char *program_file, FILE *debug_fp){
                 print_symbol_details(Grammar_Rule, debug_fp);
                 // popping from stack
                 pop_stack(Parser_Stack);
+                
+                printf("calling next node\n");
+                curr_node = next_node(curr_node,Grammar_Rule);
+                printf("node: %s\n",curr_node->symbol->name);
+                printf("grule %s\n",Grammar_Rule->name);
                 Symbol *curr = Grammar_Rule->right;
+                printf("crule %s\n\n",curr->name);
+                // print_symbol_details(curr,stdout);
                 while (curr != NULL){
                     push_stack(Aux_Stack, curr);
                     curr = curr->right;
+                    // printf("%s\n",curr->name);
                 }
+                
+                // printf("node: %s\n\n",curr_node->symbol->name);
+                
                 while (!is_empty_stack(Aux_Stack)){
                     curr = top_stack(Aux_Stack);
                     push_stack(Parser_Stack, curr);
@@ -114,6 +137,7 @@ void start_parsing(char *program_file, FILE *debug_fp){
                 }
                 /* int rule_length = get_length(Grammar_Rule); */
                 /* printf("Rule Length: %d <<<\n", rule_length); */
+                
             } else {
                 if (debug_fp == NULL){
                     printf("ERROR: No rule found in parser table! (STACK NT: %d, TOKEN: %d)\n", Top_Symbol->non_terminal, Curr_Token.name);
@@ -137,10 +161,12 @@ int main(){
     initialize_parser(grammar_file);
     // starting lexer
     printf("\n\nStarting lexer...\n");
-    char *program_file = "../tests/test_lexer_7.txt";
+    char *program_file = "../tests/test_lexer_1.txt";
     printf("Starting parsing...\n");
     FILE *debug_fp = fopen(debug_file, "w");
     start_parsing(program_file, debug_fp);
+    printf("Printing tree\n");
+    print_tree(Parse_Tree_Root);
 }
 
 /* int main(){ */

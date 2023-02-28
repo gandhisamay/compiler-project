@@ -119,55 +119,39 @@
 
 // stack functions start
 
-LinkedList* push_stack(LinkedList* stack, Symbol* s){
-    Node* temp = (Node*) malloc(sizeof(Node));
-    temp->symbol = s;
-    if(stack->head == NULL){
+void push_stack(LinkedList* stack, Symbol* s){
+    Node* temp = create_new_node(s);
+
+    if(stack->head==NULL){
         stack->head = temp;
-        temp->next = NULL;
-        stack->tail = temp;
-    } else {
-        stack->tail->next = temp;
-        stack->tail = temp;
-        stack->tail->next = NULL;
     }
-    return stack;
+    else{
+        temp->next = stack->head;
+        stack->head = temp;
+    }
+
+    stack->size++;
+
+    print_symbol_details(s,stdout);
 }
 
 bool is_empty_stack(LinkedList* stack){
-    if(stack->head == NULL && stack->tail == NULL)
-        return true;
-    return false;
+    return stack->size==0;
 }
 
-LinkedList* pop_stack(LinkedList* stack){
+void pop_stack(LinkedList* stack){
     if(!is_empty_stack(stack)){
-        Node* curr = stack->head;
-        if(curr == stack->tail){
-            free(stack->head);
-            stack->head = NULL;
-            stack->tail = NULL;
-            return stack;
-        }
-        while(curr->next != stack->tail)
-            curr = curr->next;
-        Node * temp;
-        temp = curr->next;
-        stack->tail = curr;
-        curr->next = NULL;
-        free(temp);
+        stack->head = stack->head->next;
+        stack->size--;
     }
-    return stack;
-}
-
-Symbol* top_stack(LinkedList* stack){
-    return stack->tail->symbol;
 }
 
 LinkedList* create_stack(){
-    LinkedList *stack = (LinkedList *) malloc(sizeof(LinkedList));
-    Symbol *base = (Symbol *) malloc(sizeof(Symbol));
-    return stack;
+    return create_linked_list();
+}
+
+Symbol* top_stack(LinkedList* stack){
+    return stack->head->symbol;
 }
 
 void print_stack(LinkedList *stack, FILE* debug_fp){
