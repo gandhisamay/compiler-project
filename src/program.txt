@@ -1,7 +1,8 @@
-declare module mod1;
-<<<driver program>>>
-start
-    declare v, w, r :integer;
-    get_value(v);
-    w:=5;
-end
+1
+2
+3
+4.sdf
+
+
+5$
+5515 .. 4684;

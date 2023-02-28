@@ -843,27 +843,27 @@ void print_token_details(TOKEN curr, FILE *token_fp){
     if (curr.name == nUM)
     {
         if (token_fp != NULL) fprintf(token_fp, "LINE: [%d] ENUM: %d TOKEN: NUM       : %d \n", curr.line, curr.name, curr.num);
-        printf("LINE: [%d] ENUM: %d TOKEN: NUM       : %d \n", curr.line, curr.name, curr.num);
+        else printf("LINE: [%d] ENUM: %d TOKEN: NUM       : %d \n", curr.line, curr.name, curr.num);
     }
     else if (curr.name == rNUM)
     {
         if (token_fp != NULL) fprintf(token_fp, "LINE: [%d] ENUM: %d  TOKEN: RNUM      : %f \n", curr.line, curr.name, curr.rnum);
-        printf("LINE: [%d] ENUM: %d  TOKEN: RNUM      : %f \n", curr.line, curr.name, curr.rnum);
+        else printf("LINE: [%d] ENUM: %d  TOKEN: RNUM      : %f \n", curr.line, curr.name, curr.rnum);
     }
     else if (curr.name == $)
     {
         if (token_fp != NULL) fprintf(token_fp, "LINE: [%d] ENUM: %d  TOKEN: EOF/DOLLAR: %s\n", curr.line, curr.name, curr.id);
-        printf("LINE: [%d] ENUM: %d  TOKEN: EOF/DOLLAR: %s\n", curr.line, curr.name, curr.id);
+        else printf("LINE: [%d] ENUM: %d  TOKEN: EOF/DOLLAR: %s\n", curr.line, curr.name, curr.id);
     }
     else if (curr.name == lEX_ERROR)
     {
         if (token_fp != NULL) fprintf(token_fp, "LINE: [%d] ENUM: %d  TOKEN: ERROR     : %s\n", curr.line, curr.name, curr.id);
-        printf("LINE: [%d] ENUM: %d  TOKEN: ERROR     : %s\n", curr.line, curr.name, curr.id);
+        else printf("LINE: [%d] ENUM: %d  TOKEN: ERROR     : %s\n", curr.line, curr.name, curr.id);
     }
     else
     {
         if (token_fp != NULL) fprintf(token_fp, "LINE: [%d] ENUM: %d  TOKEN: ID        : %s\n", curr.line, curr.name, curr.id);
-        printf("LINE: [%d] ENUM: %d  TOKEN: ID/KEYW        : %s\n", curr.line, curr.name, curr.id);
+        else printf("LINE: [%d] ENUM: %d  TOKEN: ID/KEYW        : %s\n", curr.line, curr.name, curr.id);
     }
 }
 

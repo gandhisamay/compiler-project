@@ -51,11 +51,16 @@ void start_parsing(char *program_file, FILE *debug_fp){
         Symbol *Top_Symbol = top_stack(Parser_Stack);    
         LinkedList *Aux_Stack = create_stack();
         if (debug_fp == NULL){
-            printf("\n CURR STACK TOP: IS_T - %d; # - T/F? - %d; ENUM - %d; CURRENT PARSER STACK:", Top_Symbol->is_terminal,
+            printf("\n    CURR STACK TOP: IS_T - %d; # - T/F? - %d; ENUM - %d:", Top_Symbol->is_terminal,
                strcmp(Top_Symbol->name, "#"), Top_Symbol->is_terminal ? Top_Symbol->terminal : Top_Symbol->non_terminal);
         } else {
-            fprintf(debug_fp, "\n CURR STACK TOP: IS_T - %d; # - T/F? - %d; ENUM - %d; CURRENT PARSER STACK:", Top_Symbol->is_terminal,
+            fprintf(debug_fp, "\n    CURR STACK TOP: IS_T - %d; # - T/F? - %d; ENUM - %d:", Top_Symbol->is_terminal,
                strcmp(Top_Symbol->name, "#"), Top_Symbol->is_terminal ? Top_Symbol->terminal : Top_Symbol->non_terminal);
+        }
+        // ignore lexical errors TODO: test this
+        if (Curr_Token.name == lEX_ERROR){
+            Curr_Token = eval_token(program_fp);
+            continue;
         }
         print_stack(Parser_Stack, debug_fp);
         print_token_details(Curr_Token, debug_fp);
@@ -67,22 +72,24 @@ void start_parsing(char *program_file, FILE *debug_fp){
                     fprintf(debug_fp, "DEBUG: Found #\n");
                 }
                 pop_stack(Parser_Stack);
-            } else {
-                if (Top_Symbol->terminal == Curr_Token.name){
-                    if (debug_fp == NULL){
-                        printf("DEBUG: Matched Terminal: %d\n", Curr_Token.name);
-                    } else {
-                        fprintf(debug_fp, "DEBUG: Matched Terminal: %d\n", Curr_Token.name);
-                    }
-                    pop_stack(Parser_Stack);
-                    Curr_Token = eval_token(program_fp);
+                continue;
+            } 
+            else if (Top_Symbol->terminal == Curr_Token.name){
+                if (debug_fp == NULL){
+                    printf("DEBUG: Matched Terminal: %d\n", Curr_Token.name);
                 } else {
-                    if (debug_fp == NULL){
-                        printf("ERROR: Terminals Don't Match! (STACK TERM: %d, TOKEN: %d)\n", Top_Symbol->terminal, Curr_Token.name);
-                    } else {
-                        fprintf(debug_fp, "ERROR: Terminals Don't Match! (STACK TERM: %d, TOKEN: %d)\n", Top_Symbol->terminal, Curr_Token.name);
-                    }
+                    fprintf(debug_fp, "DEBUG: Matched Terminal: %d\n", Curr_Token.name);
                 }
+                pop_stack(Parser_Stack);
+                Curr_Token = eval_token(program_fp);
+            } 
+            else {
+                if (debug_fp == NULL){
+                    printf("ERROR: Terminals Don't Match! (STACK TERM: %d, TOKEN: %d)\n", Top_Symbol->terminal, Curr_Token.name);
+                } else {
+                    fprintf(debug_fp, "ERROR: Terminals Don't Match! (STACK TERM: %d, TOKEN: %d)\n", Top_Symbol->terminal, Curr_Token.name);
+                }
+                break;
             }
         } else{
             Symbol* Grammar_Rule = parser_table[Top_Symbol->non_terminal][Curr_Token.name];
@@ -93,11 +100,6 @@ void start_parsing(char *program_file, FILE *debug_fp){
                     fprintf(debug_fp, "DEBUG: Found Rule >>> \n");
                 }
                 print_symbol_details(Grammar_Rule, debug_fp);
-                if (debug_fp == NULL){
-                    printf(" \n");
-                } else {
-                    fprintf(debug_fp, " \n");
-                }
                 // popping from stack
                 pop_stack(Parser_Stack);
                 Symbol *curr = Grammar_Rule->right;
@@ -118,8 +120,14 @@ void start_parsing(char *program_file, FILE *debug_fp){
                 } else {
                     fprintf(debug_fp, "ERROR: No rule found in parser table! (STACK NT: %d, TOKEN: %d)\n", Top_Symbol->non_terminal, Curr_Token.name);
                 }
+                break;
             }
         }
+    }
+    if (debug_fp == NULL){
+        printf("\nPARSING COMPLETE.\n");
+    } else {
+        fprintf(debug_fp, "\nPARSING COMPLETE.\n");
     }
 }
 
@@ -129,8 +137,8 @@ int main(){
     initialize_parser(grammar_file);
     // starting lexer
     printf("\n\nStarting lexer...\n");
-    char *program_file = "../tests/test_lexer_1.txt";
+    char *program_file = "../tests/test_lexer_7.txt";
     printf("Starting parsing...\n");
     FILE *debug_fp = fopen(debug_file, "w");
-    start_parsing(program_file, debug_fp);
+    start_parsing(program_file, NULL);
 }

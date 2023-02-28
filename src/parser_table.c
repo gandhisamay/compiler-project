@@ -80,20 +80,23 @@ void print_symbol_details(Symbol *s, FILE *debug_fp) {
       fprintf(debug_fp, "Enum_T: %d, Enum_NT: %d, ", s->terminal, s->non_terminal);
       fprintf(debug_fp, "IS_A: %s\n", s->is_terminal ? "Terminal" : "Non Terminal");
       fprintf(debug_fp, "First: ");
-      print_list(s->first, NULL);
+      print_list(s->first, debug_fp);
       fprintf(debug_fp, "Follow: ");
-      print_list(s->follow, NULL);
+      print_list(s->follow, debug_fp);
       fprintf(debug_fp, "Right: [HEAD] -> ");
     }
 
   Symbol *temp = s->right;
   while (temp != NULL) {
-    printf("%s -> ", temp->name);
+    if (debug_fp == NULL) printf("%s -> ", temp->name);
+    else fprintf(debug_fp, "%s -> ", temp->name);
     temp = temp->right;
   }
-  printf("[END]\n");
+  if (debug_fp == NULL) printf("[END]\n");
+  else fprintf(debug_fp, "[END]\n");
 
-  printf("Row no: %d\n", s->row_no);
+  if (debug_fp == NULL) printf("Row no: %d\n", s->row_no);
+  else fprintf(debug_fp, "Row no: %d\n", s->row_no);
   /* printf("\n"); */
 }
 

@@ -180,7 +180,7 @@ void print_stack(LinkedList *stack, FILE* debug_fp){
         curr = curr->next;
     }
     if (debug_fp == NULL) printf("[Top]\n");
-    else printf("[Top]\n");
+    else fprintf(debug_fp, "[Top]\n");
 }
 
 // stack functions end
