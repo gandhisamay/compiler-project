@@ -21,6 +21,7 @@ void initialize_parser(char *grammar_file){
     Parser_Stack = push_stack(Parser_Stack, base);
     printf("Generating parse table...\n");
     generate_parse_table();
+    printf("sdfk\n");
     parse_table_make();
 }
 
@@ -34,22 +35,27 @@ void start_parsing(char *program_file){
     TOKEN Curr_Token = eval_token(program_fp);
 
     int c = 0;
-    /* while (is_empty_stack(Parser_Stack) == 0){ */ // actually curr token !+ EOF
-    while (c != 20){
+    /* while (is_empty_stack(Parser_Stack) == 0){ // actually curr token !+ EOF */
+    while (c != 120){
         c++;
-        /* if (c == 1) Curr_Token.name = dECLARE; */
         Symbol *Top_Symbol = top_stack(Parser_Stack);    
         LinkedList *Aux_Stack = create_stack();
-        printf("\n CURR STACK TOP: IS_T - %d; ENUM - %d; CURRENT PARSER STACK:", Top_Symbol->is_terminal, Top_Symbol->is_terminal ? Top_Symbol->terminal : Top_Symbol->non_terminal);
+        printf("\n CURR STACK TOP: IS_T - %d; # - T/F? - %d; ENUM - %d; CURRENT PARSER STACK:", Top_Symbol->is_terminal, 
+               strcmp(Top_Symbol->name, "#"), Top_Symbol->is_terminal ? Top_Symbol->terminal : Top_Symbol->non_terminal);
         print_stack(Parser_Stack);
         print_token_details(Curr_Token, NULL);
         if (Top_Symbol->is_terminal){
-            if (Top_Symbol->terminal == Curr_Token.name){
-                printf("DEBUG: Matched Terminal: %d\n", Curr_Token.name);
+            if (strcmp(Top_Symbol->name, "#") == 0){
+                printf("DEBUG: Found #\n");
                 pop_stack(Parser_Stack);
-                Curr_Token = eval_token(program_fp);
             } else {
-                printf("ERROR: Terminals Don't Match! (STACK TERM: %d, TOKEN: %d)\n", Top_Symbol->terminal, Curr_Token.name);
+                if (Top_Symbol->terminal == Curr_Token.name){
+                    printf("DEBUG: Matched Terminal: %d\n", Curr_Token.name);
+                    pop_stack(Parser_Stack);
+                    Curr_Token = eval_token(program_fp);
+                } else {
+                    printf("ERROR: Terminals Don't Match! (STACK TERM: %d, TOKEN: %d)\n", Top_Symbol->terminal, Curr_Token.name);
+                }
             }
         } else{
             Symbol* Grammar_Rule = parser_table[Top_Symbol->non_terminal][Curr_Token.name];
