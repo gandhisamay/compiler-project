@@ -101,27 +101,27 @@ void test_lexer_tokenizer() {
     char* test_file_2 = "../tests/test_lexer_2.txt.uncommented.txt";
     char* correct_tokenized_file_2 = "../tests/test_lexer_2.txt.tokenized.txt";
     int results_2 = helper_lexer_tokenizer(test_file_2, correct_tokenized_file_2);
-
+    
     char* test_file_3 = "../tests/test_lexer_3.txt.uncommented.txt";
     char* correct_tokenized_file_3 = "../tests/test_lexer_3.txt.tokenized.txt";
     int results_3 = helper_lexer_tokenizer(test_file_3, correct_tokenized_file_3);
-
+    
     char* test_file_4 = "../tests/test_lexer_4.txt.uncommented.txt";
     char* correct_tokenized_file_4 = "../tests/test_lexer_4.txt.tokenized.txt";
     int results_4 = helper_lexer_tokenizer(test_file_4, correct_tokenized_file_4);
-
+    
     char* test_file_5 = "../tests/test_lexer_5.txt.uncommented.txt";
     char* correct_tokenized_file_5 = "../tests/test_lexer_5.txt.tokenized.txt";
     int results_5 = helper_lexer_tokenizer(test_file_5, correct_tokenized_file_5);
-
+    
     char* test_file_6 = "../tests/test_lexer_6.txt.uncommented.txt";
     char* correct_tokenized_file_6 = "../tests/test_lexer_6.txt.tokenized.txt";
     int results_6 = helper_lexer_tokenizer(test_file_6, correct_tokenized_file_6);
-
+    
     char* test_file_7 = "../tests/test_lexer_7.txt.uncommented.txt";
     char* correct_tokenized_file_7 = "../tests/test_lexer_7.txt.tokenized.txt";
     int results_7 = helper_lexer_tokenizer(test_file_7, correct_tokenized_file_7);
-
+    
     CU_ASSERT_EQUAL(results_1, 0);
     CU_ASSERT_EQUAL(results_2, 0);
     CU_ASSERT_EQUAL(results_3, 0);

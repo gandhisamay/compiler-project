@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "parse_tree.h"
 #define HASH_SIZE 32
-#define BUFFER_SIZE 30
+#define BUFFER_SIZE 100
 #define P 7
 #define MAX_LEX 20
 
@@ -116,3 +116,4 @@ void lexer_reset(FILE *fp);
 TOKEN eval_token(FILE *fp);
 void remove_comments(FILE *ipt, char *opt_name);
 int test_lexer_run(char *program_file, char *tokenized_file);
+void print_token_details(TOKEN curr, FILE *token_fp);

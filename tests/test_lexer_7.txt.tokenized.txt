@@ -2,15 +2,15 @@
 
 TOKENIZATION COMPLETE:- 12 TOKENS
 
-LINE: [0] TOKEN: NUM       : 1 
-LINE: [1] TOKEN: NUM       : 2 
-LINE: [2] TOKEN: NUM       : 3 
-LINE: [3] TOKEN: ERROR     : 4.
-LINE: [3] TOKEN: ID        : sdf
-LINE: [6] TOKEN: NUM       : 5 
-LINE: [6] TOKEN: ERROR     : error
-LINE: [7] TOKEN: NUM       : 5515 
-LINE: [7] TOKEN: ID        : ..
-LINE: [7] TOKEN: NUM       : 4684 
-LINE: [7] TOKEN: ID        : ;
-LINE: [8] TOKEN: EOF/DOLLAR: EOF
+LINE: [0] ENUM: 32 TOKEN: NUM       : 1 
+LINE: [1] ENUM: 32 TOKEN: NUM       : 2 
+LINE: [2] ENUM: 32 TOKEN: NUM       : 3 
+LINE: [3] ENUM: 58  TOKEN: ERROR     : 4.
+LINE: [3] ENUM: 3  TOKEN: ID        : sdf
+LINE: [6] ENUM: 32 TOKEN: NUM       : 5 
+LINE: [6] ENUM: 58  TOKEN: ERROR     : error
+LINE: [7] ENUM: 32 TOKEN: NUM       : 5515 
+LINE: [7] ENUM: 56  TOKEN: ID        : ..
+LINE: [7] ENUM: 32 TOKEN: NUM       : 4684 
+LINE: [7] ENUM: 5  TOKEN: ID        : ;
+LINE: [8] ENUM: 1  TOKEN: EOF/DOLLAR: EOF

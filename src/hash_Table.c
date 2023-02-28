@@ -25,14 +25,22 @@ terminals search(char key[], Element *table[])
     while (table[index] != NULL)
     {
 
-        if (table[index]->key == key)
+        if (strcmp(table[index]->key, key) == 0){
             return table[index]->name;
+        }
 
         ++index;
         index %= HASH_SIZE;
     }
 
     return iD;
+}
+
+void print_lt(Element *table[]){
+    int i = 0;
+    for(; i<HASH_SIZE; i++){
+        if (table[i] != NULL) printf("At index %d, Key = %s, Enum = %d\n", i, table[i]->key, table[i]->name);
+    }
 }
 
 void insert(char key[], terminals name, Element *table[])

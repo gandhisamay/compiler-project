@@ -28,7 +28,7 @@
 /* "SimpleStmt","AssignmentStmt","WhichStmt","LvalueiDStmt","LvalueARRStmt","Index","ModuleReuseStmt","Optional","IdList","Idl_1","Expression","U","New_NT","Unary_op","ArithmeticOrBooleanExpr","ArxBool_1","AnyTerm","AnyTerm_1","ArithmeticExpr","Arx_1","Term","Term_1","Factor","Op1","Op2","LogicalOp","RelationalOp","DeclareStmt", */
 /* "ConditionalStmt","CaseStmts","CaseStmt","Value","Default","IterativeStmt","Range","Range_Index","Range_Array","Array_Index"}; */
 
-char **read_file(char *file) {
+char **read_grammar_file(char *file) {
   int ROW_TOTAL = 16;
   int COL_TOTAL = 128;
   char **array;
@@ -67,7 +67,8 @@ char **read_file(char *file) {
 
 void print_symbol_details(Symbol *s) {
   printf("Name: %s, ", s->name);
-  printf("%s\n", s->is_terminal ? "Terminal" : "Non Terminal");
+  printf("Enum_T: %d, Enum_NT: %d, ", s->terminal, s->non_terminal);
+  printf("IS_A: %s\n", s->is_terminal ? "Terminal" : "Non Terminal");
   printf("First: ");
   print_list(s->first);
   printf("Follow: ");
@@ -189,7 +190,7 @@ LinkedList *compute_follow(Symbol *curr) {
 
 void build_grammar() {
   // grammar = read_file("dummy_grammar1.txt");
-  grammar = read_file("grammar.txt");
+  grammar = read_grammar_file("grammar.txt");
   //
   // printf("%d", GRAMMAR_SIZE);
 
@@ -231,10 +232,20 @@ void build_grammar() {
           prev->right = new;
         }
 
-        if (isupper(symbol_name[0]))
+        if (isupper(symbol_name[0])){
           new->is_terminal = false;
-        else
+          for(int i=0; i<N_TERMINAL_SYM; i++)
+            if(strcmp(new->name, n_term_str[i]) == 0)
+              new->non_terminal = i;
+              new->terminal = -1;
+        }
+        else{
           new->is_terminal = true;
+          for(int i=0; i<TERMINAL_SYM; i++)
+            if(strcmp(new->name, term_str[i]) == 0)
+              new->terminal = i;
+              new->non_terminal = -1;
+        }
 
         prev = new;
         // TODO: Do dynamic memory allocation here.
@@ -422,6 +433,6 @@ void parse_table_make(){
 /*     build_grammar(); */
 /*     generate_parse_table(); */
 /*     parse_table_make(); */
-/*     print_symbol_details(symbols[52]); */
+/*     print_symbol_details(symbols[1]->right); */
 /*     return 0; */
 /* } */

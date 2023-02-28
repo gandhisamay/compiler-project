@@ -1,5 +1,6 @@
 /* #include "linked_list.h" */
-#include "lexer_helper.h"
+/* #include "lexer_helper.h" */
+#include "lexer.c"
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -166,7 +167,7 @@ Symbol* top_stack(LinkedList* stack){
 LinkedList* create_stack(){
     LinkedList *stack = (LinkedList *) malloc(sizeof(LinkedList));
     Symbol *base = (Symbol *) malloc(sizeof(Symbol));
-    base = symbols[0]->right->right;
+    base = symbols[0];
     stack = push_stack(stack, base);
     return stack;
 }

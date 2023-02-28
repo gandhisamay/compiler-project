@@ -839,6 +839,34 @@ void remove_comments(FILE *ipt, char *opt_name)
     fclose(opt);
 }
 
+void print_token_details(TOKEN curr, FILE *token_fp){
+    if (curr.name == nUM)
+    {
+        if (token_fp != NULL) fprintf(token_fp, "LINE: [%d] ENUM: %d TOKEN: NUM       : %d \n", curr.line, curr.name, curr.num);
+        printf("LINE: [%d] ENUM: %d TOKEN: NUM       : %d \n", curr.line, curr.name, curr.num);
+    }
+    else if (curr.name == rNUM)
+    {
+        if (token_fp != NULL) fprintf(token_fp, "LINE: [%d] ENUM: %d  TOKEN: RNUM      : %f \n", curr.line, curr.name, curr.rnum);
+        printf("LINE: [%d] ENUM: %d  TOKEN: RNUM      : %f \n", curr.line, curr.name, curr.rnum);
+    }
+    else if (curr.name == $)
+    {
+        if (token_fp != NULL) fprintf(token_fp, "LINE: [%d] ENUM: %d  TOKEN: EOF/DOLLAR: %s\n", curr.line, curr.name, curr.id);
+        printf("LINE: [%d] ENUM: %d  TOKEN: EOF/DOLLAR: %s\n", curr.line, curr.name, curr.id);
+    }
+    else if (curr.name == lEX_ERROR)
+    {
+        if (token_fp != NULL) fprintf(token_fp, "LINE: [%d] ENUM: %d  TOKEN: ERROR     : %s\n", curr.line, curr.name, curr.id);
+        printf("LINE: [%d] ENUM: %d  TOKEN: ERROR     : %s\n", curr.line, curr.name, curr.id);
+    }
+    else
+    {
+        if (token_fp != NULL) fprintf(token_fp, "LINE: [%d] ENUM: %d  TOKEN: ID        : %s\n", curr.line, curr.name, curr.id);
+        printf("LINE: [%d] ENUM: %d  TOKEN: ID/KEYW        : %s\n", curr.line, curr.name, curr.id);
+    }
+}
+
 int test_lexer_run(char *program_file, char *tokenized_file)
 {
     FILE *token_fp = fopen(tokenized_file, "w");
@@ -861,31 +889,32 @@ int test_lexer_run(char *program_file, char *tokenized_file)
     for (int j = 0; j < i; j++)
     {
         curr = arr[j];
-        if (curr.name == nUM)
-        {
-            fprintf(token_fp, "LINE: [%d] TOKEN: NUM       : %d \n", curr.line, curr.num);
-            printf("LINE: [%d] TOKEN: NUM       : %d \n", curr.line, curr.num);
-        }
-        else if (curr.name == rNUM)
-        {
-            fprintf(token_fp, "LINE: [%d] TOKEN: RNUM      : %f \n", curr.line, curr.rnum);
-            printf("LINE: [%d] TOKEN: RNUM      : %f \n", curr.line, curr.rnum);
-        }
-        else if (curr.name == $)
-        {
-            fprintf(token_fp, "LINE: [%d] TOKEN: EOF/DOLLAR: %s\n", curr.line, curr.id);
-            printf("LINE: [%d] TOKEN: EOF/DOLLAR: %s\n", curr.line, curr.id);
-        }
-        else if (curr.name == lEX_ERROR)
-        {
-            fprintf(token_fp, "LINE: [%d] TOKEN: ERROR     : %s\n", curr.line, curr.id);
-            printf("LINE: [%d] TOKEN: ERROR     : %s\n", curr.line, curr.id);
-        }
-        else
-        {
-            fprintf(token_fp, "LINE: [%d] TOKEN: ID        : %s\n", curr.line, curr.id);
-            printf("LINE: [%d] TOKEN: ID        : %s\n", curr.line, curr.id);
-        }
+        print_token_details(curr, token_fp);
+        /* if (curr.name == nUM) */
+        /* { */
+        /*     fprintf(token_fp, "LINE: [%d] TOKEN: NUM       : %d \n", curr.line, curr.num); */
+        /*     printf("LINE: [%d] TOKEN: NUM       : %d \n", curr.line, curr.num); */
+        /* } */
+        /* else if (curr.name == rNUM) */
+        /* { */
+        /*     fprintf(token_fp, "LINE: [%d] TOKEN: RNUM      : %f \n", curr.line, curr.rnum); */
+        /*     printf("LINE: [%d] TOKEN: RNUM      : %f \n", curr.line, curr.rnum); */
+        /* } */
+        /* else if (curr.name == $) */
+        /* { */
+        /*     fprintf(token_fp, "LINE: [%d] TOKEN: EOF/DOLLAR: %s\n", curr.line, curr.id); */
+        /*     printf("LINE: [%d] TOKEN: EOF/DOLLAR: %s\n", curr.line, curr.id); */
+        /* } */
+        /* else if (curr.name == lEX_ERROR) */
+        /* { */
+        /*     fprintf(token_fp, "LINE: [%d] TOKEN: ERROR     : %s\n", curr.line, curr.id); */
+        /*     printf("LINE: [%d] TOKEN: ERROR     : %s\n", curr.line, curr.id); */
+        /* } */
+        /* else */
+        /* { */
+        /*     fprintf(token_fp, "LINE: [%d] TOKEN: ID        : %s\n", curr.line, curr.id); */
+        /*     printf("LINE: [%d] TOKEN: ID        : %s\n", curr.line, curr.id); */
+        /* } */
     }
     fclose(test_fp);
     fclose(token_fp);
