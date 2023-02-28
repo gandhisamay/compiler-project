@@ -7,13 +7,12 @@
 #include "parser_table.c"
 #endif
 
-FILE *program_fp;
 LinkedList *Parser_Stack;
 TreeNode *Parse_Tree_Root;
 
-void initialize_parser(){
+void initialize_parser(char *grammar_file){
     printf("Building Grammar (Populating symbols)...\n");
-    build_grammar();
+    build_grammar(grammar_file);
     printf("Creating parser tree and stack...\n");
     Parse_Tree_Root = create_parse_tree();
     Parser_Stack = create_stack();
@@ -25,7 +24,14 @@ void initialize_parser(){
     parse_table_make();
 }
 
-void start_parsing(){
+void start_parsing(char *program_file){
+    char* uncommented = "program.txt";
+    FILE* program_fp = fopen(program_file, "r");
+    remove_comments(program_fp, uncommented);
+    program_fp = fopen(uncommented, "r");
+    lexer_reset(program_fp);
+    printf("Lexer setup complete\n");
+
     while (is_empty_stack(Parser_Stack) == 0){
         Symbol *Top_Symbol = top_stack(Parser_Stack);    
         TOKEN Curr_Token = eval_token(program_fp);
@@ -67,12 +73,11 @@ void start_parsing(){
 }
 
 int main(){
-    initialize_parser();
+    char *grammar_file = "grammar.txt";
+    initialize_parser(grammar_file);
     // starting lexer
     printf("\n\nStarting lexer...\n");
     char *program_file = "../tests/test_lexer_1.txt";
-    program_fp = fopen(program_file, "r");
-    lexer_reset(program_fp);
     printf("Starting parsing...\n");
-    start_parsing();
+    start_parsing(program_file);
 }

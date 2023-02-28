@@ -188,9 +188,9 @@ LinkedList *compute_follow(Symbol *curr) {
   return ll;
 }
 
-void build_grammar() {
+void build_grammar(char *grammar_file) {
   // grammar = read_file("dummy_grammar1.txt");
-  grammar = read_grammar_file("grammar.txt");
+  grammar = read_grammar_file(grammar_file);
   //
   // printf("%d", GRAMMAR_SIZE);
 

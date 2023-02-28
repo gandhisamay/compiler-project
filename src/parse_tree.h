@@ -24,7 +24,7 @@ TreeNode* ParseTree;
 char **read_grammar_file(char *file); 
 void print_symbol_details(Symbol *s);
 void print_symbol_details(Symbol *s);
-void build_grammar();
+void build_grammar(char *grammar_file);
 LinkedList *compute_first(Symbol *curr);
 LinkedList *compute_follow(Symbol *curr);
 Symbol **generate_parse_table();
