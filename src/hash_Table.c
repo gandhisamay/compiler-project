@@ -18,7 +18,7 @@ int hash_code(char s[])
     return code;
 }
 
-tokens search(char key[], Element *table[])
+terminals search(char key[], Element *table[])
 {
     int index = hash_code(key);
 
@@ -35,7 +35,7 @@ tokens search(char key[], Element *table[])
     return iD;
 }
 
-void insert(char key[], tokens name, Element *table[])
+void insert(char key[], terminals name, Element *table[])
 {
 
     Element *item = (Element *)malloc(sizeof(Element));

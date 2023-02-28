@@ -45,9 +45,9 @@ void retract(int num)
         ptr += BUFFER_SIZE;
 }
 
-tokens lookup(char *lexeme)
+terminals lookup(char *lexeme)
 {
-    tokens result = search(lexeme, Lookup_Table);
+    terminals result = search(lexeme, Lookup_Table);
     return result;
 }
 

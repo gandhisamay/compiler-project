@@ -36,3 +36,10 @@ void print_list(LinkedList *ll);
 void merge_list(LinkedList *l1, LinkedList *l2);
 bool find_node(char *name, LinkedList *ll);
 void delete_node(char *name, LinkedList *ll);
+
+LinkedList* push_stack(LinkedList* stack, Symbol* s);
+bool is_empty_stack(LinkedList* stack);
+LinkedList* pop_stack(LinkedList* stack);
+Symbol* top_stack(LinkedList* stack);
+LinkedList* create_stack();
+void print_stack(LinkedList *stack);

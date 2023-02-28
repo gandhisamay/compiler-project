@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include "parse_tree.h"
 #define HASH_SIZE 32
 #define BUFFER_SIZE 30
 #define P 7
@@ -13,72 +15,72 @@ int stop = -1;
 int LOOKUP_SET = 0;
 
 char Buffer[BUFFER_SIZE];
-typedef enum
-{
-    dECLARE,
-    $,
-    mODULE,
-    iD,
-    sEMICOL,
-    dRIVERDEF,
-    dRIVER,
-    pROGRAM,
-    dRIVERENDDEF,
-    dEF,
-    eNDDEF,
-    tAKES,
-    iNPUT,
-    sQBO,
-    sQBC,
-    rETURNS,
-    cOLON,
-    cOMMA,
-    iNTEGER,
-    rEAL,
-    bOOLEAN,
-    aRRAY,
-    oF,
-    iN,
-    sTART,
-    eND,
-    gET_VALUE,
-    bO,
-    bC,
-    pRINT,
-    tRUE,
-    fALSE,
-    nUM,
-    rNUM,
-    aSSIGNOP,
-    uSE,
-    wITH,
-    pARAMETERS,
-    pLUS,
-    mINUS,
-    mUL,
-    dIV,
-    aND,
-    oR,
-    lT,
-    lE,
-    gT,
-    gE,
-    eQ,
-    nE,
-    sWITCH,
-    cASE,
-    bREAK,
-    dEFAULT,
-    fOR,
-    wHILE,
-    rANGEOP,
-    TERMINAL_SYM,
-    lEX_ERROR,
-} tokens;
+/* typedef enum */
+/* { */
+/*     dECLARE, */
+/*     $, */
+/*     mODULE, */
+/*     iD, */
+/*     sEMICOL, */
+/*     dRIVERDEF, */
+/*     dRIVER, */
+/*     pROGRAM, */
+/*     dRIVERENDDEF, */
+/*     dEF, */
+/*     eNDDEF, */
+/*     tAKES, */
+/*     iNPUT, */
+/*     sQBO, */
+/*     sQBC, */
+/*     rETURNS, */
+/*     cOLON, */
+/*     cOMMA, */
+/*     iNTEGER, */
+/*     rEAL, */
+/*     bOOLEAN, */
+/*     aRRAY, */
+/*     oF, */
+/*     iN, */
+/*     sTART, */
+/*     eND, */
+/*     gET_VALUE, */
+/*     bO, */
+/*     bC, */
+/*     pRINT, */
+/*     tRUE, */
+/*     fALSE, */
+/*     nUM, */
+/*     rNUM, */
+/*     aSSIGNOP, */
+/*     uSE, */
+/*     wITH, */
+/*     pARAMETERS, */
+/*     pLUS, */
+/*     mINUS, */
+/*     mUL, */
+/*     dIV, */
+/*     aND, */
+/*     oR, */
+/*     lT, */
+/*     lE, */
+/*     gT, */
+/*     gE, */
+/*     eQ, */
+/*     nE, */
+/*     sWITCH, */
+/*     cASE, */
+/*     bREAK, */
+/*     dEFAULT, */
+/*     fOR, */
+/*     wHILE, */
+/*     rANGEOP, */
+/*     TERMINAL_SYM, */
+/*     lEX_ERROR, */
+/* } terminals; */
 
 typedef struct token
 {
-    tokens name;
+    terminals name;
     int line;
     union
     {
@@ -92,13 +94,25 @@ typedef struct token
 typedef struct ele
 {
     char key[20];
-    tokens name;
+    terminals name;
 } Element;
 
 Element *Lookup_Table[HASH_SIZE];
 
 int hash_code(char s[]);
 
-tokens search(char key[], Element *table[]);
+terminals search(char key[], Element *table[]);
 
-void insert(char key[], tokens name, Element *table[]);
+void insert(char key[], terminals name, Element *table[]);
+
+
+void populate_buffer(FILE *fp);
+char next_char(FILE *fp);
+void retract(int num);
+terminals lookup(char *lexeme);
+void populate_lookup();
+TOKEN is_tkn(FILE *fp);
+void lexer_reset(FILE *fp);
+TOKEN eval_token(FILE *fp);
+void remove_comments(FILE *ipt, char *opt_name);
+int test_lexer_run(char *program_file, char *tokenized_file);
