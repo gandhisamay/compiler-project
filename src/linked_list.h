@@ -3,7 +3,7 @@
 typedef enum {dECLARE,$,mODULE,iD,iN,sEMICOL,dRIVERDEF,dRIVER,pROGRAM,dRIVERENDDEF,dEF,eNDDEF,tAKES,iNPUT,sQBO,sQBC,rETURNS,cOLON,cOMMA,iNTEGER,rEAL,bOOLEAN,aRRAY,oF,sTART,eND,gET_VALUE,bO,bC,pRINT,tRUE,fALSE,nUM,rNUM,aSSIGNOP,uSE,wITH,pARAMETERS,
 pLUS,mINUS,mUL,dIV,aND,oR,lT,lE,gT,gE,eQ,nE,sWITCH,cASE,bREAK,dEFAULT,fOR,wHILE,rANGEOP, TERMINAL_SYM, lEX_ERROR}terminals;
 
-char *term_str[] = {"$","dECLARE","mODULE","iD","sEMICOL","dRIVERDEF","dRIVER","pROGRAM","dRIVERENDDEF","dEF","eNDDEF","tAKES","iNPUT","sQBO","sQBC","rETURNS","cOLON","cOMMA","iNTEGER","rEAL","bOOLEAN","aRRAY","oF","sTART","eND","gET_VALUE",
+char *term_str[] = {"dECLARE","$","mODULE","iD","sEMICOL","dRIVERDEF","dRIVER","pROGRAM","dRIVERENDDEF","dEF","eNDDEF","tAKES","iNPUT","sQBO","sQBC","rETURNS","cOLON","cOMMA","iNTEGER","rEAL","bOOLEAN","aRRAY","oF","sTART","eND","gET_VALUE",
 "bO","bC","pRINT","tRUE","fALSE","nUM","rNUM","aSSIGNOP","uSE","wITH","pARAMETERS"," pLUS","mINUS","mUL","dIV","aND","oR","lT","lE","gT","gE","eQ","nE","sWITCH","cASE","bREAK","dEFAULT","fOR","wHILE","rANGEOP"};
 
 
@@ -51,6 +51,7 @@ void print_list(LinkedList *ll);
 void merge_list(LinkedList *l1, LinkedList *l2);
 bool find_node(char *name, LinkedList *ll);
 void delete_node(char *name, LinkedList *ll);
+int get_length(Symbol *Rule);
 
 LinkedList* push_stack(LinkedList* stack, Symbol* s);
 bool is_empty_stack(LinkedList* stack);

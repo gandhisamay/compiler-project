@@ -97,3 +97,13 @@ void delete_node(char *name, LinkedList *ll) {
     slow = slow->next;
   }
 }
+
+int get_length(Symbol *Rule){
+    int length = 0;
+    Symbol *curr = Rule;
+    while (curr != NULL){
+        length++;
+        curr = curr->right;
+    }
+    return length;
+}

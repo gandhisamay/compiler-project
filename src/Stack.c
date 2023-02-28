@@ -167,8 +167,6 @@ Symbol* top_stack(LinkedList* stack){
 LinkedList* create_stack(){
     LinkedList *stack = (LinkedList *) malloc(sizeof(LinkedList));
     Symbol *base = (Symbol *) malloc(sizeof(Symbol));
-    base = symbols[0];
-    stack = push_stack(stack, base);
     return stack;
 }
 
