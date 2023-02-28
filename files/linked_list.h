@@ -1,4 +1,5 @@
 #include "stdbool.h"
+#include <stdio.h>
 
 typedef struct Symbol {
   char *name;
@@ -31,7 +32,7 @@ typedef struct LinkedList LinkedList;
 Node *create_new_node(Symbol *symbol);
 LinkedList *create_linked_list();
 void insert_node(Symbol *symbol, LinkedList *ll, bool check_if_present);
-void print_list(LinkedList *ll);
+void print_list(LinkedList *ll, FILE *debug_fp);
 void merge_list(LinkedList *l1, LinkedList *l2);
 bool find_node(char *name, LinkedList *ll);
 void delete_node(char *name, LinkedList *ll);

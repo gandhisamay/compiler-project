@@ -1,0 +1,375 @@
+Lexer setup complete
+
+ CURR STACK TOP: IS_T - 0; # - T/F? - 48; ENUM - 0; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> S -> LINE: [0] ENUM: 0  TOKEN: ID        : declare
+DEBUG: Found Rule >>> 
+Name: S, Enum_T: -1, Enum_NT: 0, IS_A: Non Terminal
+First: Follow: Right: [HEAD] ->  
+
+ CURR STACK TOP: IS_T - 0; # - T/F? - 45; ENUM - 1; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> Program -> LINE: [0] ENUM: 0  TOKEN: ID        : declare
+DEBUG: Found Rule >>> 
+Name: Program, Enum_T: -1, Enum_NT: 1, IS_A: Non Terminal
+First: Follow: Right: [HEAD] ->  
+
+ CURR STACK TOP: IS_T - 0; # - T/F? - 42; ENUM - 2; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> OtherModules -> ModuleDeclarations -> LINE: [0] ENUM: 0  TOKEN: ID        : declare
+DEBUG: Found Rule >>> 
+Name: ModuleDeclarations, Enum_T: -1, Enum_NT: 2, IS_A: Non Terminal
+First: Follow: Right: [HEAD] ->  
+
+ CURR STACK TOP: IS_T - 0; # - T/F? - 42; ENUM - 3; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> OtherModules -> ModuleDeclarations -> ModuleDeclaration -> LINE: [0] ENUM: 0  TOKEN: ID        : declare
+DEBUG: Found Rule >>> 
+Name: ModuleDeclaration, Enum_T: -1, Enum_NT: 3, IS_A: Non Terminal
+First: Follow: Right: [HEAD] ->  
+
+ CURR STACK TOP: IS_T - 1; # - T/F? - 65; ENUM - 0; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> OtherModules -> ModuleDeclarations -> sEMICOL -> iD -> mODULE -> dECLARE -> LINE: [0] ENUM: 0  TOKEN: ID        : declare
+DEBUG: Matched Terminal: 0
+
+ CURR STACK TOP: IS_T - 1; # - T/F? - 74; ENUM - 2; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> OtherModules -> ModuleDeclarations -> sEMICOL -> iD -> mODULE -> LINE: [0] ENUM: 2  TOKEN: ID        : module
+DEBUG: Matched Terminal: 2
+
+ CURR STACK TOP: IS_T - 1; # - T/F? - 70; ENUM - 3; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> OtherModules -> ModuleDeclarations -> sEMICOL -> iD -> LINE: [0] ENUM: 3  TOKEN: ID        : mod1
+DEBUG: Matched Terminal: 3
+
+ CURR STACK TOP: IS_T - 1; # - T/F? - 80; ENUM - 4; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> OtherModules -> ModuleDeclarations -> sEMICOL -> LINE: [0] ENUM: 4  TOKEN: ID        : ;
+DEBUG: Matched Terminal: 4
+
+ CURR STACK TOP: IS_T - 0; # - T/F? - 42; ENUM - 2; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> OtherModules -> ModuleDeclarations -> LINE: [1] ENUM: 5  TOKEN: ID        : <<<
+DEBUG: Found Rule >>> 
+Name: ModuleDeclarations, Enum_T: -1, Enum_NT: 2, IS_A: Non Terminal
+First: Follow: Right: [HEAD] ->  
+
+ CURR STACK TOP: IS_T - 1; # - T/F? - 0; ENUM - 0; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> OtherModules -> # -> LINE: [1] ENUM: 5  TOKEN: ID        : <<<
+DEBUG: Found #
+
+ CURR STACK TOP: IS_T - 0; # - T/F? - 44; ENUM - 4; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> OtherModules -> LINE: [1] ENUM: 5  TOKEN: ID        : <<<
+DEBUG: Found Rule >>> 
+Name: OtherModules, Enum_T: -1, Enum_NT: 4, IS_A: Non Terminal
+First: Follow: Right: [HEAD] ->  
+
+ CURR STACK TOP: IS_T - 1; # - T/F? - 0; ENUM - 0; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> # -> LINE: [1] ENUM: 5  TOKEN: ID        : <<<
+DEBUG: Found #
+
+ CURR STACK TOP: IS_T - 0; # - T/F? - 33; ENUM - 5; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> LINE: [1] ENUM: 5  TOKEN: ID        : <<<
+DEBUG: Found Rule >>> 
+Name: DriverModule, Enum_T: -1, Enum_NT: 5, IS_A: Non Terminal
+First: Follow: Right: [HEAD] ->  
+
+ CURR STACK TOP: IS_T - 1; # - T/F? - 65; ENUM - 5; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> ModuleDef -> dRIVERENDDEF -> pROGRAM -> dRIVER -> dRIVERDEF -> LINE: [1] ENUM: 5  TOKEN: ID        : <<<
+DEBUG: Matched Terminal: 5
+
+ CURR STACK TOP: IS_T - 1; # - T/F? - 65; ENUM - 6; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> ModuleDef -> dRIVERENDDEF -> pROGRAM -> dRIVER -> LINE: [1] ENUM: 6  TOKEN: ID        : driver
+DEBUG: Matched Terminal: 6
+
+ CURR STACK TOP: IS_T - 1; # - T/F? - 77; ENUM - 7; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> ModuleDef -> dRIVERENDDEF -> pROGRAM -> LINE: [1] ENUM: 7  TOKEN: ID        : program
+DEBUG: Matched Terminal: 7
+
+ CURR STACK TOP: IS_T - 1; # - T/F? - 65; ENUM - 8; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> ModuleDef -> dRIVERENDDEF -> LINE: [1] ENUM: 8  TOKEN: ID        : >>>
+DEBUG: Matched Terminal: 8
+
+ CURR STACK TOP: IS_T - 0; # - T/F? - 42; ENUM - 15; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> ModuleDef -> LINE: [2] ENUM: 24  TOKEN: ID        : start
+DEBUG: Found Rule >>> 
+Name: ModuleDef, Enum_T: -1, Enum_NT: 15, IS_A: Non Terminal
+First: Follow: Right: [HEAD] ->  
+
+ CURR STACK TOP: IS_T - 1; # - T/F? - 80; ENUM - 24; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> sTART -> LINE: [2] ENUM: 24  TOKEN: ID        : start
+DEBUG: Matched Terminal: 24
+
+ CURR STACK TOP: IS_T - 0; # - T/F? - 48; ENUM - 16; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> LINE: [3] ENUM: 0  TOKEN: ID        : declare
+DEBUG: Found Rule >>> 
+Name: Statements, Enum_T: -1, Enum_NT: 16, IS_A: Non Terminal
+First: Follow: Right: [HEAD] ->  
+
+ CURR STACK TOP: IS_T - 0; # - T/F? - 48; ENUM - 17; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> Statement -> LINE: [3] ENUM: 0  TOKEN: ID        : declare
+DEBUG: Found Rule >>> 
+Name: Statement, Enum_T: -1, Enum_NT: 17, IS_A: Non Terminal
+First: Follow: Right: [HEAD] ->  
+
+ CURR STACK TOP: IS_T - 0; # - T/F? - 33; ENUM - 63; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> DeclareStmt -> LINE: [3] ENUM: 0  TOKEN: ID        : declare
+DEBUG: Found Rule >>> 
+Name: DeclareStmt, Enum_T: -1, Enum_NT: 63, IS_A: Non Terminal
+First: Follow: Right: [HEAD] ->  
+
+ CURR STACK TOP: IS_T - 1; # - T/F? - 65; ENUM - 0; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> sEMICOL -> DataType -> cOLON -> IdList -> dECLARE -> LINE: [3] ENUM: 0  TOKEN: ID        : declare
+DEBUG: Matched Terminal: 0
+
+ CURR STACK TOP: IS_T - 0; # - T/F? - 38; ENUM - 36; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> sEMICOL -> DataType -> cOLON -> IdList -> LINE: [3] ENUM: 3  TOKEN: ID        : v
+DEBUG: Found Rule >>> 
+Name: IdList, Enum_T: -1, Enum_NT: 36, IS_A: Non Terminal
+First: Follow: Right: [HEAD] ->  
+
+ CURR STACK TOP: IS_T - 1; # - T/F? - 70; ENUM - 3; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> sEMICOL -> DataType -> cOLON -> N3 -> iD -> LINE: [3] ENUM: 3  TOKEN: ID        : v
+DEBUG: Matched Terminal: 3
+
+ CURR STACK TOP: IS_T - 0; # - T/F? - 43; ENUM - 37; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> sEMICOL -> DataType -> cOLON -> N3 -> LINE: [3] ENUM: 17  TOKEN: ID        : ,
+DEBUG: Found Rule >>> 
+Name: N3, Enum_T: -1, Enum_NT: 37, IS_A: Non Terminal
+First: Follow: Right: [HEAD] ->  
+
+ CURR STACK TOP: IS_T - 1; # - T/F? - 64; ENUM - 17; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> sEMICOL -> DataType -> cOLON -> N3 -> iD -> cOMMA -> LINE: [3] ENUM: 17  TOKEN: ID        : ,
+DEBUG: Matched Terminal: 17
+
+ CURR STACK TOP: IS_T - 1; # - T/F? - 70; ENUM - 3; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> sEMICOL -> DataType -> cOLON -> N3 -> iD -> LINE: [3] ENUM: 3  TOKEN: ID        : w
+DEBUG: Matched Terminal: 3
+
+ CURR STACK TOP: IS_T - 0; # - T/F? - 43; ENUM - 37; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> sEMICOL -> DataType -> cOLON -> N3 -> LINE: [3] ENUM: 17  TOKEN: ID        : ,
+DEBUG: Found Rule >>> 
+Name: N3, Enum_T: -1, Enum_NT: 37, IS_A: Non Terminal
+First: Follow: Right: [HEAD] ->  
+
+ CURR STACK TOP: IS_T - 1; # - T/F? - 64; ENUM - 17; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> sEMICOL -> DataType -> cOLON -> N3 -> iD -> cOMMA -> LINE: [3] ENUM: 17  TOKEN: ID        : ,
+DEBUG: Matched Terminal: 17
+
+ CURR STACK TOP: IS_T - 1; # - T/F? - 70; ENUM - 3; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> sEMICOL -> DataType -> cOLON -> N3 -> iD -> LINE: [3] ENUM: 3  TOKEN: ID        : r
+DEBUG: Matched Terminal: 3
+
+ CURR STACK TOP: IS_T - 0; # - T/F? - 43; ENUM - 37; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> sEMICOL -> DataType -> cOLON -> N3 -> LINE: [3] ENUM: 16  TOKEN: ID        : :
+DEBUG: Found Rule >>> 
+Name: N3, Enum_T: -1, Enum_NT: 37, IS_A: Non Terminal
+First: Follow: Right: [HEAD] ->  
+
+ CURR STACK TOP: IS_T - 1; # - T/F? - 0; ENUM - 0; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> sEMICOL -> DataType -> cOLON -> # -> LINE: [3] ENUM: 16  TOKEN: ID        : :
+DEBUG: Found #
+
+ CURR STACK TOP: IS_T - 1; # - T/F? - 64; ENUM - 16; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> sEMICOL -> DataType -> cOLON -> LINE: [3] ENUM: 16  TOKEN: ID        : :
+DEBUG: Matched Terminal: 16
+
+ CURR STACK TOP: IS_T - 0; # - T/F? - 33; ENUM - 12; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> sEMICOL -> DataType -> LINE: [3] ENUM: 18  TOKEN: ID        : integer
+DEBUG: Found Rule >>> 
+Name: DataType, Enum_T: -1, Enum_NT: 12, IS_A: Non Terminal
+First: Follow: Right: [HEAD] ->  
+
+ CURR STACK TOP: IS_T - 1; # - T/F? - 70; ENUM - 18; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> sEMICOL -> iNTEGER -> LINE: [3] ENUM: 18  TOKEN: ID        : integer
+DEBUG: Matched Terminal: 18
+
+ CURR STACK TOP: IS_T - 1; # - T/F? - 80; ENUM - 4; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> sEMICOL -> LINE: [3] ENUM: 4  TOKEN: ID        : ;
+DEBUG: Matched Terminal: 4
+
+ CURR STACK TOP: IS_T - 0; # - T/F? - 48; ENUM - 16; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> LINE: [4] ENUM: 26  TOKEN: ID        : get_value
+DEBUG: Found Rule >>> 
+Name: Statements, Enum_T: -1, Enum_NT: 16, IS_A: Non Terminal
+First: Follow: Right: [HEAD] ->  
+
+ CURR STACK TOP: IS_T - 0; # - T/F? - 48; ENUM - 17; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> Statement -> LINE: [4] ENUM: 26  TOKEN: ID        : get_value
+DEBUG: Found Rule >>> 
+Name: Statement, Enum_T: -1, Enum_NT: 17, IS_A: Non Terminal
+First: Follow: Right: [HEAD] ->  
+
+ CURR STACK TOP: IS_T - 0; # - T/F? - 38; ENUM - 18; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> IoStmt -> LINE: [4] ENUM: 26  TOKEN: ID        : get_value
+DEBUG: Found Rule >>> 
+Name: IoStmt, Enum_T: -1, Enum_NT: 18, IS_A: Non Terminal
+First: Follow: Right: [HEAD] ->  
+
+ CURR STACK TOP: IS_T - 1; # - T/F? - 68; ENUM - 26; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> sEMICOL -> bC -> iD -> bO -> gET_VALUE -> LINE: [4] ENUM: 26  TOKEN: ID        : get_value
+DEBUG: Matched Terminal: 26
+
+ CURR STACK TOP: IS_T - 1; # - T/F? - 63; ENUM - 27; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> sEMICOL -> bC -> iD -> bO -> LINE: [4] ENUM: 27  TOKEN: ID        : (
+DEBUG: Matched Terminal: 27
+
+ CURR STACK TOP: IS_T - 1; # - T/F? - 70; ENUM - 3; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> sEMICOL -> bC -> iD -> LINE: [4] ENUM: 3  TOKEN: ID        : v
+DEBUG: Matched Terminal: 3
+
+ CURR STACK TOP: IS_T - 1; # - T/F? - 63; ENUM - 28; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> sEMICOL -> bC -> LINE: [4] ENUM: 28  TOKEN: ID        : )
+DEBUG: Matched Terminal: 28
+
+ CURR STACK TOP: IS_T - 1; # - T/F? - 80; ENUM - 4; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> sEMICOL -> LINE: [4] ENUM: 4  TOKEN: ID        : ;
+DEBUG: Matched Terminal: 4
+
+ CURR STACK TOP: IS_T - 0; # - T/F? - 48; ENUM - 16; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> LINE: [5] ENUM: 3  TOKEN: ID        : w
+DEBUG: Found Rule >>> 
+Name: Statements, Enum_T: -1, Enum_NT: 16, IS_A: Non Terminal
+First: Follow: Right: [HEAD] ->  
+
+ CURR STACK TOP: IS_T - 0; # - T/F? - 48; ENUM - 17; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> Statement -> LINE: [5] ENUM: 3  TOKEN: ID        : w
+DEBUG: Found Rule >>> 
+Name: Statement, Enum_T: -1, Enum_NT: 17, IS_A: Non Terminal
+First: Follow: Right: [HEAD] ->  
+
+ CURR STACK TOP: IS_T - 0; # - T/F? - 48; ENUM - 25; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> SimpleStmt -> LINE: [5] ENUM: 3  TOKEN: ID        : w
+DEBUG: Found Rule >>> 
+Name: SimpleStmt, Enum_T: -1, Enum_NT: 25, IS_A: Non Terminal
+First: Follow: Right: [HEAD] ->  
+
+ CURR STACK TOP: IS_T - 0; # - T/F? - 30; ENUM - 26; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> AssignmentStmt -> LINE: [5] ENUM: 3  TOKEN: ID        : w
+DEBUG: Found Rule >>> 
+Name: AssignmentStmt, Enum_T: -1, Enum_NT: 26, IS_A: Non Terminal
+First: Follow: Right: [HEAD] ->  
+
+ CURR STACK TOP: IS_T - 1; # - T/F? - 70; ENUM - 3; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> WhichStmt -> iD -> LINE: [5] ENUM: 3  TOKEN: ID        : w
+DEBUG: Matched Terminal: 3
+
+ CURR STACK TOP: IS_T - 0; # - T/F? - 52; ENUM - 27; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> WhichStmt -> LINE: [5] ENUM: 34  TOKEN: ID        : :=
+DEBUG: Found Rule >>> 
+Name: WhichStmt, Enum_T: -1, Enum_NT: 27, IS_A: Non Terminal
+First: Follow: Right: [HEAD] ->  
+
+ CURR STACK TOP: IS_T - 0; # - T/F? - 41; ENUM - 28; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> LvalueIDStmt -> LINE: [5] ENUM: 34  TOKEN: ID        : :=
+DEBUG: Found Rule >>> 
+Name: LvalueIDStmt, Enum_T: -1, Enum_NT: 28, IS_A: Non Terminal
+First: Follow: Right: [HEAD] ->  
+
+ CURR STACK TOP: IS_T - 1; # - T/F? - 62; ENUM - 34; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> sEMICOL -> Expression -> aSSIGNOP -> LINE: [5] ENUM: 34  TOKEN: ID        : :=
+DEBUG: Matched Terminal: 34
+
+ CURR STACK TOP: IS_T - 0; # - T/F? - 34; ENUM - 38; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> sEMICOL -> Expression -> LINE: [5] ENUM: 32 TOKEN: NUM       : 5 
+DEBUG: Found Rule >>> 
+Name: Expression, Enum_T: -1, Enum_NT: 38, IS_A: Non Terminal
+First: Follow: Right: [HEAD] ->  
+
+ CURR STACK TOP: IS_T - 0; # - T/F? - 30; ENUM - 42; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> sEMICOL -> ArithmeticOrBooleanExpr -> LINE: [5] ENUM: 32 TOKEN: NUM       : 5 
+DEBUG: Found Rule >>> 
+Name: ArithmeticOrBooleanExpr, Enum_T: -1, Enum_NT: 42, IS_A: Non Terminal
+First: Follow: Right: [HEAD] ->  
+
+ CURR STACK TOP: IS_T - 0; # - T/F? - 30; ENUM - 44; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> sEMICOL -> N7 -> AnyTerm -> LINE: [5] ENUM: 32 TOKEN: NUM       : 5 
+DEBUG: Found Rule >>> 
+Name: AnyTerm, Enum_T: -1, Enum_NT: 44, IS_A: Non Terminal
+First: Follow: Right: [HEAD] ->  
+
+ CURR STACK TOP: IS_T - 0; # - T/F? - 30; ENUM - 46; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> sEMICOL -> N7 -> N8 -> ArithmeticExpr -> LINE: [5] ENUM: 32 TOKEN: NUM       : 5 
+DEBUG: Found Rule >>> 
+Name: ArithmeticExpr, Enum_T: -1, Enum_NT: 46, IS_A: Non Terminal
+First: Follow: Right: [HEAD] ->  
+
+ CURR STACK TOP: IS_T - 0; # - T/F? - 49; ENUM - 48; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> sEMICOL -> N7 -> N8 -> N4 -> Term -> LINE: [5] ENUM: 32 TOKEN: NUM       : 5 
+DEBUG: Found Rule >>> 
+Name: Term, Enum_T: -1, Enum_NT: 48, IS_A: Non Terminal
+First: Follow: Right: [HEAD] ->  
+
+ CURR STACK TOP: IS_T - 0; # - T/F? - 35; ENUM - 50; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> sEMICOL -> N7 -> N8 -> N4 -> N5 -> Factor -> LINE: [5] ENUM: 32 TOKEN: NUM       : 5 
+DEBUG: Found Rule >>> 
+Name: Factor, Enum_T: -1, Enum_NT: 50, IS_A: Non Terminal
+First: Follow: Right: [HEAD] ->  
+
+ CURR STACK TOP: IS_T - 1; # - T/F? - 75; ENUM - 32; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> sEMICOL -> N7 -> N8 -> N4 -> N5 -> nUM -> LINE: [5] ENUM: 32 TOKEN: NUM       : 5 
+DEBUG: Matched Terminal: 32
+
+ CURR STACK TOP: IS_T - 0; # - T/F? - 43; ENUM - 49; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> sEMICOL -> N7 -> N8 -> N4 -> N5 -> LINE: [5] ENUM: 4  TOKEN: ID        : ;
+DEBUG: Found Rule >>> 
+Name: N5, Enum_T: -1, Enum_NT: 49, IS_A: Non Terminal
+First: Follow: Right: [HEAD] ->  
+
+ CURR STACK TOP: IS_T - 1; # - T/F? - 0; ENUM - 0; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> sEMICOL -> N7 -> N8 -> N4 -> # -> LINE: [5] ENUM: 4  TOKEN: ID        : ;
+DEBUG: Found #
+
+ CURR STACK TOP: IS_T - 0; # - T/F? - 43; ENUM - 47; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> sEMICOL -> N7 -> N8 -> N4 -> LINE: [5] ENUM: 4  TOKEN: ID        : ;
+DEBUG: Found Rule >>> 
+Name: N4, Enum_T: -1, Enum_NT: 47, IS_A: Non Terminal
+First: Follow: Right: [HEAD] ->  
+
+ CURR STACK TOP: IS_T - 1; # - T/F? - 0; ENUM - 0; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> sEMICOL -> N7 -> N8 -> # -> LINE: [5] ENUM: 4  TOKEN: ID        : ;
+DEBUG: Found #
+
+ CURR STACK TOP: IS_T - 0; # - T/F? - 43; ENUM - 45; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> sEMICOL -> N7 -> N8 -> LINE: [5] ENUM: 4  TOKEN: ID        : ;
+DEBUG: Found Rule >>> 
+Name: N8, Enum_T: -1, Enum_NT: 45, IS_A: Non Terminal
+First: Follow: Right: [HEAD] ->  
+
+ CURR STACK TOP: IS_T - 1; # - T/F? - 0; ENUM - 0; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> sEMICOL -> N7 -> # -> LINE: [5] ENUM: 4  TOKEN: ID        : ;
+DEBUG: Found #
+
+ CURR STACK TOP: IS_T - 0; # - T/F? - 43; ENUM - 43; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> sEMICOL -> N7 -> LINE: [5] ENUM: 4  TOKEN: ID        : ;
+DEBUG: Found Rule >>> 
+Name: N7, Enum_T: -1, Enum_NT: 43, IS_A: Non Terminal
+First: Follow: Right: [HEAD] ->  
+
+ CURR STACK TOP: IS_T - 1; # - T/F? - 0; ENUM - 0; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> sEMICOL -> # -> LINE: [5] ENUM: 4  TOKEN: ID        : ;
+DEBUG: Found #
+
+ CURR STACK TOP: IS_T - 1; # - T/F? - 80; ENUM - 4; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> sEMICOL -> LINE: [5] ENUM: 4  TOKEN: ID        : ;
+DEBUG: Matched Terminal: 4
+
+ CURR STACK TOP: IS_T - 0; # - T/F? - 48; ENUM - 16; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> Statements -> LINE: [6] ENUM: 25  TOKEN: ID        : end
+DEBUG: Found Rule >>> 
+Name: Statements, Enum_T: -1, Enum_NT: 16, IS_A: Non Terminal
+First: Follow: Right: [HEAD] ->  
+
+ CURR STACK TOP: IS_T - 1; # - T/F? - 0; ENUM - 0; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> # -> LINE: [6] ENUM: 25  TOKEN: ID        : end
+DEBUG: Found #
+
+ CURR STACK TOP: IS_T - 1; # - T/F? - 66; ENUM - 25; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> eND -> LINE: [6] ENUM: 25  TOKEN: ID        : end
+DEBUG: Matched Terminal: 25
+
+ CURR STACK TOP: IS_T - 0; # - T/F? - 44; ENUM - 4; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> OtherModules -> LINE: [7] ENUM: 1  TOKEN: EOF/DOLLAR: EOF
+DEBUG: Found Rule >>> 
+Name: OtherModules, Enum_T: -1, Enum_NT: 4, IS_A: Non Terminal
+First: Follow: Right: [HEAD] ->  
+
+ CURR STACK TOP: IS_T - 1; # - T/F? - 0; ENUM - 0; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> # -> LINE: [7] ENUM: 1  TOKEN: EOF/DOLLAR: EOF
+DEBUG: Found #
+
+ CURR STACK TOP: IS_T - 1; # - T/F? - 1; ENUM - 1; CURRENT PARSER STACK:
+Current Stack: [Bottom] -> $ -> LINE: [7] ENUM: 1  TOKEN: EOF/DOLLAR: EOF
+DEBUG: Matched Terminal: 1

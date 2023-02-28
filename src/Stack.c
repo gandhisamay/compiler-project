@@ -170,14 +170,17 @@ LinkedList* create_stack(){
     return stack;
 }
 
-void print_stack(LinkedList *stack){
-    printf("\nCurrent Stack: [Bottom] -> ");
+void print_stack(LinkedList *stack, FILE* debug_fp){
+    if (debug_fp == NULL) printf("\nCurrent Stack: [Bottom] -> ");
+    else fprintf(debug_fp, "\nCurrent Stack: [Bottom] -> ");
     Node *curr = stack->head;
     while(curr != NULL){
-        printf("%s -> ", curr->symbol->name);
+        if (debug_fp == NULL) printf("%s -> ", curr->symbol->name);
+        else fprintf(debug_fp, "%s -> ", curr->symbol->name);
         curr = curr->next;
     }
-    printf("[Top]\n");
+    if (debug_fp == NULL) printf("[Top]\n");
+    else printf("[Top]\n");
 }
 
 // stack functions end

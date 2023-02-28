@@ -65,16 +65,26 @@ char **read_grammar_file(char *file) {
   return array;
 }
 
-void print_symbol_details(Symbol *s) {
-  printf("Name: %s, ", s->name);
-  printf("Enum_T: %d, Enum_NT: %d, ", s->terminal, s->non_terminal);
-  printf("IS_A: %s\n", s->is_terminal ? "Terminal" : "Non Terminal");
-  printf("First: ");
-  print_list(s->first);
-  printf("Follow: ");
-  print_list(s->follow);
-
-  printf("Right: [HEAD] -> ");
+void print_symbol_details(Symbol *s, FILE *debug_fp) {
+    if (debug_fp == NULL){
+      printf("Name: %s, ", s->name);
+      printf("Enum_T: %d, Enum_NT: %d, ", s->terminal, s->non_terminal);
+      printf("IS_A: %s\n", s->is_terminal ? "Terminal" : "Non Terminal");
+      printf("First: ");
+      print_list(s->first, NULL);
+      printf("Follow: ");
+      print_list(s->follow, NULL);
+      printf("Right: [HEAD] -> ");
+    } else {
+      fprintf(debug_fp, "Name: %s, ", s->name);
+      fprintf(debug_fp, "Enum_T: %d, Enum_NT: %d, ", s->terminal, s->non_terminal);
+      fprintf(debug_fp, "IS_A: %s\n", s->is_terminal ? "Terminal" : "Non Terminal");
+      fprintf(debug_fp, "First: ");
+      print_list(s->first, NULL);
+      fprintf(debug_fp, "Follow: ");
+      print_list(s->follow, NULL);
+      fprintf(debug_fp, "Right: [HEAD] -> ");
+    }
 
   Symbol *temp = s->right;
   while (temp != NULL) {
@@ -126,6 +136,7 @@ LinkedList *compute_first(Symbol *curr) {
 }
 
 LinkedList *compute_follow(Symbol *curr) {
+  /* printf("curr not null\n"); */
   LinkedList *ll = create_linked_list();
   if (curr == NULL)
     return ll;
@@ -135,7 +146,7 @@ LinkedList *compute_follow(Symbol *curr) {
     return ll;
   }
 
-  // printf("Scanning: %s\n", curr->name);
+  /* printf("Scanning: %s\n", curr->name); */
 
   for (int i = 0; i < TOTAL_SYMBOLS; i++) {
     Symbol *temp = symbols[i]->right;
@@ -288,16 +299,20 @@ Symbol **generate_parse_table() {
       temp = temp->right;
     }
 
+        printf("out %d\n", i);
     if (find_node("#", data[i])) {
-      delete_node("#", data[i]);
-      LinkedList *ret = compute_follow(symbols[i]);
-      merge_list(data[i], ret);
+        delete_node("#", data[i]);
+        printf("r %d\n", i);
+        print_symbol_details(symbols[i], NULL);
+        LinkedList *ret = compute_follow(symbols[i]);
+        merge_list(data[i], ret);
+        printf("mer %d\n", i);
     }
   }
 
   for (int i = 0; i < TOTAL_SYMBOLS; i++) {
     printf("%s: ", symbols[i]->name);
-    print_list(data[i]);
+    print_list(data[i], NULL);
   }
 
   return NULL;
@@ -396,7 +411,6 @@ void parse_table_make(){
         for(int i=0; i<N_TERMINAL_SYM; i++)
             if(strcmp(curr->name, n_term_str[i]) == 0)
                 nt = i;
-        // printf("%s, %d: ",curr->name, nt);
         LinkedList* ls = data[i]; //getting first of the grammar
 
         Node *current = ls->head;
@@ -435,6 +449,6 @@ void parse_table_make(){
 /*     build_grammar(); */
 /*     generate_parse_table(); */
 /*     parse_table_make(); */
-/*     print_symbol_details(symbols[1]->right); */
+/*     print_symbol_details(symbols[1]->right, NULL); */
 /*     return 0; */
 /* } */

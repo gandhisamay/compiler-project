@@ -3,19 +3,23 @@
 #include <stdlib.h>
 #include <string.h>
 
-void print_list(LinkedList *ll) {
+void print_list(LinkedList *ll, FILE *debug_fp) {
   if (ll == NULL || ll->head == NULL) {
-    printf("List is empty\n");
+    if (debug_fp == NULL) printf("List is empty\n");
+    else fprintf(debug_fp, "List is empty\n");
     return;
   }
   Node *temp = ll->head;
 
   // printf("{ ");
   while (temp->next != NULL) {
-    printf("%s,", temp->symbol->name);
+    
+    if (debug_fp == NULL) printf("%s,", temp->symbol->name); 
+    else printf("%s,", temp->symbol->name); 
     temp = temp->next;
   }
-  printf("%s\n", temp->symbol->name);
+  if (debug_fp == NULL) printf("%s\n", temp->symbol->name); 
+  else printf("%s\n", temp->symbol->name); 
 }
 
 Node *create_new_node(Symbol *symbol) {
