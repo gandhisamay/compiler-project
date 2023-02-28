@@ -51,7 +51,7 @@ void start_parsing(char *program_file, FILE *debug_fp){
     while (is_empty_stack(Parser_Stack) == 0){ // actually curr token !+ EOF
     /* while (c != 220){ */
         c++;
-        printf("C count : %d\n",c);
+        /* printf("C count : %d\n",c); */
         Symbol *Top_Symbol = top_stack(Parser_Stack);   
         // printf("lmao ded initial\n");
         LinkedList *Aux_Stack = create_stack();
@@ -87,7 +87,7 @@ void start_parsing(char *program_file, FILE *debug_fp){
                     fprintf(debug_fp, "DEBUG: Found #\n");
                 }
                 pop_stack(Parser_Stack);
-                printf("calling next node\n");
+                /* printf("calling next node\n"); */
                 curr_node = next_node(curr_node,Top_Symbol);
                 continue;
             } 
@@ -98,7 +98,7 @@ void start_parsing(char *program_file, FILE *debug_fp){
                     fprintf(debug_fp, "DEBUG: Matched Terminal: %d\n", Curr_Token.name);
                 }
                 pop_stack(Parser_Stack);
-                printf("calling next node\n");
+                /* printf("calling next node\n"); */
                 curr_node = next_node(curr_node,Top_Symbol);
                 Curr_Token = eval_token(program_fp);
                 /* printf("\n NEW TOKEN - line - %d, type - %d, id - %s, num - %d, rnum - %f",  */
@@ -124,12 +124,12 @@ void start_parsing(char *program_file, FILE *debug_fp){
                 // popping from stack
                 pop_stack(Parser_Stack);
                 
-                printf("calling next node\n");
+                /* printf("calling next node\n"); */
                 curr_node = next_node(curr_node,Grammar_Rule);
-                printf("node: %s\n",curr_node->symbol->name);
-                printf("grule %s\n",Grammar_Rule->name);
+                /* printf("node: %s\n",curr_node->symbol->name); */
+                /* printf("grule %s\n",Grammar_Rule->name); */
                 Symbol *curr = Grammar_Rule->right;
-                printf("crule %s\n\n",curr->name);
+                /* printf("crule %s\n\n",curr->name); */
                 // print_symbol_details(curr,stdout);
                 while (curr != NULL){
                     push_stack(Aux_Stack, curr);
@@ -167,15 +167,18 @@ void start_parsing(char *program_file, FILE *debug_fp){
 int main(){
     char *grammar_file = "../grammar.txt";
     char *debug_file = "parser_output.txt";
+    char *debug_tree_file = "parser_output_tree.txt";
     initialize_parser(grammar_file);
     // starting lexer
     printf("\n\nStarting lexer...\n");
-    char *program_file = "../tests/test_cases_stage_1/t6_syntax_errors.txt";
+    /* char *program_file = "../tests/test_cases_stage_1/t6_syntax_errors.txt"; */
+    char *program_file = "../tests/test_lexer_1.txt";
     printf("Starting parsing...\n");
     FILE *debug_fp = fopen(debug_file, "w");
+    FILE *debug_tree_fp = fopen(debug_tree_file, "w");
     start_parsing(program_file, debug_fp);
     printf("Printing tree\n");
-    print_tree(Parse_Tree_Root);
+    print_tree(Parse_Tree_Root, debug_tree_fp);
 }
 
 /* int main(){ */

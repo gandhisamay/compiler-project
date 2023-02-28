@@ -1,3 +1,4 @@
 - Do we need to create a seperate method to remove comments.
 - NOTE: Running lexer without removing comments, causes wrong line numbers - shouldn't be an issue unless we would be required to not use the remove comments fxn?
 -  ADD iN in terminals enum
+- NOTE: Keep track of array sizes / hardocded max lims placed in headers

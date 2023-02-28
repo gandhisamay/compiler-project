@@ -132,7 +132,7 @@ void push_stack(LinkedList* stack, Symbol* s){
 
     stack->size++;
 
-    print_symbol_details(s,stdout);
+    /* print_symbol_details(s,stdout); */
 }
 
 bool is_empty_stack(LinkedList* stack){

@@ -163,20 +163,25 @@ TreeNode* insert_child(TreeNode* parent, Symbol *symbol){ // pointer to parent, 
     } else printf("The parent and given LHS do not match!!!!!!!!!!!!\n");
 }
 
-void print_tree(TreeNode *root){
-  printf(" %s => ", root->symbol->name);
+void print_tree(TreeNode *root, FILE *debug_fp){
+  fprintf(debug_fp, " %s => ", root->symbol->name);
   TreeNode *curr = root->head;
   while(curr != NULL){
-    printf("%s ", curr->symbol->name);
+    fprintf(debug_fp, "%s ", curr->symbol->name);
     curr = curr->sibling;
   }
-  printf("[END]");
-  printf("\n");
+  fprintf(debug_fp, "[END]");
+  fprintf(debug_fp, "\n");
   curr = root->head;
   while(curr!= NULL){
-    if(curr->head != NULL)
-    print_tree(curr);
-    else break;
+    if(curr->head != NULL){
+      print_tree(curr, debug_fp);
+    } else if (curr->symbol->is_terminal) {
+      curr = curr->sibling;
+      continue;
+    } else{
+      break;
+    } 
     curr = curr->sibling;
   }
 }

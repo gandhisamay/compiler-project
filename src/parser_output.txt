@@ -11,7 +11,7 @@ Right: [HEAD] -> Program -> $ -> [END]
 Row no: 0
 
     CURR STACK TOP: IS_T - 0; # - T/F? - 45; ENUM - 1:
-Current Stack: [Bottom] -> $ -> Program -> [Top]
+Current Stack: [Bottom] -> Program -> $ -> [Top]
 LINE: [0] ENUM: 0  TOKEN: ID        : declare
 DEBUG: Found Rule >>> 
 Name: Program, Enum_T: -1, Enum_NT: 1, IS_A: Non Terminal
@@ -21,7 +21,7 @@ Right: [HEAD] -> ModuleDeclarations -> OtherModules -> DriverModule -> OtherModu
 Row no: 1
 
     CURR STACK TOP: IS_T - 0; # - T/F? - 42; ENUM - 2:
-Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> OtherModules -> ModuleDeclarations -> [Top]
+Current Stack: [Bottom] -> ModuleDeclarations -> OtherModules -> DriverModule -> OtherModules -> $ -> [Top]
 LINE: [0] ENUM: 0  TOKEN: ID        : declare
 DEBUG: Found Rule >>> 
 Name: ModuleDeclarations, Enum_T: -1, Enum_NT: 2, IS_A: Non Terminal
@@ -31,7 +31,7 @@ Right: [HEAD] -> ModuleDeclaration -> ModuleDeclarations -> [END]
 Row no: 2
 
     CURR STACK TOP: IS_T - 0; # - T/F? - 42; ENUM - 3:
-Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> OtherModules -> ModuleDeclarations -> ModuleDeclaration -> [Top]
+Current Stack: [Bottom] -> ModuleDeclaration -> ModuleDeclarations -> OtherModules -> DriverModule -> OtherModules -> $ -> [Top]
 LINE: [0] ENUM: 0  TOKEN: ID        : declare
 DEBUG: Found Rule >>> 
 Name: ModuleDeclaration, Enum_T: -1, Enum_NT: 3, IS_A: Non Terminal
@@ -41,28 +41,28 @@ Right: [HEAD] -> dECLARE -> mODULE -> iD -> sEMICOL -> [END]
 Row no: 4
 
     CURR STACK TOP: IS_T - 1; # - T/F? - 65; ENUM - 0:
-Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> OtherModules -> ModuleDeclarations -> sEMICOL -> iD -> mODULE -> dECLARE -> [Top]
+Current Stack: [Bottom] -> dECLARE -> mODULE -> iD -> sEMICOL -> ModuleDeclarations -> OtherModules -> DriverModule -> OtherModules -> $ -> [Top]
 LINE: [0] ENUM: 0  TOKEN: ID        : declare
 DEBUG: Matched Terminal: 0
 
     CURR STACK TOP: IS_T - 1; # - T/F? - 74; ENUM - 2:
-Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> OtherModules -> ModuleDeclarations -> sEMICOL -> iD -> mODULE -> [Top]
+Current Stack: [Bottom] -> mODULE -> iD -> sEMICOL -> ModuleDeclarations -> OtherModules -> DriverModule -> OtherModules -> $ -> [Top]
 LINE: [0] ENUM: 2  TOKEN: ID        : module
 DEBUG: Matched Terminal: 2
 
     CURR STACK TOP: IS_T - 1; # - T/F? - 70; ENUM - 3:
-Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> OtherModules -> ModuleDeclarations -> sEMICOL -> iD -> [Top]
-LINE: [0] ENUM: 3  TOKEN: ID        : readArr
+Current Stack: [Bottom] -> iD -> sEMICOL -> ModuleDeclarations -> OtherModules -> DriverModule -> OtherModules -> $ -> [Top]
+LINE: [0] ENUM: 3  TOKEN: ID        : mod1
 DEBUG: Matched Terminal: 3
 
     CURR STACK TOP: IS_T - 1; # - T/F? - 80; ENUM - 4:
-Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> OtherModules -> ModuleDeclarations -> sEMICOL -> [Top]
+Current Stack: [Bottom] -> sEMICOL -> ModuleDeclarations -> OtherModules -> DriverModule -> OtherModules -> $ -> [Top]
 LINE: [0] ENUM: 4  TOKEN: ID        : ;
 DEBUG: Matched Terminal: 4
 
     CURR STACK TOP: IS_T - 0; # - T/F? - 42; ENUM - 2:
-Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> OtherModules -> ModuleDeclarations -> [Top]
-LINE: [2] ENUM: 9  TOKEN: ID        : <<
+Current Stack: [Bottom] -> ModuleDeclarations -> OtherModules -> DriverModule -> OtherModules -> $ -> [Top]
+LINE: [1] ENUM: 5  TOKEN: ID        : <<<
 DEBUG: Found Rule >>> 
 Name: ModuleDeclarations, Enum_T: -1, Enum_NT: 2, IS_A: Non Terminal
 First: List is empty
@@ -71,218 +71,493 @@ Right: [HEAD] -> # -> [END]
 Row no: 3
 
     CURR STACK TOP: IS_T - 1; # - T/F? - 0; ENUM - 0:
-Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> OtherModules -> # -> [Top]
-LINE: [2] ENUM: 9  TOKEN: ID        : <<
+Current Stack: [Bottom] -> # -> OtherModules -> DriverModule -> OtherModules -> $ -> [Top]
+LINE: [1] ENUM: 5  TOKEN: ID        : <<<
 DEBUG: Found #
 
     CURR STACK TOP: IS_T - 0; # - T/F? - 44; ENUM - 4:
-Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> OtherModules -> [Top]
-LINE: [2] ENUM: 9  TOKEN: ID        : <<
+Current Stack: [Bottom] -> OtherModules -> DriverModule -> OtherModules -> $ -> [Top]
+LINE: [1] ENUM: 5  TOKEN: ID        : <<<
 DEBUG: Found Rule >>> 
 Name: OtherModules, Enum_T: -1, Enum_NT: 4, IS_A: Non Terminal
 First: List is empty
 Follow: List is empty
-Right: [HEAD] -> Module -> OtherModules -> [END]
-Row no: 5
+Right: [HEAD] -> # -> [END]
+Row no: 6
 
-    CURR STACK TOP: IS_T - 0; # - T/F? - 42; ENUM - 6:
-Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> OtherModules -> Module -> [Top]
-LINE: [2] ENUM: 9  TOKEN: ID        : <<
+    CURR STACK TOP: IS_T - 1; # - T/F? - 0; ENUM - 0:
+Current Stack: [Bottom] -> # -> DriverModule -> OtherModules -> $ -> [Top]
+LINE: [1] ENUM: 5  TOKEN: ID        : <<<
+DEBUG: Found #
+
+    CURR STACK TOP: IS_T - 0; # - T/F? - 33; ENUM - 5:
+Current Stack: [Bottom] -> DriverModule -> OtherModules -> $ -> [Top]
+LINE: [1] ENUM: 5  TOKEN: ID        : <<<
 DEBUG: Found Rule >>> 
-Name: Module, Enum_T: -1, Enum_NT: 6, IS_A: Non Terminal
+Name: DriverModule, Enum_T: -1, Enum_NT: 5, IS_A: Non Terminal
 First: List is empty
 Follow: List is empty
-Right: [HEAD] -> dEF -> mODULE -> iD -> eNDDEF -> tAKES -> iNPUT -> sQBO -> Input_plist -> sQBC -> sEMICOL -> Ret -> ModuleDef -> [END]
-Row no: 8
+Right: [HEAD] -> dRIVERDEF -> dRIVER -> pROGRAM -> dRIVERENDDEF -> ModuleDef -> [END]
+Row no: 7
 
-    CURR STACK TOP: IS_T - 1; # - T/F? - 65; ENUM - 9:
-Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> OtherModules -> ModuleDef -> Ret -> sEMICOL -> sQBC -> Input_plist -> sQBO -> iNPUT -> tAKES -> eNDDEF -> iD -> mODULE -> dEF -> [Top]
-LINE: [2] ENUM: 9  TOKEN: ID        : <<
-DEBUG: Matched Terminal: 9
+    CURR STACK TOP: IS_T - 1; # - T/F? - 65; ENUM - 5:
+Current Stack: [Bottom] -> dRIVERDEF -> dRIVER -> pROGRAM -> dRIVERENDDEF -> ModuleDef -> OtherModules -> $ -> [Top]
+LINE: [1] ENUM: 5  TOKEN: ID        : <<<
+DEBUG: Matched Terminal: 5
 
-    CURR STACK TOP: IS_T - 1; # - T/F? - 74; ENUM - 2:
-Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> OtherModules -> ModuleDef -> Ret -> sEMICOL -> sQBC -> Input_plist -> sQBO -> iNPUT -> tAKES -> eNDDEF -> iD -> mODULE -> [Top]
-LINE: [2] ENUM: 2  TOKEN: ID        : module
-DEBUG: Matched Terminal: 2
+    CURR STACK TOP: IS_T - 1; # - T/F? - 65; ENUM - 6:
+Current Stack: [Bottom] -> dRIVER -> pROGRAM -> dRIVERENDDEF -> ModuleDef -> OtherModules -> $ -> [Top]
+LINE: [1] ENUM: 6  TOKEN: ID        : driver
+DEBUG: Matched Terminal: 6
+
+    CURR STACK TOP: IS_T - 1; # - T/F? - 77; ENUM - 7:
+Current Stack: [Bottom] -> pROGRAM -> dRIVERENDDEF -> ModuleDef -> OtherModules -> $ -> [Top]
+LINE: [1] ENUM: 7  TOKEN: ID        : program
+DEBUG: Matched Terminal: 7
+
+    CURR STACK TOP: IS_T - 1; # - T/F? - 65; ENUM - 8:
+Current Stack: [Bottom] -> dRIVERENDDEF -> ModuleDef -> OtherModules -> $ -> [Top]
+LINE: [1] ENUM: 8  TOKEN: ID        : >>>
+DEBUG: Matched Terminal: 8
+
+    CURR STACK TOP: IS_T - 0; # - T/F? - 42; ENUM - 15:
+Current Stack: [Bottom] -> ModuleDef -> OtherModules -> $ -> [Top]
+LINE: [2] ENUM: 24  TOKEN: ID        : start
+DEBUG: Found Rule >>> 
+Name: ModuleDef, Enum_T: -1, Enum_NT: 15, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> sTART -> Statements -> eND -> [END]
+Row no: 25
+
+    CURR STACK TOP: IS_T - 1; # - T/F? - 80; ENUM - 24:
+Current Stack: [Bottom] -> sTART -> Statements -> eND -> OtherModules -> $ -> [Top]
+LINE: [2] ENUM: 24  TOKEN: ID        : start
+DEBUG: Matched Terminal: 24
+
+    CURR STACK TOP: IS_T - 0; # - T/F? - 48; ENUM - 16:
+Current Stack: [Bottom] -> Statements -> eND -> OtherModules -> $ -> [Top]
+LINE: [3] ENUM: 0  TOKEN: ID        : declare
+DEBUG: Found Rule >>> 
+Name: Statements, Enum_T: -1, Enum_NT: 16, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> Statement -> Statements -> [END]
+Row no: 26
+
+    CURR STACK TOP: IS_T - 0; # - T/F? - 48; ENUM - 17:
+Current Stack: [Bottom] -> Statement -> Statements -> eND -> OtherModules -> $ -> [Top]
+LINE: [3] ENUM: 0  TOKEN: ID        : declare
+DEBUG: Found Rule >>> 
+Name: Statement, Enum_T: -1, Enum_NT: 17, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> DeclareStmt -> [END]
+Row no: 30
+
+    CURR STACK TOP: IS_T - 0; # - T/F? - 33; ENUM - 63:
+Current Stack: [Bottom] -> DeclareStmt -> Statements -> eND -> OtherModules -> $ -> [Top]
+LINE: [3] ENUM: 0  TOKEN: ID        : declare
+DEBUG: Found Rule >>> 
+Name: DeclareStmt, Enum_T: -1, Enum_NT: 63, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> dECLARE -> IdList -> cOLON -> DataType -> sEMICOL -> [END]
+Row no: 128
+
+    CURR STACK TOP: IS_T - 1; # - T/F? - 65; ENUM - 0:
+Current Stack: [Bottom] -> dECLARE -> IdList -> cOLON -> DataType -> sEMICOL -> Statements -> eND -> OtherModules -> $ -> [Top]
+LINE: [3] ENUM: 0  TOKEN: ID        : declare
+DEBUG: Matched Terminal: 0
+
+    CURR STACK TOP: IS_T - 0; # - T/F? - 38; ENUM - 36:
+Current Stack: [Bottom] -> IdList -> cOLON -> DataType -> sEMICOL -> Statements -> eND -> OtherModules -> $ -> [Top]
+LINE: [3] ENUM: 3  TOKEN: ID        : v
+DEBUG: Found Rule >>> 
+Name: IdList, Enum_T: -1, Enum_NT: 36, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> iD -> N3 -> [END]
+Row no: 73
 
     CURR STACK TOP: IS_T - 1; # - T/F? - 70; ENUM - 3:
-Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> OtherModules -> ModuleDef -> Ret -> sEMICOL -> sQBC -> Input_plist -> sQBO -> iNPUT -> tAKES -> eNDDEF -> iD -> [Top]
-LINE: [2] ENUM: 3  TOKEN: ID        : arraySum
+Current Stack: [Bottom] -> iD -> N3 -> cOLON -> DataType -> sEMICOL -> Statements -> eND -> OtherModules -> $ -> [Top]
+LINE: [3] ENUM: 3  TOKEN: ID        : v
 DEBUG: Matched Terminal: 3
 
-    CURR STACK TOP: IS_T - 1; # - T/F? - 66; ENUM - 10:
-Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> OtherModules -> ModuleDef -> Ret -> sEMICOL -> sQBC -> Input_plist -> sQBO -> iNPUT -> tAKES -> eNDDEF -> [Top]
-LINE: [2] ENUM: 10  TOKEN: ID        : >>
-DEBUG: Matched Terminal: 10
-
-    CURR STACK TOP: IS_T - 1; # - T/F? - 81; ENUM - 11:
-Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> OtherModules -> ModuleDef -> Ret -> sEMICOL -> sQBC -> Input_plist -> sQBO -> iNPUT -> tAKES -> [Top]
-LINE: [3] ENUM: 11  TOKEN: ID        : takes
-DEBUG: Matched Terminal: 11
-
-    CURR STACK TOP: IS_T - 1; # - T/F? - 70; ENUM - 12:
-Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> OtherModules -> ModuleDef -> Ret -> sEMICOL -> sQBC -> Input_plist -> sQBO -> iNPUT -> [Top]
-LINE: [3] ENUM: 12  TOKEN: ID        : input
-DEBUG: Matched Terminal: 12
-
-    CURR STACK TOP: IS_T - 1; # - T/F? - 80; ENUM - 13:
-Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> OtherModules -> ModuleDef -> Ret -> sEMICOL -> sQBC -> Input_plist -> sQBO -> [Top]
-LINE: [3] ENUM: 13  TOKEN: ID        : [
-DEBUG: Matched Terminal: 13
-
-    CURR STACK TOP: IS_T - 0; # - T/F? - 38; ENUM - 8:
-Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> OtherModules -> ModuleDef -> Ret -> sEMICOL -> sQBC -> Input_plist -> [Top]
-LINE: [3] ENUM: 3  TOKEN: ID        : list
-DEBUG: Found Rule >>> 
-Name: Input_plist, Enum_T: -1, Enum_NT: 8, IS_A: Non Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> iD -> cOLON -> DataType -> N1 -> [END]
-Row no: 11
-
-    CURR STACK TOP: IS_T - 1; # - T/F? - 70; ENUM - 3:
-Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> OtherModules -> ModuleDef -> Ret -> sEMICOL -> sQBC -> N1 -> DataType -> cOLON -> iD -> [Top]
-LINE: [3] ENUM: 3  TOKEN: ID        : list
-DEBUG: Matched Terminal: 3
-
-    CURR STACK TOP: IS_T - 1; # - T/F? - 64; ENUM - 16:
-Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> OtherModules -> ModuleDef -> Ret -> sEMICOL -> sQBC -> N1 -> DataType -> cOLON -> [Top]
-LINE: [3] ENUM: 16  TOKEN: ID        : :
-DEBUG: Matched Terminal: 16
-
-    CURR STACK TOP: IS_T - 0; # - T/F? - 33; ENUM - 12:
-Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> OtherModules -> ModuleDef -> Ret -> sEMICOL -> sQBC -> N1 -> DataType -> [Top]
-LINE: [3] ENUM: 21  TOKEN: ID        : array
-DEBUG: Found Rule >>> 
-Name: DataType, Enum_T: -1, Enum_NT: 12, IS_A: Non Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> aRRAY -> sQBO -> Range_arrays -> sQBC -> oF -> Type -> [END]
-Row no: 20
-
-    CURR STACK TOP: IS_T - 1; # - T/F? - 62; ENUM - 21:
-Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> OtherModules -> ModuleDef -> Ret -> sEMICOL -> sQBC -> N1 -> Type -> oF -> sQBC -> Range_arrays -> sQBO -> aRRAY -> [Top]
-LINE: [3] ENUM: 21  TOKEN: ID        : array
-DEBUG: Matched Terminal: 21
-
-    CURR STACK TOP: IS_T - 1; # - T/F? - 80; ENUM - 13:
-Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> OtherModules -> ModuleDef -> Ret -> sEMICOL -> sQBC -> N1 -> Type -> oF -> sQBC -> Range_arrays -> sQBO -> [Top]
-LINE: [3] ENUM: 13  TOKEN: ID        : [
-DEBUG: Matched Terminal: 13
-
-    CURR STACK TOP: IS_T - 0; # - T/F? - 47; ENUM - 13:
-Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> OtherModules -> ModuleDef -> Ret -> sEMICOL -> sQBC -> N1 -> Type -> oF -> sQBC -> Range_arrays -> [Top]
-LINE: [3] ENUM: 32 TOKEN: NUM       : 1 
-DEBUG: Found Rule >>> 
-Name: Range_arrays, Enum_T: -1, Enum_NT: 13, IS_A: Non Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> Index_arr -> rANGEOP -> Index_arr -> [END]
-Row no: 21
-
-    CURR STACK TOP: IS_T - 0; # - T/F? - 38; ENUM - 30:
-Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> OtherModules -> ModuleDef -> Ret -> sEMICOL -> sQBC -> N1 -> Type -> oF -> sQBC -> Index_arr -> rANGEOP -> Index_arr -> [Top]
-LINE: [3] ENUM: 32 TOKEN: NUM       : 1 
-DEBUG: Found Rule >>> 
-Name: Index_arr, Enum_T: -1, Enum_NT: 30, IS_A: Non Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> New_index -> [END]
-Row no: 58
-
-    CURR STACK TOP: IS_T - 0; # - T/F? - 43; ENUM - 31:
-Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> OtherModules -> ModuleDef -> Ret -> sEMICOL -> sQBC -> N1 -> Type -> oF -> sQBC -> Index_arr -> rANGEOP -> New_index -> [Top]
-LINE: [3] ENUM: 32 TOKEN: NUM       : 1 
-DEBUG: Found Rule >>> 
-Name: New_index, Enum_T: -1, Enum_NT: 31, IS_A: Non Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> nUM -> [END]
-Row no: 59
-
-    CURR STACK TOP: IS_T - 1; # - T/F? - 75; ENUM - 32:
-Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> OtherModules -> ModuleDef -> Ret -> sEMICOL -> sQBC -> N1 -> Type -> oF -> sQBC -> Index_arr -> rANGEOP -> nUM -> [Top]
-LINE: [3] ENUM: 32 TOKEN: NUM       : 1 
-DEBUG: Matched Terminal: 32
-
-    CURR STACK TOP: IS_T - 1; # - T/F? - 79; ENUM - 23:
-Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> OtherModules -> ModuleDef -> Ret -> sEMICOL -> sQBC -> N1 -> Type -> oF -> sQBC -> Index_arr -> rANGEOP -> [Top]
-LINE: [3] ENUM: 23  TOKEN: ID        : ..
-DEBUG: Matched Terminal: 23
-
-    CURR STACK TOP: IS_T - 0; # - T/F? - 38; ENUM - 30:
-Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> OtherModules -> ModuleDef -> Ret -> sEMICOL -> sQBC -> N1 -> Type -> oF -> sQBC -> Index_arr -> [Top]
-LINE: [3] ENUM: 32 TOKEN: NUM       : 15 
-DEBUG: Found Rule >>> 
-Name: Index_arr, Enum_T: -1, Enum_NT: 30, IS_A: Non Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> New_index -> [END]
-Row no: 58
-
-    CURR STACK TOP: IS_T - 0; # - T/F? - 43; ENUM - 31:
-Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> OtherModules -> ModuleDef -> Ret -> sEMICOL -> sQBC -> N1 -> Type -> oF -> sQBC -> New_index -> [Top]
-LINE: [3] ENUM: 32 TOKEN: NUM       : 15 
-DEBUG: Found Rule >>> 
-Name: New_index, Enum_T: -1, Enum_NT: 31, IS_A: Non Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> nUM -> [END]
-Row no: 59
-
-    CURR STACK TOP: IS_T - 1; # - T/F? - 75; ENUM - 32:
-Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> OtherModules -> ModuleDef -> Ret -> sEMICOL -> sQBC -> N1 -> Type -> oF -> sQBC -> nUM -> [Top]
-LINE: [3] ENUM: 32 TOKEN: NUM       : 15 
-DEBUG: Matched Terminal: 32
-
-    CURR STACK TOP: IS_T - 1; # - T/F? - 80; ENUM - 14:
-Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> OtherModules -> ModuleDef -> Ret -> sEMICOL -> sQBC -> N1 -> Type -> oF -> sQBC -> [Top]
-LINE: [3] ENUM: 14  TOKEN: ID        : ]
-DEBUG: Matched Terminal: 14
-
-    CURR STACK TOP: IS_T - 1; # - T/F? - 76; ENUM - 22:
-Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> OtherModules -> ModuleDef -> Ret -> sEMICOL -> sQBC -> N1 -> Type -> oF -> [Top]
-LINE: [3] ENUM: 22  TOKEN: ID        : of
-DEBUG: Matched Terminal: 22
-
-    CURR STACK TOP: IS_T - 0; # - T/F? - 49; ENUM - 14:
-Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> OtherModules -> ModuleDef -> Ret -> sEMICOL -> sQBC -> N1 -> Type -> [Top]
-LINE: [3] ENUM: 19  TOKEN: ID        : real
-DEBUG: Found Rule >>> 
-Name: Type, Enum_T: -1, Enum_NT: 14, IS_A: Non Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> rEAL -> [END]
-Row no: 23
-
-    CURR STACK TOP: IS_T - 1; # - T/F? - 79; ENUM - 19:
-Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> OtherModules -> ModuleDef -> Ret -> sEMICOL -> sQBC -> N1 -> rEAL -> [Top]
-LINE: [3] ENUM: 19  TOKEN: ID        : real
-DEBUG: Matched Terminal: 19
-
-    CURR STACK TOP: IS_T - 0; # - T/F? - 43; ENUM - 9:
-Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> OtherModules -> ModuleDef -> Ret -> sEMICOL -> sQBC -> N1 -> [Top]
+    CURR STACK TOP: IS_T - 0; # - T/F? - 43; ENUM - 37:
+Current Stack: [Bottom] -> N3 -> cOLON -> DataType -> sEMICOL -> Statements -> eND -> OtherModules -> $ -> [Top]
 LINE: [3] ENUM: 17  TOKEN: ID        : ,
 DEBUG: Found Rule >>> 
-Name: N1, Enum_T: -1, Enum_NT: 9, IS_A: Non Terminal
+Name: N3, Enum_T: -1, Enum_NT: 37, IS_A: Non Terminal
 First: List is empty
 Follow: List is empty
-Right: [HEAD] -> cOMMA -> iD -> cOLON -> DataType -> N1 -> [END]
-Row no: 12
+Right: [HEAD] -> cOMMA -> iD -> N3 -> [END]
+Row no: 74
 
     CURR STACK TOP: IS_T - 1; # - T/F? - 64; ENUM - 17:
-Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> OtherModules -> ModuleDef -> Ret -> sEMICOL -> sQBC -> N1 -> DataType -> cOLON -> iD -> cOMMA -> [Top]
+Current Stack: [Bottom] -> cOMMA -> iD -> N3 -> cOLON -> DataType -> sEMICOL -> Statements -> eND -> OtherModules -> $ -> [Top]
 LINE: [3] ENUM: 17  TOKEN: ID        : ,
 DEBUG: Matched Terminal: 17
 
     CURR STACK TOP: IS_T - 1; # - T/F? - 70; ENUM - 3:
-Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> OtherModules -> ModuleDef -> Ret -> sEMICOL -> sQBC -> N1 -> DataType -> cOLON -> iD -> [Top]
-LINE: [3] ENUM: 3  TOKEN: ID        : n
+Current Stack: [Bottom] -> iD -> N3 -> cOLON -> DataType -> sEMICOL -> Statements -> eND -> OtherModules -> $ -> [Top]
+LINE: [3] ENUM: 3  TOKEN: ID        : w
 DEBUG: Matched Terminal: 3
 
+    CURR STACK TOP: IS_T - 0; # - T/F? - 43; ENUM - 37:
+Current Stack: [Bottom] -> N3 -> cOLON -> DataType -> sEMICOL -> Statements -> eND -> OtherModules -> $ -> [Top]
+LINE: [3] ENUM: 17  TOKEN: ID        : ,
+DEBUG: Found Rule >>> 
+Name: N3, Enum_T: -1, Enum_NT: 37, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> cOMMA -> iD -> N3 -> [END]
+Row no: 74
+
+    CURR STACK TOP: IS_T - 1; # - T/F? - 64; ENUM - 17:
+Current Stack: [Bottom] -> cOMMA -> iD -> N3 -> cOLON -> DataType -> sEMICOL -> Statements -> eND -> OtherModules -> $ -> [Top]
+LINE: [3] ENUM: 17  TOKEN: ID        : ,
+DEBUG: Matched Terminal: 17
+
+    CURR STACK TOP: IS_T - 1; # - T/F? - 70; ENUM - 3:
+Current Stack: [Bottom] -> iD -> N3 -> cOLON -> DataType -> sEMICOL -> Statements -> eND -> OtherModules -> $ -> [Top]
+LINE: [3] ENUM: 3  TOKEN: ID        : r
+DEBUG: Matched Terminal: 3
+
+    CURR STACK TOP: IS_T - 0; # - T/F? - 43; ENUM - 37:
+Current Stack: [Bottom] -> N3 -> cOLON -> DataType -> sEMICOL -> Statements -> eND -> OtherModules -> $ -> [Top]
+LINE: [3] ENUM: 16  TOKEN: ID        : :
+DEBUG: Found Rule >>> 
+Name: N3, Enum_T: -1, Enum_NT: 37, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> # -> [END]
+Row no: 75
+
+    CURR STACK TOP: IS_T - 1; # - T/F? - 0; ENUM - 0:
+Current Stack: [Bottom] -> # -> cOLON -> DataType -> sEMICOL -> Statements -> eND -> OtherModules -> $ -> [Top]
+LINE: [3] ENUM: 16  TOKEN: ID        : :
+DEBUG: Found #
+
     CURR STACK TOP: IS_T - 1; # - T/F? - 64; ENUM - 16:
-Current Stack: [Bottom] -> $ -> OtherModules -> DriverModule -> OtherModules -> ModuleDef -> Ret -> sEMICOL -> sQBC -> N1 -> DataType -> cOLON -> [Top]
+Current Stack: [Bottom] -> cOLON -> DataType -> sEMICOL -> Statements -> eND -> OtherModules -> $ -> [Top]
+LINE: [3] ENUM: 16  TOKEN: ID        : :
+DEBUG: Matched Terminal: 16
+
+    CURR STACK TOP: IS_T - 0; # - T/F? - 33; ENUM - 12:
+Current Stack: [Bottom] -> DataType -> sEMICOL -> Statements -> eND -> OtherModules -> $ -> [Top]
 LINE: [3] ENUM: 18  TOKEN: ID        : integer
-ERROR: Terminals Don't Match! (STACK TERM: 16, TOKEN: 18)
+DEBUG: Found Rule >>> 
+Name: DataType, Enum_T: -1, Enum_NT: 12, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> iNTEGER -> [END]
+Row no: 17
+
+    CURR STACK TOP: IS_T - 1; # - T/F? - 70; ENUM - 18:
+Current Stack: [Bottom] -> iNTEGER -> sEMICOL -> Statements -> eND -> OtherModules -> $ -> [Top]
+LINE: [3] ENUM: 18  TOKEN: ID        : integer
+DEBUG: Matched Terminal: 18
+
+    CURR STACK TOP: IS_T - 1; # - T/F? - 80; ENUM - 4:
+Current Stack: [Bottom] -> sEMICOL -> Statements -> eND -> OtherModules -> $ -> [Top]
+LINE: [3] ENUM: 4  TOKEN: ID        : ;
+DEBUG: Matched Terminal: 4
+
+    CURR STACK TOP: IS_T - 0; # - T/F? - 48; ENUM - 16:
+Current Stack: [Bottom] -> Statements -> eND -> OtherModules -> $ -> [Top]
+LINE: [4] ENUM: 26  TOKEN: ID        : get_value
+DEBUG: Found Rule >>> 
+Name: Statements, Enum_T: -1, Enum_NT: 16, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> Statement -> Statements -> [END]
+Row no: 26
+
+    CURR STACK TOP: IS_T - 0; # - T/F? - 48; ENUM - 17:
+Current Stack: [Bottom] -> Statement -> Statements -> eND -> OtherModules -> $ -> [Top]
+LINE: [4] ENUM: 26  TOKEN: ID        : get_value
+DEBUG: Found Rule >>> 
+Name: Statement, Enum_T: -1, Enum_NT: 17, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> IoStmt -> [END]
+Row no: 28
+
+    CURR STACK TOP: IS_T - 0; # - T/F? - 38; ENUM - 18:
+Current Stack: [Bottom] -> IoStmt -> Statements -> eND -> OtherModules -> $ -> [Top]
+LINE: [4] ENUM: 26  TOKEN: ID        : get_value
+DEBUG: Found Rule >>> 
+Name: IoStmt, Enum_T: -1, Enum_NT: 18, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> gET_VALUE -> bO -> iD -> bC -> sEMICOL -> [END]
+Row no: 33
+
+    CURR STACK TOP: IS_T - 1; # - T/F? - 68; ENUM - 26:
+Current Stack: [Bottom] -> gET_VALUE -> bO -> iD -> bC -> sEMICOL -> Statements -> eND -> OtherModules -> $ -> [Top]
+LINE: [4] ENUM: 26  TOKEN: ID        : get_value
+DEBUG: Matched Terminal: 26
+
+    CURR STACK TOP: IS_T - 1; # - T/F? - 63; ENUM - 27:
+Current Stack: [Bottom] -> bO -> iD -> bC -> sEMICOL -> Statements -> eND -> OtherModules -> $ -> [Top]
+LINE: [4] ENUM: 27  TOKEN: ID        : (
+DEBUG: Matched Terminal: 27
+
+    CURR STACK TOP: IS_T - 1; # - T/F? - 70; ENUM - 3:
+Current Stack: [Bottom] -> iD -> bC -> sEMICOL -> Statements -> eND -> OtherModules -> $ -> [Top]
+LINE: [4] ENUM: 3  TOKEN: ID        : v
+DEBUG: Matched Terminal: 3
+
+    CURR STACK TOP: IS_T - 1; # - T/F? - 63; ENUM - 28:
+Current Stack: [Bottom] -> bC -> sEMICOL -> Statements -> eND -> OtherModules -> $ -> [Top]
+LINE: [4] ENUM: 28  TOKEN: ID        : )
+DEBUG: Matched Terminal: 28
+
+    CURR STACK TOP: IS_T - 1; # - T/F? - 80; ENUM - 4:
+Current Stack: [Bottom] -> sEMICOL -> Statements -> eND -> OtherModules -> $ -> [Top]
+LINE: [4] ENUM: 4  TOKEN: ID        : ;
+DEBUG: Matched Terminal: 4
+
+    CURR STACK TOP: IS_T - 0; # - T/F? - 48; ENUM - 16:
+Current Stack: [Bottom] -> Statements -> eND -> OtherModules -> $ -> [Top]
+LINE: [5] ENUM: 3  TOKEN: ID        : w
+DEBUG: Found Rule >>> 
+Name: Statements, Enum_T: -1, Enum_NT: 16, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> Statement -> Statements -> [END]
+Row no: 26
+
+    CURR STACK TOP: IS_T - 0; # - T/F? - 48; ENUM - 17:
+Current Stack: [Bottom] -> Statement -> Statements -> eND -> OtherModules -> $ -> [Top]
+LINE: [5] ENUM: 3  TOKEN: ID        : w
+DEBUG: Found Rule >>> 
+Name: Statement, Enum_T: -1, Enum_NT: 17, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> SimpleStmt -> [END]
+Row no: 29
+
+    CURR STACK TOP: IS_T - 0; # - T/F? - 48; ENUM - 25:
+Current Stack: [Bottom] -> SimpleStmt -> Statements -> eND -> OtherModules -> $ -> [Top]
+LINE: [5] ENUM: 3  TOKEN: ID        : w
+DEBUG: Found Rule >>> 
+Name: SimpleStmt, Enum_T: -1, Enum_NT: 25, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> AssignmentStmt -> [END]
+Row no: 50
+
+    CURR STACK TOP: IS_T - 0; # - T/F? - 30; ENUM - 26:
+Current Stack: [Bottom] -> AssignmentStmt -> Statements -> eND -> OtherModules -> $ -> [Top]
+LINE: [5] ENUM: 3  TOKEN: ID        : w
+DEBUG: Found Rule >>> 
+Name: AssignmentStmt, Enum_T: -1, Enum_NT: 26, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> iD -> WhichStmt -> [END]
+Row no: 52
+
+    CURR STACK TOP: IS_T - 1; # - T/F? - 70; ENUM - 3:
+Current Stack: [Bottom] -> iD -> WhichStmt -> Statements -> eND -> OtherModules -> $ -> [Top]
+LINE: [5] ENUM: 3  TOKEN: ID        : w
+DEBUG: Matched Terminal: 3
+
+    CURR STACK TOP: IS_T - 0; # - T/F? - 52; ENUM - 27:
+Current Stack: [Bottom] -> WhichStmt -> Statements -> eND -> OtherModules -> $ -> [Top]
+LINE: [5] ENUM: 34  TOKEN: ID        : :=
+DEBUG: Found Rule >>> 
+Name: WhichStmt, Enum_T: -1, Enum_NT: 27, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> LvalueIDStmt -> [END]
+Row no: 53
+
+    CURR STACK TOP: IS_T - 0; # - T/F? - 41; ENUM - 28:
+Current Stack: [Bottom] -> LvalueIDStmt -> Statements -> eND -> OtherModules -> $ -> [Top]
+LINE: [5] ENUM: 34  TOKEN: ID        : :=
+DEBUG: Found Rule >>> 
+Name: LvalueIDStmt, Enum_T: -1, Enum_NT: 28, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> aSSIGNOP -> Expression -> sEMICOL -> [END]
+Row no: 55
+
+    CURR STACK TOP: IS_T - 1; # - T/F? - 62; ENUM - 34:
+Current Stack: [Bottom] -> aSSIGNOP -> Expression -> sEMICOL -> Statements -> eND -> OtherModules -> $ -> [Top]
+LINE: [5] ENUM: 34  TOKEN: ID        : :=
+DEBUG: Matched Terminal: 34
+
+    CURR STACK TOP: IS_T - 0; # - T/F? - 34; ENUM - 38:
+Current Stack: [Bottom] -> Expression -> sEMICOL -> Statements -> eND -> OtherModules -> $ -> [Top]
+LINE: [5] ENUM: 32 TOKEN: NUM       : 5 
+DEBUG: Found Rule >>> 
+Name: Expression, Enum_T: -1, Enum_NT: 38, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> ArithmeticOrBooleanExpr -> [END]
+Row no: 76
+
+    CURR STACK TOP: IS_T - 0; # - T/F? - 30; ENUM - 42:
+Current Stack: [Bottom] -> ArithmeticOrBooleanExpr -> sEMICOL -> Statements -> eND -> OtherModules -> $ -> [Top]
+LINE: [5] ENUM: 32 TOKEN: NUM       : 5 
+DEBUG: Found Rule >>> 
+Name: ArithmeticOrBooleanExpr, Enum_T: -1, Enum_NT: 42, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> AnyTerm -> N7 -> [END]
+Row no: 83
+
+    CURR STACK TOP: IS_T - 0; # - T/F? - 30; ENUM - 44:
+Current Stack: [Bottom] -> AnyTerm -> N7 -> sEMICOL -> Statements -> eND -> OtherModules -> $ -> [Top]
+LINE: [5] ENUM: 32 TOKEN: NUM       : 5 
+DEBUG: Found Rule >>> 
+Name: AnyTerm, Enum_T: -1, Enum_NT: 44, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> ArithmeticExpr -> N8 -> [END]
+Row no: 86
+
+    CURR STACK TOP: IS_T - 0; # - T/F? - 30; ENUM - 46:
+Current Stack: [Bottom] -> ArithmeticExpr -> N8 -> N7 -> sEMICOL -> Statements -> eND -> OtherModules -> $ -> [Top]
+LINE: [5] ENUM: 32 TOKEN: NUM       : 5 
+DEBUG: Found Rule >>> 
+Name: ArithmeticExpr, Enum_T: -1, Enum_NT: 46, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> Term -> N4 -> [END]
+Row no: 89
+
+    CURR STACK TOP: IS_T - 0; # - T/F? - 49; ENUM - 48:
+Current Stack: [Bottom] -> Term -> N4 -> N8 -> N7 -> sEMICOL -> Statements -> eND -> OtherModules -> $ -> [Top]
+LINE: [5] ENUM: 32 TOKEN: NUM       : 5 
+DEBUG: Found Rule >>> 
+Name: Term, Enum_T: -1, Enum_NT: 48, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> Factor -> N5 -> [END]
+Row no: 92
+
+    CURR STACK TOP: IS_T - 0; # - T/F? - 35; ENUM - 50:
+Current Stack: [Bottom] -> Factor -> N5 -> N4 -> N8 -> N7 -> sEMICOL -> Statements -> eND -> OtherModules -> $ -> [Top]
+LINE: [5] ENUM: 32 TOKEN: NUM       : 5 
+DEBUG: Found Rule >>> 
+Name: Factor, Enum_T: -1, Enum_NT: 50, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> nUM -> [END]
+Row no: 96
+
+    CURR STACK TOP: IS_T - 1; # - T/F? - 75; ENUM - 32:
+Current Stack: [Bottom] -> nUM -> N5 -> N4 -> N8 -> N7 -> sEMICOL -> Statements -> eND -> OtherModules -> $ -> [Top]
+LINE: [5] ENUM: 32 TOKEN: NUM       : 5 
+DEBUG: Matched Terminal: 32
+
+    CURR STACK TOP: IS_T - 0; # - T/F? - 43; ENUM - 49:
+Current Stack: [Bottom] -> N5 -> N4 -> N8 -> N7 -> sEMICOL -> Statements -> eND -> OtherModules -> $ -> [Top]
+LINE: [5] ENUM: 4  TOKEN: ID        : ;
+DEBUG: Found Rule >>> 
+Name: N5, Enum_T: -1, Enum_NT: 49, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> # -> [END]
+Row no: 94
+
+    CURR STACK TOP: IS_T - 1; # - T/F? - 0; ENUM - 0:
+Current Stack: [Bottom] -> # -> N4 -> N8 -> N7 -> sEMICOL -> Statements -> eND -> OtherModules -> $ -> [Top]
+LINE: [5] ENUM: 4  TOKEN: ID        : ;
+DEBUG: Found #
+
+    CURR STACK TOP: IS_T - 0; # - T/F? - 43; ENUM - 47:
+Current Stack: [Bottom] -> N4 -> N8 -> N7 -> sEMICOL -> Statements -> eND -> OtherModules -> $ -> [Top]
+LINE: [5] ENUM: 4  TOKEN: ID        : ;
+DEBUG: Found Rule >>> 
+Name: N4, Enum_T: -1, Enum_NT: 47, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> # -> [END]
+Row no: 91
+
+    CURR STACK TOP: IS_T - 1; # - T/F? - 0; ENUM - 0:
+Current Stack: [Bottom] -> # -> N8 -> N7 -> sEMICOL -> Statements -> eND -> OtherModules -> $ -> [Top]
+LINE: [5] ENUM: 4  TOKEN: ID        : ;
+DEBUG: Found #
+
+    CURR STACK TOP: IS_T - 0; # - T/F? - 43; ENUM - 45:
+Current Stack: [Bottom] -> N8 -> N7 -> sEMICOL -> Statements -> eND -> OtherModules -> $ -> [Top]
+LINE: [5] ENUM: 4  TOKEN: ID        : ;
+DEBUG: Found Rule >>> 
+Name: N8, Enum_T: -1, Enum_NT: 45, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> # -> [END]
+Row no: 88
+
+    CURR STACK TOP: IS_T - 1; # - T/F? - 0; ENUM - 0:
+Current Stack: [Bottom] -> # -> N7 -> sEMICOL -> Statements -> eND -> OtherModules -> $ -> [Top]
+LINE: [5] ENUM: 4  TOKEN: ID        : ;
+DEBUG: Found #
+
+    CURR STACK TOP: IS_T - 0; # - T/F? - 43; ENUM - 43:
+Current Stack: [Bottom] -> N7 -> sEMICOL -> Statements -> eND -> OtherModules -> $ -> [Top]
+LINE: [5] ENUM: 4  TOKEN: ID        : ;
+DEBUG: Found Rule >>> 
+Name: N7, Enum_T: -1, Enum_NT: 43, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> # -> [END]
+Row no: 85
+
+    CURR STACK TOP: IS_T - 1; # - T/F? - 0; ENUM - 0:
+Current Stack: [Bottom] -> # -> sEMICOL -> Statements -> eND -> OtherModules -> $ -> [Top]
+LINE: [5] ENUM: 4  TOKEN: ID        : ;
+DEBUG: Found #
+
+    CURR STACK TOP: IS_T - 1; # - T/F? - 80; ENUM - 4:
+Current Stack: [Bottom] -> sEMICOL -> Statements -> eND -> OtherModules -> $ -> [Top]
+LINE: [5] ENUM: 4  TOKEN: ID        : ;
+DEBUG: Matched Terminal: 4
+
+    CURR STACK TOP: IS_T - 0; # - T/F? - 48; ENUM - 16:
+Current Stack: [Bottom] -> Statements -> eND -> OtherModules -> $ -> [Top]
+LINE: [6] ENUM: 25  TOKEN: ID        : end
+DEBUG: Found Rule >>> 
+Name: Statements, Enum_T: -1, Enum_NT: 16, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> # -> [END]
+Row no: 27
+
+    CURR STACK TOP: IS_T - 1; # - T/F? - 0; ENUM - 0:
+Current Stack: [Bottom] -> # -> eND -> OtherModules -> $ -> [Top]
+LINE: [6] ENUM: 25  TOKEN: ID        : end
+DEBUG: Found #
+
+    CURR STACK TOP: IS_T - 1; # - T/F? - 66; ENUM - 25:
+Current Stack: [Bottom] -> eND -> OtherModules -> $ -> [Top]
+LINE: [6] ENUM: 25  TOKEN: ID        : end
+DEBUG: Matched Terminal: 25
+
+    CURR STACK TOP: IS_T - 0; # - T/F? - 44; ENUM - 4:
+Current Stack: [Bottom] -> OtherModules -> $ -> [Top]
+LINE: [7] ENUM: 1  TOKEN: EOF/DOLLAR: EOF
+DEBUG: Found Rule >>> 
+Name: OtherModules, Enum_T: -1, Enum_NT: 4, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> # -> [END]
+Row no: 6
+
+    CURR STACK TOP: IS_T - 1; # - T/F? - 0; ENUM - 0:
+Current Stack: [Bottom] -> # -> $ -> [Top]
+LINE: [7] ENUM: 1  TOKEN: EOF/DOLLAR: EOF
+DEBUG: Found #
+
+    CURR STACK TOP: IS_T - 1; # - T/F? - 1; ENUM - 1:
+Current Stack: [Bottom] -> $ -> [Top]
+LINE: [7] ENUM: 1  TOKEN: EOF/DOLLAR: EOF
+DEBUG: Matched Terminal: 1
 
 PARSING COMPLETE.
