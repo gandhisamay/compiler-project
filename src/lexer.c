@@ -54,6 +54,10 @@ terminals lookup(char *lexeme)
 void populate_lookup()
 {
     insert("integer", iNTEGER, Lookup_Table);
+    insert("AND", aND, Lookup_Table);
+    insert("OR", oR, Lookup_Table);
+    insert("true", tRUE, Lookup_Table);
+    insert("false", fALSE, Lookup_Table);
     insert("real", rEAL, Lookup_Table);
     insert("boolean", bOOLEAN, Lookup_Table);
     insert("of", oF, Lookup_Table);
@@ -874,7 +878,7 @@ int test_lexer_run(char *program_file, char *tokenized_file)
 
     lexer_reset(test_fp);
     TOKEN curr;
-    TOKEN arr[200];
+    TOKEN arr[300];
     int i = 0;
     curr.name = lEX_ERROR; // setting initially for multiple rounds of tests
     while (curr.name != $)
@@ -890,41 +894,19 @@ int test_lexer_run(char *program_file, char *tokenized_file)
     {
         curr = arr[j];
         print_token_details(curr, token_fp);
-        /* if (curr.name == nUM) */
-        /* { */
-        /*     fprintf(token_fp, "LINE: [%d] TOKEN: NUM       : %d \n", curr.line, curr.num); */
-        /*     printf("LINE: [%d] TOKEN: NUM       : %d \n", curr.line, curr.num); */
-        /* } */
-        /* else if (curr.name == rNUM) */
-        /* { */
-        /*     fprintf(token_fp, "LINE: [%d] TOKEN: RNUM      : %f \n", curr.line, curr.rnum); */
-        /*     printf("LINE: [%d] TOKEN: RNUM      : %f \n", curr.line, curr.rnum); */
-        /* } */
-        /* else if (curr.name == $) */
-        /* { */
-        /*     fprintf(token_fp, "LINE: [%d] TOKEN: EOF/DOLLAR: %s\n", curr.line, curr.id); */
-        /*     printf("LINE: [%d] TOKEN: EOF/DOLLAR: %s\n", curr.line, curr.id); */
-        /* } */
-        /* else if (curr.name == lEX_ERROR) */
-        /* { */
-        /*     fprintf(token_fp, "LINE: [%d] TOKEN: ERROR     : %s\n", curr.line, curr.id); */
-        /*     printf("LINE: [%d] TOKEN: ERROR     : %s\n", curr.line, curr.id); */
-        /* } */
-        /* else */
-        /* { */
-        /*     fprintf(token_fp, "LINE: [%d] TOKEN: ID        : %s\n", curr.line, curr.id); */
-        /*     printf("LINE: [%d] TOKEN: ID        : %s\n", curr.line, curr.id); */
-        /* } */
     }
     fclose(test_fp);
     fclose(token_fp);
+
     printf("\n\nSubroutine Complete:- %d TOKENS\n\n", i);
     return 1;
 }
 
 /* int main(){  */
-/*     char* test_file_1 = "../tests/test_lexer_1.txt.uncommented.txt";  */
+/*     // char* test_file_1 = "../tests/test_cases_stage_1/t5.txt";  */
+/*     char* test_file_1 = "../tests/test_lexer_4.txt";   */
 /*     char* tokenized_file = "test_tokenized.txt";  */
 /*     test_lexer_run(test_file_1, tokenized_file);  */
+/*     printf("\nLEXING COMPLETE\n"); */
 /*     return 0;  */
 /* }  */
