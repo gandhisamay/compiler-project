@@ -84,7 +84,7 @@ void print_symbol_details(Symbol *s) {
   printf("[END]\n");
 
   printf("Row no: %d\n", s->row_no);
-  printf("\n");
+  /* printf("\n"); */
 }
 
 // Assuming that the terminal or non terminal length in the grammar will not
