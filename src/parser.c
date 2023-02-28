@@ -81,8 +81,8 @@ void start_parsing(char *program_file){
 }
 
 int main(){
-    /* char *grammar_file = "../grammar.txt"; */
-    char *grammar_file = "grammar.txt";
+    char *grammar_file = "../grammar.txt";
+    /* char *grammar_file = "grammar.txt"; */
     initialize_parser(grammar_file);
     // starting lexer
     printf("\n\nStarting lexer...\n");

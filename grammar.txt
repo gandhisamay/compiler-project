@@ -141,5 +141,5 @@ Sign_for_loop = mINUS
 Sign_for_loop = #
 Range_Index = nUM
 Range_Index = Unary_op nUM
-Array_Index = Index
+Array_Index = New_index
 Array_Index = Unary_op Index
