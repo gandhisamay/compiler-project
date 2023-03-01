@@ -248,17 +248,22 @@ void build_grammar(char *grammar_file) {
 
         if (isupper(symbol_name[0])){
           new->is_terminal = false;
-          for(int i=0; i<N_TERMINAL_SYM; i++)
-            if(strcmp(new->name, n_term_str[i]) == 0)
-              new->non_terminal = i;
+          for(int k=0; k<N_TERMINAL_SYM; k++){
+            if(strcmp(new->name, n_term_str[k]) == 0){
+              new->non_terminal = k;
               new->terminal = -1;
+              NT_TO_ROW[k] = i;
+            }
+          }
         }
         else{
           new->is_terminal = true;
-          for(int i=0; i<TERMINAL_SYM; i++)
-            if(strcmp(new->name, term_str[i]) == 0)
-              new->terminal = i;
+          for(int k=0; k<TERMINAL_SYM; k++){
+            if(strcmp(new->name, term_str[k]) == 0){
+              new->terminal = k;
               new->non_terminal = -1;
+            }
+          }
         }
 
         prev = new;

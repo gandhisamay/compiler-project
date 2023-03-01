@@ -170,6 +170,8 @@ typedef enum
 
 char *n_term_str[] = {"S", "Program", "ModuleDeclarations", "ModuleDeclaration", "OtherModules", "DriverModule", "Module", "Ret", "Input_plist", "N1", "Output_plist", "N2", "DataType", "Range_arrays", "Type", "ModuleDef", "Statements", "Statement", "IoStmt", "BoolConstt", "Id_num_rnum", "Var_id_num", "Array_element_for_print", "Var_print", "P1", "SimpleStmt", "AssignmentStmt", "WhichStmt", "LvalueIDStmt", "LvalueARRStmt", "Index_arr", "New_index", "Sign", "ModuleReuseStmt", "Actual_para_list", "Optional", "IdList", "N3", "Expression", "U", "New_NT", "Unary_op", "ArithmeticOrBooleanExpr", "N7", "AnyTerm", "N8", "ArithmeticExpr", "N4", "Term", "N5", "Factor", "N11", "Element_index_with_expressions", "N10", "ArrExpr", "Arr_N4", "ArrTerm", "Arr_N5", "ArrFactor", "Op1", "Op2", "LogicalOp", "RelationalOp", "DeclareStmt", "ConditionalStmt", "CaseStmts", "N9", "Value", "Default", "IterativeStmt", "Range", "Range_for_loop", "Index_for_loop", "New_index_for_loop", "Sign_for_loop", "Actual_para_list1", "Actual_para_iD", "N_TERMINAL_SYM"};
 
+int NT_TO_ROW[N_TERMINAL_SYM];
+
 /* char *n_term_str[] = {"S","Program","ModuleDeclarations","ModuleDeclaration","OtherModules","DriverModule","Module","Ret","Input_plist","Inpl_1","Output_plist","Onpl_1","DataType","Range_Array","Type","ModuleDef","Statements","Statement","IoStmt","Var_id_num","Array_element_for_print","Var_print","Arr_value","BoolConstt","SimpleStmt","AssignmentStmt","WhichStmt","LvalueiDStmt","LvalueARRStmt","Array_Index","New_index","Sign","ModuleReuseStmt","Actual_para_list","Optional","IdList","Idl_1","Expression","U","New_NT","Unary_op","ArithmeticOrBooleanExpr","N7","AnyTerm","N8","ArithmeticExpr","N4","Term","N5","Factor","N11","Element_index_with_expressions","ArrExpr","Arr_N4","ArrTerm","Arr_N5","ArrFactor","Op1","Op2","LogicalOp","RelationalOp","DeclareStmt","ConditionalStmt","CaseStmts","N9","Value","Default","IterativeStmt","Range","Range_for_loop","Index_for_loop","New_index_for_loop","Sign_for_loop","Range_Index","N_TERMINAL_SYM"}; */
 
 typedef struct Symbol
@@ -220,3 +222,12 @@ bool is_empty_stack(LinkedList *stack);
 void pop_stack(LinkedList *stack);
 Symbol *top_stack(LinkedList *stack);
 void print_stack(LinkedList *stack, FILE *debug_fp);
+
+// Debugging use cases
+#define PRINT_RED     "\x1b[31m"
+#define PRINT_GREEN   "\x1b[32m"
+#define PRINT_YELLOW  "\x1b[33m"
+#define PRINT_BLUE    "\x1b[34m"
+#define PRINT_MAGENTA "\x1b[35m"
+#define PRINT_CYAN    "\x1b[36m"
+#define PRINT_RESET   "\x1b[0m"
