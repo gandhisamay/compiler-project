@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ==============>  Name: dECLARE, Enum_T: 0, Enum_NT: -1, IS_A: Terminal
 First: List is empty
 Follow: List is empty
@@ -62,53 +61,340 @@ Right: [HEAD] -> $ -> [END]
 Row no: 0
 
 
+==============>  Name: dEF, Enum_T: 9, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> mODULE -> iD -> eNDDEF -> tAKES -> iNPUT -> sQBO -> Input_plist -> sQBC -> sEMICOL -> Ret -> ModuleDef -> [END]
+Row no: 8
+
+
+==============>  Name: Module, Enum_T: -1, Enum_NT: 6, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> OtherModules -> [END]
+Row no: 5
+
+
+==============>  Name: mODULE, Enum_T: 2, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> iD -> eNDDEF -> tAKES -> iNPUT -> sQBO -> Input_plist -> sQBC -> sEMICOL -> Ret -> ModuleDef -> [END]
+Row no: 8
+
+
+==============>  Name: iD, Enum_T: 3, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> eNDDEF -> tAKES -> iNPUT -> sQBO -> Input_plist -> sQBC -> sEMICOL -> Ret -> ModuleDef -> [END]
+Row no: 8
+
+
+==============>  Name: eNDDEF, Enum_T: 10, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> tAKES -> iNPUT -> sQBO -> Input_plist -> sQBC -> sEMICOL -> Ret -> ModuleDef -> [END]
+Row no: 8
+
+
+==============>  Name: tAKES, Enum_T: 11, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> iNPUT -> sQBO -> Input_plist -> sQBC -> sEMICOL -> Ret -> ModuleDef -> [END]
+Row no: 8
+
+
+==============>  Name: iNPUT, Enum_T: 12, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> sQBO -> Input_plist -> sQBC -> sEMICOL -> Ret -> ModuleDef -> [END]
+Row no: 8
+
+
+==============>  Name: sQBO, Enum_T: 13, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> Input_plist -> sQBC -> sEMICOL -> Ret -> ModuleDef -> [END]
+Row no: 8
+
+
+==============>  Name: iD, Enum_T: 3, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> cOLON -> DataType -> N1 -> [END]
+Row no: 11
+
+
+==============>  Name: Input_plist, Enum_T: -1, Enum_NT: 8, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> sQBC -> sEMICOL -> Ret -> ModuleDef -> [END]
+Row no: 8
+
+
+==============>  Name: cOLON, Enum_T: 16, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> DataType -> N1 -> [END]
+Row no: 11
+
+
+==============>  Name: aRRAY, Enum_T: 21, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> sQBO -> Range_arrays -> sQBC -> oF -> Type -> [END]
+Row no: 20
+
+
+==============>  Name: DataType, Enum_T: -1, Enum_NT: 12, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> N1 -> [END]
+Row no: 11
+
+
+==============>  Name: sQBO, Enum_T: 13, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> Range_arrays -> sQBC -> oF -> Type -> [END]
+Row no: 20
+
+
+==============>  Name: nUM, Enum_T: 32, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> [END]
+Row no: 59
+
+
+==============>  Name: New_index, Enum_T: -1, Enum_NT: 31, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> [END]
+Row no: 58
+
+
+==============>  Name: Index_arr, Enum_T: -1, Enum_NT: 30, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> rANGEOP -> Index_arr -> [END]
+Row no: 21
+
+
+==============>  Name: Range_arrays, Enum_T: -1, Enum_NT: 13, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> sQBC -> oF -> Type -> [END]
+Row no: 20
+
+
+==============>  Name: rANGEOP, Enum_T: 23, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> Index_arr -> [END]
+Row no: 21
+
+
+==============>  Name: nUM, Enum_T: 32, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> [END]
+Row no: 59
+
+
+==============>  Name: New_index, Enum_T: -1, Enum_NT: 31, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> [END]
+Row no: 58
+
+
+==============>  Name: Index_arr, Enum_T: -1, Enum_NT: 30, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> [END]
+Row no: 21
+
+
+==============>  Name: sQBC, Enum_T: 14, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> oF -> Type -> [END]
+Row no: 20
+
+
+==============>  Name: oF, Enum_T: 22, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> Type -> [END]
+Row no: 20
+
+
+==============>  Name: rEAL, Enum_T: 19, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> [END]
+Row no: 23
+
+
+==============>  Name: Type, Enum_T: -1, Enum_NT: 14, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> [END]
+Row no: 20
+
+
+==============>  Name: cOMMA, Enum_T: 17, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> iD -> cOLON -> DataType -> N1 -> [END]
+Row no: 12
+
+
+==============>  Name: N1, Enum_T: -1, Enum_NT: 9, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> [END]
+Row no: 11
+
+
+==============>  Name: iD, Enum_T: 3, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> cOLON -> DataType -> N1 -> [END]
+Row no: 12
+
+
+==============>  Name: cOLON, Enum_T: 16, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> DataType -> N1 -> [END]
+Row no: 12
+
+
+==============>  Name: iNTEGER, Enum_T: 18, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> [END]
+Row no: 17
+
+
+==============>  Name: DataType, Enum_T: -1, Enum_NT: 12, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> N1 -> [END]
+Row no: 12
+
+
 ==============>  Name: #, Enum_T: 0, Enum_NT: 0, IS_A: Terminal
 First: List is empty
 Follow: List is empty
 Right: [HEAD] -> [END]
-Row no: 6
+Row no: 13
 
 
-==============>  Name: OtherModules, Enum_T: -1, Enum_NT: 4, IS_A: Non Terminal
+==============>  Name: N1, Enum_T: -1, Enum_NT: 9, IS_A: Non Terminal
 First: List is empty
 Follow: List is empty
-Right: [HEAD] -> DriverModule -> OtherModules -> [END]
-Row no: 1
+Right: [HEAD] -> [END]
+Row no: 12
 
 
-==============>  Name: dRIVERDEF, Enum_T: 5, Enum_NT: -1, IS_A: Terminal
+==============>  Name: sQBC, Enum_T: 14, Enum_NT: -1, IS_A: Terminal
 First: List is empty
 Follow: List is empty
-Right: [HEAD] -> dRIVER -> pROGRAM -> dRIVERENDDEF -> ModuleDef -> [END]
-Row no: 7
+Right: [HEAD] -> sEMICOL -> Ret -> ModuleDef -> [END]
+Row no: 8
 
 
-==============>  Name: DriverModule, Enum_T: -1, Enum_NT: 5, IS_A: Non Terminal
+==============>  Name: sEMICOL, Enum_T: 4, Enum_NT: -1, IS_A: Terminal
 First: List is empty
 Follow: List is empty
-Right: [HEAD] -> OtherModules -> [END]
-Row no: 1
+Right: [HEAD] -> Ret -> ModuleDef -> [END]
+Row no: 8
 
 
-==============>  Name: dRIVER, Enum_T: 6, Enum_NT: -1, IS_A: Terminal
+==============>  Name: rETURNS, Enum_T: 15, Enum_NT: -1, IS_A: Terminal
 First: List is empty
 Follow: List is empty
-Right: [HEAD] -> pROGRAM -> dRIVERENDDEF -> ModuleDef -> [END]
-Row no: 7
+Right: [HEAD] -> sQBO -> Output_plist -> sQBC -> sEMICOL -> [END]
+Row no: 9
 
 
-==============>  Name: pROGRAM, Enum_T: 7, Enum_NT: -1, IS_A: Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> dRIVERENDDEF -> ModuleDef -> [END]
-Row no: 7
-
-
-==============>  Name: dRIVERENDDEF, Enum_T: 8, Enum_NT: -1, IS_A: Terminal
+==============>  Name: Ret, Enum_T: -1, Enum_NT: 7, IS_A: Non Terminal
 First: List is empty
 Follow: List is empty
 Right: [HEAD] -> ModuleDef -> [END]
-Row no: 7
+Row no: 8
+
+
+==============>  Name: sQBO, Enum_T: 13, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> Output_plist -> sQBC -> sEMICOL -> [END]
+Row no: 9
+
+
+==============>  Name: iD, Enum_T: 3, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> cOLON -> Type -> N2 -> [END]
+Row no: 14
+
+
+==============>  Name: Output_plist, Enum_T: -1, Enum_NT: 10, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> sQBC -> sEMICOL -> [END]
+Row no: 9
+
+
+==============>  Name: cOLON, Enum_T: 16, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> Type -> N2 -> [END]
+Row no: 14
+
+
+==============>  Name: rEAL, Enum_T: 19, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> [END]
+Row no: 23
+
+
+==============>  Name: Type, Enum_T: -1, Enum_NT: 14, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> N2 -> [END]
+Row no: 14
+
+
+==============>  Name: #, Enum_T: 0, Enum_NT: 0, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> [END]
+Row no: 16
+
+
+==============>  Name: N2, Enum_T: -1, Enum_NT: 11, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> [END]
+Row no: 14
+
+
+==============>  Name: sQBC, Enum_T: 14, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> sEMICOL -> [END]
+Row no: 9
+
+
+==============>  Name: sEMICOL, Enum_T: 4, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> [END]
+Row no: 9
 
 
 ==============>  Name: sTART, Enum_T: 24, Enum_NT: -1, IS_A: Terminal
@@ -122,7 +408,7 @@ Row no: 25
 First: List is empty
 Follow: List is empty
 Right: [HEAD] -> [END]
-Row no: 7
+Row no: 8
 
 
 ==============>  Name: dECLARE, Enum_T: 0, Enum_NT: -1, IS_A: Terminal
@@ -153,48 +439,6 @@ Right: [HEAD] -> cOLON -> DataType -> sEMICOL -> [END]
 Row no: 128
 
 
-==============>  Name: cOMMA, Enum_T: 17, Enum_NT: -1, IS_A: Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> iD -> N3 -> [END]
-Row no: 74
-
-
-==============>  Name: N3, Enum_T: -1, Enum_NT: 37, IS_A: Non Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> [END]
-Row no: 73
-
-
-==============>  Name: iD, Enum_T: 3, Enum_NT: -1, IS_A: Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> N3 -> [END]
-Row no: 74
-
-
-==============>  Name: cOMMA, Enum_T: 17, Enum_NT: -1, IS_A: Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> iD -> N3 -> [END]
-Row no: 74
-
-
-==============>  Name: N3, Enum_T: -1, Enum_NT: 37, IS_A: Non Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> [END]
-Row no: 74
-
-
-==============>  Name: iD, Enum_T: 3, Enum_NT: -1, IS_A: Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> N3 -> [END]
-Row no: 74
-
-
 ==============>  Name: #, Enum_T: 0, Enum_NT: 0, IS_A: Terminal
 First: List is empty
 Follow: List is empty
@@ -206,7 +450,7 @@ Row no: 75
 First: List is empty
 Follow: List is empty
 Right: [HEAD] -> [END]
-Row no: 74
+Row no: 73
 
 
 ==============>  Name: cOLON, Enum_T: 16, Enum_NT: -1, IS_A: Terminal
@@ -251,46 +495,74 @@ Right: [HEAD] -> eND -> [END]
 Row no: 25
 
 
-==============>  Name: gET_VALUE, Enum_T: 26, Enum_NT: -1, IS_A: Terminal
+==============>  Name: dECLARE, Enum_T: 0, Enum_NT: -1, IS_A: Terminal
 First: List is empty
 Follow: List is empty
-Right: [HEAD] -> bO -> iD -> bC -> sEMICOL -> [END]
-Row no: 33
+Right: [HEAD] -> IdList -> cOLON -> DataType -> sEMICOL -> [END]
+Row no: 128
 
 
-==============>  Name: IoStmt, Enum_T: -1, Enum_NT: 18, IS_A: Non Terminal
+==============>  Name: DeclareStmt, Enum_T: -1, Enum_NT: 63, IS_A: Non Terminal
 First: List is empty
 Follow: List is empty
 Right: [HEAD] -> [END]
-Row no: 28
-
-
-==============>  Name: bO, Enum_T: 27, Enum_NT: -1, IS_A: Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> iD -> bC -> sEMICOL -> [END]
-Row no: 33
+Row no: 30
 
 
 ==============>  Name: iD, Enum_T: 3, Enum_NT: -1, IS_A: Terminal
 First: List is empty
 Follow: List is empty
-Right: [HEAD] -> bC -> sEMICOL -> [END]
-Row no: 33
+Right: [HEAD] -> N3 -> [END]
+Row no: 73
 
 
-==============>  Name: bC, Enum_T: 28, Enum_NT: -1, IS_A: Terminal
+==============>  Name: IdList, Enum_T: -1, Enum_NT: 36, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> cOLON -> DataType -> sEMICOL -> [END]
+Row no: 128
+
+
+==============>  Name: #, Enum_T: 0, Enum_NT: 0, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> [END]
+Row no: 75
+
+
+==============>  Name: N3, Enum_T: -1, Enum_NT: 37, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> [END]
+Row no: 73
+
+
+==============>  Name: cOLON, Enum_T: 16, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> DataType -> sEMICOL -> [END]
+Row no: 128
+
+
+==============>  Name: bOOLEAN, Enum_T: 20, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> [END]
+Row no: 19
+
+
+==============>  Name: DataType, Enum_T: -1, Enum_NT: 12, IS_A: Non Terminal
 First: List is empty
 Follow: List is empty
 Right: [HEAD] -> sEMICOL -> [END]
-Row no: 33
+Row no: 128
 
 
 ==============>  Name: sEMICOL, Enum_T: 4, Enum_NT: -1, IS_A: Terminal
 First: List is empty
 Follow: List is empty
 Right: [HEAD] -> [END]
-Row no: 33
+Row no: 128
 
 
 ==============>  Name: Statement, Enum_T: -1, Enum_NT: 17, IS_A: Non Terminal
@@ -321,132 +593,6 @@ Right: [HEAD] -> [END]
 Row no: 50
 
 
-==============>  Name: aSSIGNOP, Enum_T: 34, Enum_NT: -1, IS_A: Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> Expression -> sEMICOL -> [END]
-Row no: 55
-
-
-==============>  Name: LvalueIDStmt, Enum_T: -1, Enum_NT: 28, IS_A: Non Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> [END]
-Row no: 53
-
-
-==============>  Name: nUM, Enum_T: 32, Enum_NT: -1, IS_A: Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> [END]
-Row no: 96
-
-
-==============>  Name: Factor, Enum_T: -1, Enum_NT: 50, IS_A: Non Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> N5 -> [END]
-Row no: 92
-
-
-==============>  Name: Term, Enum_T: -1, Enum_NT: 48, IS_A: Non Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> N4 -> [END]
-Row no: 89
-
-
-==============>  Name: #, Enum_T: 0, Enum_NT: 0, IS_A: Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> [END]
-Row no: 94
-
-
-==============>  Name: N5, Enum_T: -1, Enum_NT: 49, IS_A: Non Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> [END]
-Row no: 92
-
-
-==============>  Name: ArithmeticExpr, Enum_T: -1, Enum_NT: 46, IS_A: Non Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> N8 -> [END]
-Row no: 86
-
-
-==============>  Name: #, Enum_T: 0, Enum_NT: 0, IS_A: Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> [END]
-Row no: 91
-
-
-==============>  Name: N4, Enum_T: -1, Enum_NT: 47, IS_A: Non Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> [END]
-Row no: 89
-
-
-==============>  Name: AnyTerm, Enum_T: -1, Enum_NT: 44, IS_A: Non Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> N7 -> [END]
-Row no: 83
-
-
-==============>  Name: #, Enum_T: 0, Enum_NT: 0, IS_A: Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> [END]
-Row no: 88
-
-
-==============>  Name: N8, Enum_T: -1, Enum_NT: 45, IS_A: Non Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> [END]
-Row no: 86
-
-
-==============>  Name: ArithmeticOrBooleanExpr, Enum_T: -1, Enum_NT: 42, IS_A: Non Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> [END]
-Row no: 76
-
-
-==============>  Name: #, Enum_T: 0, Enum_NT: 0, IS_A: Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> [END]
-Row no: 85
-
-
-==============>  Name: N7, Enum_T: -1, Enum_NT: 43, IS_A: Non Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> [END]
-Row no: 83
-
-
-==============>  Name: Expression, Enum_T: -1, Enum_NT: 38, IS_A: Non Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> sEMICOL -> [END]
-Row no: 55
-
-
-==============>  Name: sEMICOL, Enum_T: 4, Enum_NT: -1, IS_A: Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> [END]
-Row no: 55
-
-
 ==============>  Name: WhichStmt, Enum_T: -1, Enum_NT: 27, IS_A: Non Terminal
 First: List is empty
 Follow: List is empty
@@ -475,13 +621,6 @@ Right: [HEAD] -> [END]
 Row no: 26
 
 
-==============>  Name: #, Enum_T: 0, Enum_NT: 0, IS_A: Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> [END]
-Row no: 27
-
-
 ==============>  Name: Statements, Enum_T: -1, Enum_NT: 16, IS_A: Non Terminal
 First: List is empty
 Follow: List is empty
@@ -494,6 +633,27 @@ First: List is empty
 Follow: List is empty
 Right: [HEAD] -> [END]
 Row no: 25
+
+
+==============>  Name: OtherModules, Enum_T: -1, Enum_NT: 4, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> DriverModule -> OtherModules -> [END]
+Row no: 1
+
+
+==============>  Name: OtherModules, Enum_T: -1, Enum_NT: 4, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> [END]
+Row no: 5
+
+
+==============>  Name: DriverModule, Enum_T: -1, Enum_NT: 5, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> OtherModules -> [END]
+Row no: 1
 
 
 ==============>  Name: OtherModules, Enum_T: -1, Enum_NT: 4, IS_A: Non Terminal
@@ -517,6 +677,3 @@ Right: [HEAD] -> [END]
 Row no: 0
 
 
-=======
- S => [END]
->>>>>>> 5aa71ec0978ee6fdb83b3801e1ad90f41d6f9800

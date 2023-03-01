@@ -5,7 +5,8 @@
 // }
 
 TreeNode *error_node(TreeNode *node)
-{
+{   
+    // printf("in error, pre: %s\n",node->symbol->name);
     bool node_found = false;
     if (node->sibling != NULL)
     {
@@ -13,6 +14,7 @@ TreeNode *error_node(TreeNode *node)
         node_found = true;
     }
     else
+    {
         while (!node_found)
         {
             node = node->parent;
@@ -22,23 +24,27 @@ TreeNode *error_node(TreeNode *node)
                 node_found = true;
             }
         }
+    }
+    // printf("in error, new: %s\n",node->symbol->name);
     return node;
 }
 
 TreeNode *next_node(TreeNode *node, Symbol *sym)
 {
-    printf("next node called...1\n");
+    // printf("next node called...1\n");
     // print_symbol_details(sym,stdout);
     bool node_found = false;
+    // printf("in next, pre: %s\n",node->symbol->name);
+    // printf("in next, sym: %s\n",sym->name);
     if (node->symbol->terminal == $)
     {
-        printf("next node called...2\n");
+        // printf("next node called...2\n");
 
         node = NULL;
     }
     else if (node->symbol->is_terminal)
     {
-        printf("next node called...3\n");
+        // printf("next node called...3\n");
         // print_symbol_details(sym,stdout);
 
         if (node->sibling != NULL)
@@ -59,14 +65,15 @@ TreeNode *next_node(TreeNode *node, Symbol *sym)
     }
     else
     {
-        printf("next node called...4\n");
+        // printf("next node called...4\n");
 
         insert_child(node, sym);
         node = node->head;
         node_found = true;
         // printf("node: %s\n",node->symbol->name);
 
-        printf("next node called...5\n");
+        // printf("next node called...5\n");
     }
+    // printf("in next, new: %s\n",node->symbol->name);
     return node;
 }
