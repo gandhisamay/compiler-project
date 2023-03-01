@@ -91,6 +91,20 @@ typedef struct token
     };
 } TOKEN;
 
+typedef struct Error {
+    int line;
+    int type;
+    TOKEN token;
+    Symbol *stack_top;
+    struct Error *next;
+} Error;
+
+typedef struct ErrorList {
+    Error *head;
+    Error *tail;
+    int size;
+} ErrorList;
+
 typedef struct ele
 {
     char key[20];
