@@ -866,7 +866,7 @@ void print_token_details(TOKEN curr, FILE *token_fp){
     }
     else
     {
-        if (token_fp != NULL) fprintf(token_fp, "LINE: [%d] ENUM: %d  TOKEN: ID        : %s\n", curr.line, curr.name, curr.id);
+        if (token_fp != NULL) fprintf(token_fp, "LINE: [%d] ENUM: %d  TOKEN: ID/KEYW        : %s\n", curr.line, curr.name, curr.id);
         else printf("LINE: [%d] ENUM: %d  TOKEN: ID/KEYW        : %s\n", curr.line, curr.name, curr.id);
     }
 }

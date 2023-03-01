@@ -312,7 +312,6 @@ Symbol **generate_parse_table() {
 }
 
 void update_NT_ROWS(){
-    printf("\nCALLED\n");
     for (int i = 0; i < TOTAL_SYMBOLS; i++){
         NT_TO_ROW[symbols[i]->non_terminal] = i;
     }

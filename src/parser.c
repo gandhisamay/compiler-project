@@ -23,7 +23,7 @@ void print_error_list(ErrorList *list, FILE *debug_fp){
     while (curr_error != NULL){
         fprintf(debug_fp, "\n ERROR DETAILS (LINE - [%d]; TYPE - [%d])\n", curr_error->line, curr_error->type);
         print_token_details(curr_error->token, debug_fp);
-        print_symbol_details(curr_error->stack_top, debug_fp);
+        /* print_symbol_details(curr_error->stack_top, debug_fp); */
         curr_error = curr_error->next;
     }
     return;
