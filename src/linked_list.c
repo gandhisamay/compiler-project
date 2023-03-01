@@ -15,11 +15,11 @@ void print_list(LinkedList *ll, FILE *debug_fp) {
   while (temp->next != NULL) {
     
     if (debug_fp == NULL) printf("%s,", temp->symbol->name); 
-    else printf("%s,", temp->symbol->name); 
+    else fprintf(debug_fp, "%s,", temp->symbol->name); 
     temp = temp->next;
   }
   if (debug_fp == NULL) printf("%s\n", temp->symbol->name); 
-  else printf("%s\n", temp->symbol->name); 
+  else fprintf(debug_fp, "%s\n", temp->symbol->name); 
 }
 
 Node *create_new_node(Symbol *symbol) {

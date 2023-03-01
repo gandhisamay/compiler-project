@@ -33,6 +33,18 @@ void initialize_parser(char *grammar_file){
     parse_table_make();
 }
 
+void compute_all_symbols(FILE* debug_fp){
+    for(int i = 0; i < TOTAL_SYMBOLS; i++){
+        symbols[i]->first = compute_first(symbols[i]);
+        symbols[i]->follow = compute_follow(symbols[i]);
+    }
+    /* for(int i = 0; i < TOTAL_SYMBOLS; i++){ */
+    /*     Symbol *s = symbols[i]; */
+    /*     print_symbol_details(s, debug_fp); */
+    /*     fprintf(debug_fp, "\n"); */
+    /* } */
+}
+
 void start_parsing(char *program_file, FILE *debug_fp){
     char* uncommented = "program.txt";
     FILE* program_fp = fopen(program_file, "r");
@@ -47,15 +59,9 @@ void start_parsing(char *program_file, FILE *debug_fp){
     TOKEN Curr_Token = eval_token(program_fp);
     TreeNode* curr_node = Parse_Tree_Root;
 
-    int c = 0;
     while (is_empty_stack(Parser_Stack) == 0){ // actually curr token !+ EOF
-    /* while (c != 220){ */
-        c++;
-        /* printf("C count : %d\n",c); */
         Symbol *Top_Symbol = top_stack(Parser_Stack);   
-        // printf("lmao ded initial\n");
         LinkedList *Aux_Stack = create_stack();
-        // printf("lmao ded\n");
 
         if (debug_fp == NULL){
             printf("\n    CURR STACK TOP: IS_T - %d; # - T/F? - %d; ENUM - %d:", Top_Symbol->is_terminal,
@@ -64,9 +70,9 @@ void start_parsing(char *program_file, FILE *debug_fp){
             fprintf(debug_fp, "\n    CURR STACK TOP: IS_T - %d; # - T/F? - %d; ENUM - %d:", Top_Symbol->is_terminal,
                strcmp(Top_Symbol->name, "#"), Top_Symbol->is_terminal ? Top_Symbol->terminal : Top_Symbol->non_terminal);
         }
-        // printf("lmao ded\n");
         // ignore lexical errors TODO: test this
         print_stack(Parser_Stack, debug_fp);
+        fprintf(debug_fp, "    ");
         print_token_details(Curr_Token, debug_fp);
         if (Curr_Token.name == lEX_ERROR){
             if (debug_fp == NULL){
@@ -87,7 +93,6 @@ void start_parsing(char *program_file, FILE *debug_fp){
                     fprintf(debug_fp, "DEBUG: Found #\n");
                 }
                 pop_stack(Parser_Stack);
-                /* printf("calling next node\n"); */
                 curr_node = next_node(curr_node,Top_Symbol);
                 continue;
             } 
@@ -98,7 +103,6 @@ void start_parsing(char *program_file, FILE *debug_fp){
                     fprintf(debug_fp, "DEBUG: Matched Terminal: %d\n", Curr_Token.name);
                 }
                 pop_stack(Parser_Stack);
-                /* printf("calling next node\n"); */
                 curr_node = next_node(curr_node,Top_Symbol);
                 Curr_Token = eval_token(program_fp);
                 /* printf("\n NEW TOKEN - line - %d, type - %d, id - %s, num - %d, rnum - %f",  */
@@ -124,20 +128,12 @@ void start_parsing(char *program_file, FILE *debug_fp){
                 // popping from stack
                 pop_stack(Parser_Stack);
                 
-                /* printf("calling next node\n"); */
                 curr_node = next_node(curr_node,Grammar_Rule);
-                /* printf("node: %s\n",curr_node->symbol->name); */
-                /* printf("grule %s\n",Grammar_Rule->name); */
                 Symbol *curr = Grammar_Rule->right;
-                /* printf("crule %s\n\n",curr->name); */
-                // print_symbol_details(curr,stdout);
                 while (curr != NULL){
                     push_stack(Aux_Stack, curr);
                     curr = curr->right;
-                    // printf("%s\n",curr->name);
                 }
-                
-                // printf("node: %s\n\n",curr_node->symbol->name);
                 
                 while (!is_empty_stack(Aux_Stack)){
                     curr = top_stack(Aux_Stack);
@@ -176,6 +172,9 @@ int main(){
     printf("Starting parsing...\n");
     FILE *debug_fp = fopen(debug_file, "w");
     FILE *debug_tree_fp = fopen(debug_tree_file, "w");
+
+    compute_all_symbols(stdout);
+
     start_parsing(program_file, debug_fp);
     printf("Printing tree\n");
     print_tree(Parse_Tree_Root, debug_tree_fp);
