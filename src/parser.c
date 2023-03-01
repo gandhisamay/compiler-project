@@ -55,6 +55,7 @@ TOKEN handle_parser_error(TOKEN Curr_Token, Symbol *Top_Symbol, TreeNode *curr_n
         fprintf(debug_fp, PRINT_RED "\n>>>RECOVERING: Terminal Mismatch\n" PRINT_RESET);
 
         pop_stack(Parser_Stack);
+        curr_node = error_node(curr_node);
         fprintf(debug_fp, PRINT_BLUE "\n<<<RECOVERED: Stack terminal popped\n" PRINT_RESET);
         return Curr_Token;
         /* Curr_Token = eval_token(program_fp); */
@@ -135,7 +136,7 @@ void parse_next(TOKEN Curr_Token, TreeNode *curr_node, FILE *program_fp,  FILE *
                     fprintf(debug_fp, "DEBUG: Found #\n");
                 }
                 pop_stack(Parser_Stack);
-                /* curr_node = next_node(curr_node,Top_Symbol); */
+                curr_node = next_node(curr_node,Top_Symbol); 
                 continue;
             } 
             else if (Top_Symbol->terminal == Curr_Token.name){
@@ -145,7 +146,7 @@ void parse_next(TOKEN Curr_Token, TreeNode *curr_node, FILE *program_fp,  FILE *
                     fprintf(debug_fp, "DEBUG: Matched Terminal: %d\n", Curr_Token.name);
                 }
                 pop_stack(Parser_Stack);
-                /* curr_node = next_node(curr_node,Top_Symbol); */
+                curr_node = next_node(curr_node,Top_Symbol); 
                 Curr_Token = eval_token(program_fp);
                 /* printf("\n NEW TOKEN - line - %d, type - %d, id - %s, num - %d, rnum - %f",  */
                 /*    Curr_Token.line, Curr_Token.name, Curr_Token.id, Curr_Token.num, Curr_Token.rnum); */
@@ -171,8 +172,8 @@ void parse_next(TOKEN Curr_Token, TreeNode *curr_node, FILE *program_fp,  FILE *
                 print_symbol_details(Grammar_Rule, debug_fp);
                 // popping from stack
                 pop_stack(Parser_Stack);
-                
-                /* curr_node = next_node(curr_node,Grammar_Rule); */
+                curr_node = next_node(curr_node,Grammar_Rule); 
+
                 Symbol *curr = Grammar_Rule->right;
                 while (curr != NULL){
                     push_stack(Aux_Stack, curr);
@@ -233,17 +234,21 @@ int main(){
     initialize_parser(grammar_file);
     // starting lexer
     printf("\n\nStarting lexer...\n");
-    char *program_file = "../tests/test_cases_stage_1/t6_syntax_errors.txt";
+    char *program_file = "../tests/test_lexer_1.txt";
     /* char *program_file = "../tests/test_lexer_1.txt"; */
     printf("Starting parsing...\n");
     FILE *debug_fp = fopen(debug_file, "w");
     FILE *debug_tree_fp = fopen(debug_tree_file, "w");
 
-    compute_all_symbols(stdout);
+    // compute_all_symbols(stdout);
 
     start_parsing(program_file, stdout);
+    
     printf("Printing tree\n");
-    /* print_tree(Parse_Tree_Root, debug_tree_fp); */
+
+    printParseTree(Parse_Tree_Root,debug_tree_fp);
+    fclose(debug_tree_fp);
+    // print_tree(Parse_Tree_Root, debug_tree_fp); 
 }
 
 /* int main(){ */

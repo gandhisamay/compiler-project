@@ -186,6 +186,24 @@ void print_tree(TreeNode *root, FILE *debug_fp){
   }
 }
 
+void printParseTree(TreeNode* root, FILE* outfile){
+  if(root!=NULL){
+    printParseTree(root->head,outfile);
+
+    fprintf(outfile,"==============>  ");
+    print_symbol_details(root->symbol,outfile);
+    fprintf(outfile,"\n\n");
+
+    if(root->head!=NULL){
+      TreeNode* curr = root->head;
+      curr = curr->sibling;
+      while(curr!=NULL){
+        printParseTree(curr,outfile);
+        curr = curr->sibling;
+      }
+    } 
+  }  
+}
 // void print_terminal_list(){
 //   current = terminal_head;
 //   printf("[HEAD] -> ");
