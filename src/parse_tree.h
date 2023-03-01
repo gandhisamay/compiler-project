@@ -29,6 +29,7 @@ LinkedList *compute_follow(Symbol *curr);
 Symbol **generate_parse_table();
 void print_parse_table();
 void parse_table_make();
+void update_NT_ROWS();
 
 TreeNode* create_parse_tree();
 TreeNode* create_treeNode();

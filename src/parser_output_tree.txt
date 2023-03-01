@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ==============>  Name: dECLARE, Enum_T: 0, Enum_NT: -1, IS_A: Terminal
 First: List is empty
 Follow: List is empty
@@ -516,3 +517,6 @@ Right: [HEAD] -> [END]
 Row no: 0
 
 
+=======
+ S => [END]
+>>>>>>> 5aa71ec0978ee6fdb83b3801e1ad90f41d6f9800

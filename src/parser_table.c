@@ -66,37 +66,23 @@ char **read_grammar_file(char *file) {
 }
 
 void print_symbol_details(Symbol *s, FILE *debug_fp) {
-    if (debug_fp == NULL){
-      printf("Name: %s, ", s->name);
-      printf("Enum_T: %d, Enum_NT: %d, ", s->terminal, s->non_terminal);
-      printf("IS_A: %s\n", s->is_terminal ? "Terminal" : "Non Terminal");
-      printf("First: ");
-      print_list(s->first, NULL);
-      printf("Follow: ");
-      print_list(s->follow, NULL);
-      printf("Right: [HEAD] -> ");
-    } else {
-      fprintf(debug_fp, "Name: %s, ", s->name);
-      fprintf(debug_fp, "Enum_T: %d, Enum_NT: %d, ", s->terminal, s->non_terminal);
-      fprintf(debug_fp, "IS_A: %s\n", s->is_terminal ? "Terminal" : "Non Terminal");
-      fprintf(debug_fp, "First: ");
-      print_list(s->first, debug_fp);
-      fprintf(debug_fp, "Follow: ");
-      print_list(s->follow, debug_fp);
-      fprintf(debug_fp, "Right: [HEAD] -> ");
-    }
+  fprintf(debug_fp, "Name: %s, ", s->name);
+  fprintf(debug_fp, "Enum_T: %d, Enum_NT: %d, ", s->terminal, s->non_terminal);
+  fprintf(debug_fp, "IS_A: %s\n", s->is_terminal ? "Terminal" : "Non Terminal");
+  fprintf(debug_fp, "First: ");
+  print_list(s->first, debug_fp);
+  fprintf(debug_fp, "Follow: ");
+  print_list(s->follow, debug_fp);
+  fprintf(debug_fp, "Right: [HEAD] -> ");
 
   Symbol *temp = s->right;
   while (temp != NULL) {
-    if (debug_fp == NULL) printf("%s -> ", temp->name);
-    else fprintf(debug_fp, "%s -> ", temp->name);
+    fprintf(debug_fp, "%s -> ", temp->name);
     temp = temp->right;
   }
-  if (debug_fp == NULL) printf("[END]\n");
-  else fprintf(debug_fp, "[END]\n");
+  fprintf(debug_fp, "[END]\n");
 
-  if (debug_fp == NULL) printf("Row no: %d\n", s->row_no);
-  else fprintf(debug_fp, "Row no: %d\n", s->row_no);
+  fprintf(debug_fp, "Row no: %d\n", s->row_no);
   /* printf("\n"); */
 }
 
@@ -252,7 +238,6 @@ void build_grammar(char *grammar_file) {
             if(strcmp(new->name, n_term_str[k]) == 0){
               new->non_terminal = k;
               new->terminal = -1;
-              NT_TO_ROW[k] = i;
             }
           }
         }
@@ -291,7 +276,7 @@ Symbol **generate_parse_table() {
   data = (LinkedList **)malloc(TOTAL_SYMBOLS * sizeof(LinkedList *));
 
   for (int i = 0; i < TOTAL_SYMBOLS; i++) {
-        printf("On %d\n", i);
+        /* printf("On %d\n", i); */
     data[i] = create_linked_list();
     Symbol *temp = symbols[i]->right;
 
@@ -307,23 +292,30 @@ Symbol **generate_parse_table() {
       temp = temp->right;
     }
 
-        printf("out %d\n", i);
+        /* printf("out %d\n", i); */
     if (find_node("#", data[i])) {
         delete_node("#", data[i]);
-        printf("r %d\n", i);
-        print_symbol_details(symbols[i], NULL);
+        /* printf("r %d\n", i); */
+        print_symbol_details(symbols[i], stdout);
         LinkedList *ret = compute_follow(symbols[i]);
         merge_list(data[i], ret);
-        printf("mer %d\n", i);
+        /* printf("mer %d\n", i); */
     }
   }
 
   for (int i = 0; i < TOTAL_SYMBOLS; i++) {
-    printf("%s: ", symbols[i]->name);
-    print_list(data[i], NULL);
+    /* printf("%s: ", symbols[i]->name); */
+    print_list(data[i], stdout);
   }
 
   return NULL;
+}
+
+void update_NT_ROWS(){
+    printf("\nCALLED\n");
+    for (int i = 0; i < TOTAL_SYMBOLS; i++){
+        NT_TO_ROW[symbols[i]->non_terminal] = i;
+    }
 }
 
 void print_parse_table(){
@@ -457,6 +449,6 @@ void parse_table_make(){
 /*     build_grammar(); */
 /*     generate_parse_table(); */
 /*     parse_table_make(); */
-/*     print_symbol_details(symbols[1]->right, NULL); */
+/*     print_symbol_details(symbols[1]->right, stdout); */
 /*     return 0; */
 /* } */
