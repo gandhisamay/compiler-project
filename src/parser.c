@@ -13,7 +13,7 @@ LinkedList *Parser_Stack;
 TreeNode *Parse_Tree_Root;
 
 void print_error_list(ErrorList *list, FILE *debug_fp){
-    printf("\nPRINTING ALL ERRORS CAUGHT > > >\n");
+    printf("\nPRINTING ALL ERRORS CAUGHT [TOTAL - %d] > > >\n", list->size);
     if (list == NULL || list->head == NULL){
         fprintf(debug_fp, "NO ERRORS - Enjoy your day!\n");
         return;
@@ -87,9 +87,9 @@ void compute_all_symbols(FILE* debug_fp){
         symbols[i]->follow = compute_follow(symbols[i]);
         print_symbol_details(symbols[i], debug_fp);
     }
-    for (int j = 0; j < N_TERMINAL_SYM; j++){
-        printf("RULE: %d at row - %d\n", j, NT_TO_ROW[j]);
-    }
+    /* for (int j = 0; j < N_TERMINAL_SYM; j++){ */
+    /*     printf("RULE: %d at row - %d\n", j, NT_TO_ROW[j]); */
+    /* } */
     /* for(int i = 0; i < TOTAL_SYMBOLS; i++){ */
     /*     Symbol *s = symbols[i]; */
     /*     print_symbol_details(s, debug_fp); */
@@ -123,14 +123,33 @@ TOKEN handle_parser_error(TOKEN Curr_Token, Symbol *Top_Symbol, TreeNode *curr_n
         /* } */
 
         // Strategy 2 - First Set as Sync Set
-        while ((Curr_Token.name != $) && (find_node(term_str[Curr_Token.name], Top_Symbol->first) == 0)){
+        /* while ((Curr_Token.name != $) && (find_node(term_str[Curr_Token.name], Top_Symbol->first) == 0)){ */
+        /*     fprintf(debug_fp, PRINT_RED "\n...RECOVERING:" PRINT_RESET); */
+        /*     print_token_details(Curr_Token, debug_fp); */
+        /*     print_symbol_details(Top_Symbol, debug_fp); */
+        /*     Curr_Token = eval_token(program_fp); */
+        /* } */
+        /* if (Curr_Token.name != $){ */
+        /*     fprintf(debug_fp, PRINT_BLUE "\n<<<RECOVERED, some file tokens skipped\n" PRINT_RESET); */
+        /* } */
+
+        // Strategy 3 - Using both first and follow sets as Sync set
+        while (Curr_Token.name != $){
             fprintf(debug_fp, PRINT_RED "\n...RECOVERING:" PRINT_RESET);
             print_token_details(Curr_Token, debug_fp);
             print_symbol_details(Top_Symbol, debug_fp);
-            Curr_Token = eval_token(program_fp);
-        }
-        if (Curr_Token.name != $){
-            fprintf(debug_fp, PRINT_BLUE "\n<<<RECOVERED, some file tokens skipped\n" PRINT_RESET);
+            if (find_node(term_str[Curr_Token.name], Top_Symbol->follow) == 1){
+                fprintf(debug_fp, "\n>>>RECOVERED, Stack Non Terminal popped\n");
+                pop_stack(Parser_Stack);
+                return Curr_Token;
+            }
+            else if (find_node(term_str[Curr_Token.name], Top_Symbol->first) == 1){
+                fprintf(debug_fp, PRINT_BLUE "\n<<<RECOVERED, some file tokens skipped\n" PRINT_RESET);
+                return Curr_Token;
+            }
+            else {
+                Curr_Token = eval_token(program_fp);
+            }
         }
         return Curr_Token;
     }
@@ -138,11 +157,10 @@ TOKEN handle_parser_error(TOKEN Curr_Token, Symbol *Top_Symbol, TreeNode *curr_n
 }
 
 void parse_next(TOKEN Curr_Token, TreeNode *curr_node, FILE *program_fp,  FILE *debug_fp){
-    int c = 0;
-    /* while (is_empty_stack(Parser_Stack) == 0){ // actually curr token !+ EOF */
-    while (c != 2500 && is_empty_stack(Parser_Stack) == 0){
-        c++;
-        printf("sdf %d\n", c);
+    /* int c = 0; */
+    while (is_empty_stack(Parser_Stack) == 0){ // actually curr token !+ EOF
+    /* while (c != 2500 && is_empty_stack(Parser_Stack) == 0){ */
+    /*     c++; */
         Symbol *Top_Symbol = top_stack(Parser_Stack);   
         LinkedList *Aux_Stack = create_stack();
 
@@ -181,7 +199,6 @@ void parse_next(TOKEN Curr_Token, TreeNode *curr_node, FILE *program_fp,  FILE *
             else {
                 fprintf(debug_fp, PRINT_RED "ERROR: Terminals Don't Match! (STACK TERM: %d, TOKEN: %d)\n" PRINT_RESET, Top_Symbol->terminal, Curr_Token.name);
                 Curr_Token = handle_parser_error(Curr_Token, Top_Symbol, curr_node, program_fp, debug_fp, 0);
-                printf("\nholaaaaaaaaa\n");
                 /* break; */
             }
         } 
@@ -243,17 +260,17 @@ int main(){
     initialize_parser(grammar_file);
     // starting lexer
     printf("\n\nStarting lexer...\n");
-    /* char *program_file = "../tests/test_cases_stage_1/t6_syntax_errors.txt"; */
-    char *program_file = "../tests/test_lexer_1.txt";
+    char *program_file = "../tests/test_cases_stage_1/t6_syntax_errors.txt";
+    /* char *program_file = "../tests/test_lexer_1.txt"; */
     printf("Starting parsing...\n");
     FILE *debug_fp = fopen(debug_file, "w");
     FILE *debug_tree_fp = fopen(debug_tree_file, "w");
 
     compute_all_symbols(stdout);
 
-    start_parsing(program_file, stdout);
+    start_parsing(program_file, debug_fp);
     print_error_list(ERROR_LIST, stdout);
-    printf("Printing tree\n");
+    printf("\nPrinting tree...\n");
     print_tree(Parse_Tree_Root, debug_tree_fp);
 }
 
