@@ -4,6 +4,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+/*
+@brief : Populates buffer by reading from input file
+@input : FILE*
+@output : void
+*/
 void populate_buffer(FILE *fp)
 {
     if (ptr == BUFFER_SIZE)
@@ -19,6 +24,11 @@ void populate_buffer(FILE *fp)
     }
 }
 
+/*
+@brief : Gets next character from buffer
+@input : FILE*
+@output : char
+*/
 char next_char(FILE *fp)
 {
     if (to_be_scanned == 0)
@@ -37,6 +47,11 @@ char next_char(FILE *fp)
     return Buffer[ptr - 1];
 }
 
+/*
+@brief : Retracts input pointer 
+@input : int
+@output : void
+*/
 void retract(int num)
 {
     ptr -= num;
@@ -45,12 +60,22 @@ void retract(int num)
         ptr += BUFFER_SIZE;
 }
 
+/*
+@brief : Searches the look-up table
+@input : char*
+@output : terminals
+*/
 terminals lookup(char *lexeme)
 {
     terminals result = search(lexeme, Lookup_Table);
     return result;
 }
 
+/*
+@brief : Populates look-up table with all keywords
+@input : void
+@output : void 
+*/
 void populate_lookup()
 {
     insert("integer", iNTEGER, Lookup_Table);
@@ -85,6 +110,11 @@ void populate_lookup()
     insert("while", wHILE, Lookup_Table);
 }
 
+/*
+@brief : Differentiates between keyword, num, rnum and id
+@input : FILE*
+@output : TOKEN
+*/
 TOKEN is_tkn(FILE *fp)
 {
     TOKEN tkn;
@@ -136,6 +166,11 @@ TOKEN is_tkn(FILE *fp)
     return tkn;
 }
 
+/*
+@brief : Resets the lexer to default state
+@input : FILE*
+@output : void
+*/
 void lexer_reset(FILE *fp)
 {
     state = 0;
@@ -154,6 +189,11 @@ void lexer_reset(FILE *fp)
     populate_buffer(fp);
 }
 
+/*
+@brief : The main lexer function - tokenizes characters into a valid token
+@input : FILE*
+@output : TOKEN
+*/
 TOKEN eval_token(FILE *fp)
 {
     char c;
@@ -774,7 +814,12 @@ TOKEN eval_token(FILE *fp)
     }
 }
 
-void remove_comments(FILE *ipt, char *opt_name)
+/*
+@brief : Removes comment from the input file
+@input : FILE* , char*
+@output : void
+*/
+void removeComments(FILE *ipt, char *opt_name)
 {
     FILE *opt = fopen(opt_name, "w");
     int state = 0;
@@ -843,6 +888,11 @@ void remove_comments(FILE *ipt, char *opt_name)
     fclose(opt);
 }
 
+/*
+@brief : Prints token details
+@input : TOKEN , FILE*
+@output : void
+*/
 void print_token_details(TOKEN curr, FILE *token_fp){
     if (curr.name == nUM)
     {
@@ -871,6 +921,11 @@ void print_token_details(TOKEN curr, FILE *token_fp){
     }
 }
 
+/*
+@brief : Tester for lexer
+@input : char* , char*
+@output : int
+*/
 int test_lexer_run(char *program_file, char *tokenized_file)
 {
     FILE *token_fp = fopen(tokenized_file, "w");

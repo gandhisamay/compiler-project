@@ -5,7 +5,7 @@
 #ifndef PARSE_TREE_LINKED_LIST_INCLUDED
 #define PARSE_TREE_LINKED_LIST_INCLUDED
 // #include "parser_table.c"
-#include "tree_builder.c"
+#include "parser_table.c"
 #endif
 
 ErrorList *ERROR_LIST;
@@ -249,7 +249,7 @@ void parse_next(TOKEN Curr_Token, FILE *program_fp,  FILE *debug_fp){
 void start_parsing(char *program_file, FILE *debug_fp){
     char* uncommented = "program.txt";
     FILE* program_fp = fopen(program_file, "r");
-    remove_comments(program_fp, uncommented);
+    removeComments(program_fp, uncommented);
     program_fp = fopen(uncommented, "r");
     lexer_reset(program_fp);
     fprintf(debug_fp, "Lexer setup complete\n");
