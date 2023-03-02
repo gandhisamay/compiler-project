@@ -187,7 +187,6 @@ TreeNode *insert_child(TreeNode *parent, Symbol *symbol)
     printf("The parent and given LHS do not match!!!!!!!!!!!!\n");
 }
 
-
 // void print_tree(TreeNode *root, FILE *debug_fp)
 // {
 //   fprintf(debug_fp, " %s => ", root->symbol->name);
@@ -276,6 +275,8 @@ TreeNode *error_node(TreeNode *node)
 {
   // printf("in error, pre: %s\n",node->symbol->name);
   bool node_found = false;
+  if (node == NULL)
+    return node;
   if (node->sibling != NULL)
   {
     node = node->sibling;
@@ -304,7 +305,7 @@ TreeNode *next_node(TreeNode *node, Symbol *sym)
   bool node_found = false;
   // printf("in next, pre: %s\n",node->symbol->name);
   // printf("in next, sym: %s\n",sym->name);
-  if (node->symbol->terminal == $)
+  if ((node == NULL) || (node->symbol->terminal == $))
   {
     // printf("next node called...2\n");
 
