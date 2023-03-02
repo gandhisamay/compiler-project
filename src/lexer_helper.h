@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "parse_tree.h"
 #define HASH_SIZE 35
-#define BUFFER_SIZE 100
+// #define BUFFER_SIZE 100
 #define P 7
 #define MAX_LEX 20
 
@@ -14,7 +14,8 @@ int to_be_scanned;
 int stop = -1;
 int LOOKUP_SET = 0;
 
-char Buffer[BUFFER_SIZE];
+int BUFFER_SIZE = 100;
+char* Buffer;
 /* typedef enum */
 /* { */
 /*     dECLARE, */

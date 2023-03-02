@@ -136,6 +136,10 @@ TreeNode *create_parse_tree()
 TreeNode *create_treeNode()
 {
   TreeNode *x = (TreeNode *)malloc(sizeof(TreeNode));
+  x->head = NULL;
+  x->tail = NULL;
+  x->sibling = NULL;
+  x->symbol = NULL;
   return x;
 }
 
@@ -146,21 +150,30 @@ TreeNode *create_treeNode()
 */
 TreeNode *insert_child(TreeNode *parent, Symbol *symbol)
 { // pointer to parent, and LHS of grammar
+  print_symbol_info(parent->symbol, stdout);
+  printf("gaand hi mear gayi\n");
   if (strcmp(parent->symbol->name, symbol->name) == 0)
   { // A -> B C => parent = A, LHS = A
     Symbol *sym = symbol->right;
     while (sym != NULL)
     {
       TreeNode *curr = create_treeNode();
+      printf("Lite lene ka hai\n");
       curr->symbol = sym;
+      printf("lulli muh mein \n");
       if (parent->head == NULL && parent->tail == NULL)
       {
+        printf("lmao ded\n");
         parent->head = curr;
+        printf("lmao ded1\n");
         parent->tail = curr;
+        printf("lmao ded2\n");
         curr->parent = parent;
+        printf("lmao ded3\n");
       }
       else
       {
+        printf("yehi pe hugg raha hai]n");
         parent->tail->sibling = curr;
         parent->tail = curr;
         curr->parent = parent;
@@ -230,7 +243,8 @@ void printParseTree(TreeNode *root, FILE *outfile)
     printParseTree(root->head, outfile);
 
     fprintf(outfile, "==============>  ");
-    print_symbol_details(root->symbol, outfile);
+    // print_symbol_details(root->symbol, outfile);
+    print_symbol_info(root->symbol, outfile);
     fprintf(outfile, "\n\n");
 
     if (root->head != NULL)
@@ -277,6 +291,7 @@ TreeNode *error_node(TreeNode *node)
   bool node_found = false;
   if (node == NULL)
     return node;
+  // printf("in error, pre: %s\n",node->symbol->name);
   if (node->sibling != NULL)
   {
     node = node->sibling;
@@ -287,6 +302,8 @@ TreeNode *error_node(TreeNode *node)
     while (!node_found)
     {
       node = node->parent;
+      if (node == NULL)
+        return node;
       if (node->sibling != NULL)
       {
         node = node->sibling;
@@ -294,26 +311,26 @@ TreeNode *error_node(TreeNode *node)
       }
     }
   }
-  // printf("in error, new: %s\n",node->symbol->name);
+  printf("in error, new: %s\n", node->symbol->name);
   return node;
 }
 
 TreeNode *next_node(TreeNode *node, Symbol *sym)
 {
-  // printf("next node called...1\n");
+  printf("next node called...1\n");
   // print_symbol_details(sym,stdout);
   bool node_found = false;
   // printf("in next, pre: %s\n",node->symbol->name);
   // printf("in next, sym: %s\n",sym->name);
-  if ((node == NULL) || (node->symbol->terminal == $))
+  if ((node == NULL))
   {
-    // printf("next node called...2\n");
+    printf("next node called...2\n");
 
     node = NULL;
   }
   else if (node->symbol->is_terminal)
   {
-    // printf("next node called...3\n");
+    printf("next node called...3\n");
     // print_symbol_details(sym,stdout);
 
     if (node->sibling != NULL)
@@ -325,6 +342,8 @@ TreeNode *next_node(TreeNode *node, Symbol *sym)
       while (!node_found)
       {
         node = node->parent;
+        if (node == NULL)
+          return node;
         if (node->sibling != NULL)
         {
           node = node->sibling;
@@ -334,14 +353,14 @@ TreeNode *next_node(TreeNode *node, Symbol *sym)
   }
   else
   {
-    // printf("next node called...4\n");
+    printf("next node called...4\n");
 
     insert_child(node, sym);
     node = node->head;
     node_found = true;
     // printf("node: %s\n",node->symbol->name);
 
-    // printf("next node called...5\n");
+    printf("next node called...5\n");
   }
   // printf("in next, new: %s\n",node->symbol->name);
   return node;

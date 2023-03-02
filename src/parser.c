@@ -81,8 +81,6 @@ void insert_error(ErrorList *list, Error *new_error){
 }
 
 void initialize_parser(char *grammar_file){
-    printf("Building Grammar (Populating symbols)...\n");
-    build_grammar(grammar_file);
     printf("Creating parser tree and stack...\n");
     /* for(int i = 0; i < TOTAL_SYMBOLS; i++){ */
     /*     print_symbol_details(symbols[i], stdout); */
@@ -198,7 +196,9 @@ TOKEN handle_parser_error(TOKEN Curr_Token, Symbol *Top_Symbol, FILE *program_fp
                 print_symbol_details(Top_Symbol, debug_fp);
                 if ((Top_Symbol->non_terminal != Statement) && (Top_Symbol->non_terminal != Statements)){
                     pop_stack(Parser_Stack);
+                    // printf("bef\n");
                     curr_node = error_node(curr_node);
+                    // printf("aft\n");
                 }
                 else if (Top_Symbol->non_terminal == Statements){
                     break;
@@ -282,7 +282,9 @@ void parse_next(TOKEN Curr_Token, FILE *program_fp,  FILE *debug_fp){
                 print_symbol_details(Grammar_Rule, debug_fp);
                 // popping from stack
                 pop_stack(Parser_Stack);
+                printf("lauda lasoon\n");
                 curr_node = next_node(curr_node,Grammar_Rule); 
+                printf("lauda lsoon p;art 2\n");
 
                 Symbol *curr = Grammar_Rule->right;
                 while (curr != NULL){
@@ -337,28 +339,28 @@ void start_parsing(char *program_file, FILE *debug_fp){
 }
 
 
-int main(){
-    char *grammar_file = "../grammar.txt";
-    char *debug_file = "parser_output.txt";
-    char *debug_tree_file = "parser_output_tree.txt";
-    initialize_parser(grammar_file);
-    // starting lexer
-    printf(PRINT_CYAN "\n\nStarting lexer...\n" PRINT_RESET);
-    char *program_file = "../tests/test_cases_stage_1/t6_syntax_errors.txt"; 
-    /* char *program_file = "../tests/test_lexer_7.txt"; */
-    printf(PRINT_CYAN "Starting parsing...\n" PRINT_RESET);
-    FILE *debug_fp = fopen(debug_file, "w");
-    FILE *debug_tree_fp = fopen(debug_tree_file, "w");
+// int main(){
+//     char *grammar_file = "../grammar.txt";
+//     char *debug_file = "parser_output.txt";
+//     char *debug_tree_file = "parser_output_tree.txt";
+//     initialize_parser(grammar_file);
+//     // starting lexer
+//     printf(PRINT_CYAN "\n\nStarting lexer...\n" PRINT_RESET);
+//     char *program_file = "../tests/test_cases_stage_1/t6_syntax_errors.txt"; 
+//     /* char *program_file = "../tests/test_lexer_7.txt"; */
+//     printf(PRINT_CYAN "Starting parsing...\n" PRINT_RESET);
+//     FILE *debug_fp = fopen(debug_file, "w");
+//     FILE *debug_tree_fp = fopen(debug_tree_file, "w");
 
-    compute_all_symbols(stdout);
+//     compute_all_symbols(stdout);
 
-    start_parsing(program_file, stdout);
-    print_error_list(ERROR_LIST, stdout, 1);
-    printf(PRINT_CYAN "Printing tree in file...\n" PRINT_RESET);
-    printParseTree(Parse_Tree_Root, debug_tree_fp);
-    fclose(debug_fp);
-    fclose(debug_tree_fp);
-}
+//     start_parsing(program_file, stdout);
+//     print_error_list(ERROR_LIST, stdout, 1);
+//     printf(PRINT_CYAN "Printing tree in file...\n" PRINT_RESET);
+//     printParseTree(Parse_Tree_Root, debug_tree_fp);
+//     fclose(debug_fp);
+//     fclose(debug_tree_fp);
+// }
 
 /* int main(){ */
 /*     char *grammar_file = "../grammar.txt"; */
@@ -374,3 +376,25 @@ int main(){
 /*     return 0; */
 /* } */
 /*  */
+void run_parser(char* program_file ,char* debug_tree_file){
+    char *grammar_file = "../grammar.txt";
+    char *debug_file = "parser_output.txt";
+    // char *debug_tree_file = "parser_output_tree.txt";
+    initialize_parser(grammar_file);
+    // starting lexer
+    printf(PRINT_CYAN "\n\nStarting lexer...\n" PRINT_RESET);
+    // char *program_file = "../tests/test_cases_stage_1/t6_syntax_errors.txt"; 
+    /* char *program_file = "../tests/test_lexer_7.txt"; */
+    printf(PRINT_CYAN "Starting parsing...\n" PRINT_RESET);
+    FILE *debug_fp = fopen(debug_file, "w");
+    FILE *debug_tree_fp = fopen(debug_tree_file, "w");
+
+    compute_all_symbols(stdout);
+
+    start_parsing(program_file, stdout);
+    print_error_list(ERROR_LIST, stdout, 1);
+    printf(PRINT_CYAN "Printing tree in file...\n" PRINT_RESET);
+    printParseTree(Parse_Tree_Root, debug_tree_fp);
+    fclose(debug_fp);
+    fclose(debug_tree_fp);
+}
