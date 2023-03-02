@@ -4,7 +4,11 @@
 #include <stdbool.h>
 #include "lexer_helper.h"
 
-
+/*
+@brief : Returns hash-code according to a hash function
+@input : char*
+@output : int 
+*/
 int hash_code(char s[])
 {
     int size = strlen(s);
@@ -18,6 +22,11 @@ int hash_code(char s[])
     return code;
 }
 
+/*
+@brief : Searches for a key in hash table
+@input : char* , Element**
+@output : terminals
+*/
 terminals search(char key[], Element *table[])
 {
     int index = hash_code(key);
@@ -36,6 +45,11 @@ terminals search(char key[], Element *table[])
     return iD;
 }
 
+/*
+@brief : Prints the rentire hash table
+@input : Element**
+@output : void
+*/
 void print_lt(Element *table[]){
     int i = 0;
     for(; i<HASH_SIZE; i++){
@@ -43,6 +57,11 @@ void print_lt(Element *table[]){
     }
 }
 
+/*
+@brief : Inserts new key-value pair in the hash table
+@input : char* , terminals , Element**
+@output : void
+*/
 void insert(char key[], terminals name, Element *table[])
 {
 

@@ -11,7 +11,7 @@
 /* int MAX_SYMBOLS_ARRAY_SIZE = 64; */
 /* char **grammar; */
 /* Symbol *symbols[256]; */
-TreeNode *current, *previous, *terminal_head;
+// TreeNode *current, *previous, *terminal_head;
 /*  */
 /*  */
 /* char **read_grammar_file(char *file) { */
@@ -117,92 +117,134 @@ TreeNode *current, *previous, *terminal_head;
 /* } */
 
 // parse tree start
-
-TreeNode* create_parse_tree(){
-    TreeNode *root = (TreeNode*) malloc(sizeof(TreeNode));
-    return root;
+/*
+@brief : Creates a new parse tree
+@input : void
+@output : Treenode*
+*/
+TreeNode *create_parse_tree()
+{
+  TreeNode *root = (TreeNode *)malloc(sizeof(TreeNode));
+  return root;
 }
 
-TreeNode* create_treeNode(){
-    TreeNode *x = (TreeNode*) malloc(sizeof(TreeNode));
-    return x;
+/*
+@brief : Create a new node
+@input : void
+@output : Treenode*
+*/
+TreeNode *create_treeNode()
+{
+  TreeNode *x = (TreeNode *)malloc(sizeof(TreeNode));
+  return x;
 }
 
-TreeNode* insert_child(TreeNode* parent, Symbol *symbol){ // pointer to parent, and LHS of grammar
-    if(strcmp(parent->symbol->name,symbol->name) == 0){   // A -> B C => parent = A, LHS = A 
-      Symbol *sym = symbol->right;
-      while(sym != NULL){
-        TreeNode *curr = create_treeNode();
-        curr->symbol = sym;
-        if(parent->head == NULL && parent->tail == NULL){
-          parent->head = curr;
-          parent->tail = curr;
-          curr->parent = parent;
-        } else {
-          parent->tail->sibling = curr;
-          parent->tail = curr;
-          curr->parent = parent;
-        }
-
-        // if(curr->symbol->is_terminal){
-        //   if(current == NULL && previous == NULL){
-        //     terminal_head = curr;
-        //     current = curr;
-        //     previous = curr;
-        //     current->sibling = NULL;
-        //   } else {
-        //     current = curr;
-        //     previous->sibling = current;
-        //     previous = current;
-        //     current->sibling = NULL;
-        //   }
-        // }
-
-        sym = sym->right;
+/*
+@brief : Insert new children in tree at given node
+@input : Treenode* , Symbol*
+@output : Treenode*
+*/
+TreeNode *insert_child(TreeNode *parent, Symbol *symbol)
+{ // pointer to parent, and LHS of grammar
+  if (strcmp(parent->symbol->name, symbol->name) == 0)
+  { // A -> B C => parent = A, LHS = A
+    Symbol *sym = symbol->right;
+    while (sym != NULL)
+    {
+      TreeNode *curr = create_treeNode();
+      curr->symbol = sym;
+      if (parent->head == NULL && parent->tail == NULL)
+      {
+        parent->head = curr;
+        parent->tail = curr;
+        curr->parent = parent;
       }
-    } else printf("The parent and given LHS do not match!!!!!!!!!!!!\n");
+      else
+      {
+        parent->tail->sibling = curr;
+        parent->tail = curr;
+        curr->parent = parent;
+      }
+
+      // if(curr->symbol->is_terminal){
+      //   if(current == NULL && previous == NULL){
+      //     terminal_head = curr;
+      //     current = curr;
+      //     previous = curr;
+      //     current->sibling = NULL;
+      //   } else {
+      //     current = curr;
+      //     previous->sibling = current;
+      //     previous = current;
+      //     current->sibling = NULL;
+      //   }
+      // }
+
+      sym = sym->right;
+    }
+  }
+  else
+    printf("The parent and given LHS do not match!!!!!!!!!!!!\n");
 }
 
-void print_tree(TreeNode *root, FILE *debug_fp){
-  fprintf(debug_fp, " %s => ", root->symbol->name);
-  TreeNode *curr = root->head;
-  while(curr != NULL){
-    fprintf(debug_fp, "%s ", curr->symbol->name);
-    curr = curr->sibling;
-  }
-  fprintf(debug_fp, "[END]");
-  fprintf(debug_fp, "\n");
-  curr = root->head;
-  while(curr!= NULL){
-    if(curr->head != NULL){
-      print_tree(curr, debug_fp);
-    } else if (curr->symbol->is_terminal) {
+
+// void print_tree(TreeNode *root, FILE *debug_fp)
+// {
+//   fprintf(debug_fp, " %s => ", root->symbol->name);
+//   TreeNode *curr = root->head;
+//   while (curr != NULL)
+//   {
+//     fprintf(debug_fp, "%s ", curr->symbol->name);
+//     curr = curr->sibling;
+//   }
+//   fprintf(debug_fp, "[END]");
+//   fprintf(debug_fp, "\n");
+//   curr = root->head;
+//   while (curr != NULL)
+//   {
+//     if (curr->head != NULL)
+//     {
+//       print_tree(curr, debug_fp);
+//     }
+//     else if (curr->symbol->is_terminal)
+//     {
+//       curr = curr->sibling;
+//       continue;
+//     }
+//     else
+//     {
+//       break;
+//     }
+//     curr = curr->sibling;
+//   }
+// }
+
+/*
+@brief : Prints parse tree in inorder traversal
+@input : Treenode* , FILE*
+@output : void
+*/
+void printParseTree(TreeNode *root, FILE *outfile)
+{
+  if (root != NULL)
+  {
+    printParseTree(root->head, outfile);
+
+    fprintf(outfile, "==============>  ");
+    print_symbol_details(root->symbol, outfile);
+    fprintf(outfile, "\n\n");
+
+    if (root->head != NULL)
+    {
+      TreeNode *curr = root->head;
       curr = curr->sibling;
-      continue;
-    } else{
-      break;
-    } 
-    curr = curr->sibling;
-  }
-}
-
-void printParseTree(TreeNode* root, FILE* outfile){
-  if(root!=NULL){
-    printParseTree(root->head,outfile);
-
-    fprintf(outfile,"==============>  ");
-    print_symbol_details(root->symbol,outfile);
-    fprintf(outfile,"\n\n");
-
-    if(root->head!=NULL){
-      TreeNode* curr = root->head;
-      curr = curr->sibling;
-      while(curr!=NULL){
-        printParseTree(curr,outfile);
+      while (curr != NULL)
+      {
+        printParseTree(curr, outfile);
         curr = curr->sibling;
       }
-    } 
-  }  
+    }
+  }
 }
 // void print_terminal_list(){
 //   current = terminal_head;
@@ -213,8 +255,6 @@ void printParseTree(TreeNode* root, FILE* outfile){
 //   }
 //   printf("[END]\n");
 // }
-
-
 
 // parse tree functions end
 /* int main(){ */
@@ -231,3 +271,77 @@ void printParseTree(TreeNode* root, FILE* outfile){
 /*     return 0; */
 /* } */
 /*  */
+
+TreeNode *error_node(TreeNode *node)
+{
+  // printf("in error, pre: %s\n",node->symbol->name);
+  bool node_found = false;
+  if (node->sibling != NULL)
+  {
+    node = node->sibling;
+    node_found = true;
+  }
+  else
+  {
+    while (!node_found)
+    {
+      node = node->parent;
+      if (node->sibling != NULL)
+      {
+        node = node->sibling;
+        node_found = true;
+      }
+    }
+  }
+  // printf("in error, new: %s\n",node->symbol->name);
+  return node;
+}
+
+TreeNode *next_node(TreeNode *node, Symbol *sym)
+{
+  // printf("next node called...1\n");
+  // print_symbol_details(sym,stdout);
+  bool node_found = false;
+  // printf("in next, pre: %s\n",node->symbol->name);
+  // printf("in next, sym: %s\n",sym->name);
+  if (node->symbol->terminal == $)
+  {
+    // printf("next node called...2\n");
+
+    node = NULL;
+  }
+  else if (node->symbol->is_terminal)
+  {
+    // printf("next node called...3\n");
+    // print_symbol_details(sym,stdout);
+
+    if (node->sibling != NULL)
+    {
+      node = node->sibling;
+      node_found = true;
+    }
+    else
+      while (!node_found)
+      {
+        node = node->parent;
+        if (node->sibling != NULL)
+        {
+          node = node->sibling;
+          node_found = true;
+        }
+      }
+  }
+  else
+  {
+    // printf("next node called...4\n");
+
+    insert_child(node, sym);
+    node = node->head;
+    node_found = true;
+    // printf("node: %s\n",node->symbol->name);
+
+    // printf("next node called...5\n");
+  }
+  // printf("in next, new: %s\n",node->symbol->name);
+  return node;
+}
