@@ -121,7 +121,7 @@ void compute_all_symbols(FILE* debug_fp){
     /* } */
 }
 
-TOKEN handle_parser_error(TOKEN Curr_Token, Symbol *Top_Symbol, FILE *program_fp, FILE *debug_fp, int error_type){
+TOKEN handle_parser_error(TOKEN Curr_Token, Symbol *Top_Symbol, FILE *program_fp, FILE *debug_fp, int error_type, int strategy){
     Error *created_error = create_new_error(Curr_Token.line, error_type, Curr_Token, Top_Symbol);
     insert_error(ERROR_LIST, created_error);
     if (error_type == 0){
@@ -141,78 +141,83 @@ TOKEN handle_parser_error(TOKEN Curr_Token, Symbol *Top_Symbol, FILE *program_fp
         fprintf(debug_fp, PRINT_RED "\n>>>RECOVERING: No Rule found in Parser Table\n" PRINT_RESET);
         print_symbol_details(Top_Symbol, debug_fp);
 
-        // Strategy 1 - Follow Set as Sync Set
-        /* while ((Curr_Token.name != $) && (find_node(term_str[Curr_Token.name], Top_Symbol->follow) == 0)){  */
-        /*     fprintf(debug_fp, "\n...RECOVERING:");  */
-        /*     print_token_details(Curr_Token, debug_fp);  */
-        /*     print_symbol_details(Top_Symbol, debug_fp); */
-        /*     Curr_Token = eval_token(program_fp);  */
-        /* }  */
-        /* if (Curr_Token.name != $){  */
-        /*     fprintf(debug_fp, "\n>>>RECOVERED, Stack Non Terminal popped\n");  */
-        /*     pop_stack(Parser_Stack); */
-        /*     curr_node = error_node(curr_node);  */
-        /* }  */
-
-        // Strategy 2 - First Set as Sync Set
-        /* while ((Curr_Token.name != $) && (find_node(term_str[Curr_Token.name], Top_Symbol->first) == 0)){ */
-        /*     fprintf(debug_fp, PRINT_RED "\n...RECOVERING:" PRINT_RESET); */
-        /*     print_token_details(Curr_Token, debug_fp); */
-        /*     print_symbol_details(Top_Symbol, debug_fp); */
-        /*     Curr_Token = eval_token(program_fp); */
-        /* } */
-        /* if (Curr_Token.name != $){ */
-        /*     fprintf(debug_fp, PRINT_BLUE "\n<<<RECOVERED, some file tokens skipped\n" PRINT_RESET); */
-        /* } */
-
-        // Strategy 3 - Using both first and follow sets as Sync set
-        /* while (Curr_Token.name != $){ */
-        /*     fprintf(debug_fp, PRINT_RED "\n...RECOVERING:" PRINT_RESET); */
-        /*     print_token_details(Curr_Token, debug_fp); */
-        /*     print_symbol_details(Top_Symbol, debug_fp); */
-        /*     if (find_node(term_str[Curr_Token.name], Top_Symbol->follow) == 1){ */
-        /*         fprintf(debug_fp, PRINT_BLUE "\n<<<RECOVERED, Stack Non Terminal popped\n" PRINT_RESET); */
-        /*         pop_stack(Parser_Stack); */
-        /*         curr_node = error_node(curr_node); */
-        /*         return Curr_Token; */
-        /*     } */
-        /*     else if (find_node(term_str[Curr_Token.name], Top_Symbol->first) == 1){ */
-        /*         fprintf(debug_fp, PRINT_BLUE "\n<<<RECOVERED, some file tokens skipped\n" PRINT_RESET); */
-        /*         return Curr_Token; */
-        /*     } */
-        /*     else { */
-        /*         Curr_Token = eval_token(program_fp); */
-        /*     } */
-        /* } */
-
-        // Strategy 4 - Ignore tokens and pop stock until "Statement" is stack top with FIRST(Statement) as Sync set
-        while (is_empty_stack(Parser_Stack) == 0){
-            Symbol *Top_Symbol = top_stack(Parser_Stack);   
-            fprintf(debug_fp, PRINT_RED "\n...RECOVERING: (Popping Stack)" PRINT_RESET);
-            print_stack(Parser_Stack, debug_fp);
-            print_token_details(Curr_Token, debug_fp);
-            print_symbol_details(Top_Symbol, debug_fp);
-            if ((Top_Symbol->non_terminal != Statement) && (Top_Symbol->non_terminal != Statements)){
+        if (strategy == 1){
+            // Strategy 1 - Follow Set as Sync Set
+            while ((Curr_Token.name != $) && (find_node(term_str[Curr_Token.name], Top_Symbol->follow) == 0)){ 
+                fprintf(debug_fp, "\n...RECOVERING:"); 
+                print_token_details(Curr_Token, debug_fp); 
+                print_symbol_details(Top_Symbol, debug_fp);
+                Curr_Token = eval_token(program_fp); 
+            } 
+            if (Curr_Token.name != $){ 
+                fprintf(debug_fp, "\n>>>RECOVERED, Stack Non Terminal popped\n"); 
                 pop_stack(Parser_Stack);
-                curr_node = error_node(curr_node);
+                curr_node = error_node(curr_node); 
+            } 
+        }
+        else if (strategy == 2){
+            // Strategy 2 - First Set as Sync Set
+            while ((Curr_Token.name != $) && (find_node(term_str[Curr_Token.name], Top_Symbol->first) == 0)){
+                fprintf(debug_fp, PRINT_RED "\n...RECOVERING:" PRINT_RESET);
+                print_token_details(Curr_Token, debug_fp);
+                print_symbol_details(Top_Symbol, debug_fp);
+                Curr_Token = eval_token(program_fp);
             }
-            else if (Top_Symbol->non_terminal == Statements){
-                break;
-            }
-            else if (Top_Symbol->non_terminal == Statement){
-                break;
+            if (Curr_Token.name != $){
+                fprintf(debug_fp, PRINT_BLUE "\n<<<RECOVERED, some file tokens skipped\n" PRINT_RESET);
             }
         }
-        while (Curr_Token.name != $){
-            fprintf(debug_fp, PRINT_RED "\n...RECOVERING: (Consuming Tokens)" PRINT_RESET);
-            print_token_details(Curr_Token, debug_fp);
-            print_symbol_details(Top_Symbol, debug_fp);
-            if (find_node(term_str[Curr_Token.name], symbols[NT_TO_ROW[Statement]]->first) == 1){
-                fprintf(debug_fp, PRINT_BLUE "\n<<<RECOVERED, Stack Non Terminal popped\n" PRINT_RESET);
-                return Curr_Token;
+        else if (strategy == 3){
+            // Strategy 3 - Using both first and follow sets as Sync set
+            while (Curr_Token.name != $){
+                fprintf(debug_fp, PRINT_RED "\n...RECOVERING:" PRINT_RESET);
+                print_token_details(Curr_Token, debug_fp);
+                print_symbol_details(Top_Symbol, debug_fp);
+                if (find_node(term_str[Curr_Token.name], Top_Symbol->follow) == 1){
+                    fprintf(debug_fp, PRINT_BLUE "\n<<<RECOVERED, Stack Non Terminal popped\n" PRINT_RESET);
+                    pop_stack(Parser_Stack);
+                    curr_node = error_node(curr_node);
+                    return Curr_Token;
+                }
+                else if (find_node(term_str[Curr_Token.name], Top_Symbol->first) == 1){
+                    fprintf(debug_fp, PRINT_BLUE "\n<<<RECOVERED, some file tokens skipped\n" PRINT_RESET);
+                    return Curr_Token;
+                }
+                else {
+                    Curr_Token = eval_token(program_fp);
+                }
             }
-            else {
-                Curr_Token = eval_token(program_fp);
+        }
+        else if (strategy == 4){
+            // Strategy 4 - Ignore tokens and pop stock until "Statement" is stack top with FIRST(Statement) as Sync set
+            while (is_empty_stack(Parser_Stack) == 0){
+                Symbol *Top_Symbol = top_stack(Parser_Stack);   
+                fprintf(debug_fp, PRINT_RED "\n...RECOVERING: (Popping Stack)" PRINT_RESET);
+                print_stack(Parser_Stack, debug_fp);
+                print_token_details(Curr_Token, debug_fp);
+                print_symbol_details(Top_Symbol, debug_fp);
+                if ((Top_Symbol->non_terminal != Statement) && (Top_Symbol->non_terminal != Statements)){
+                    pop_stack(Parser_Stack);
+                    curr_node = error_node(curr_node);
+                }
+                else if (Top_Symbol->non_terminal == Statements){
+                    break;
+                }
+                else if (Top_Symbol->non_terminal == Statement){
+                    break;
+                }
+            }
+            while (Curr_Token.name != $){
+                fprintf(debug_fp, PRINT_RED "\n...RECOVERING: (Consuming Tokens)" PRINT_RESET);
+                print_token_details(Curr_Token, debug_fp);
+                print_symbol_details(Top_Symbol, debug_fp);
+                if (find_node(term_str[Curr_Token.name], symbols[NT_TO_ROW[Statement]]->first) == 1){
+                    fprintf(debug_fp, PRINT_BLUE "\n<<<RECOVERED, Stack Non Terminal popped\n" PRINT_RESET);
+                    return Curr_Token;
+                }
+                else {
+                    Curr_Token = eval_token(program_fp);
+                }
             }
         }
         return Curr_Token;
@@ -236,7 +241,7 @@ void parse_next(TOKEN Curr_Token, FILE *program_fp,  FILE *debug_fp){
         print_token_details(Curr_Token, debug_fp);
         if (Curr_Token.name == lEX_ERROR){
             fprintf(debug_fp, PRINT_RED "LEXICAL ERROR: Found\n" PRINT_RESET);
-            handle_parser_error(Curr_Token, Top_Symbol, program_fp, debug_fp, 2);
+            handle_parser_error(Curr_Token, Top_Symbol, program_fp, debug_fp, 2, 3);
             Curr_Token = eval_token(program_fp);
             /* printf("\n after error NEW TOKEN - line - %d, type - %d, id - %s, num - %d, rnum - %f",  */
             /*    Curr_Token.line, Curr_Token.name, Curr_Token.id, Curr_Token.num, Curr_Token.rnum); */
@@ -266,7 +271,7 @@ void parse_next(TOKEN Curr_Token, FILE *program_fp,  FILE *debug_fp){
                     fprintf(debug_fp, PRINT_RED "\nFILE EOF ERROR: Stack non empty, Found\n" PRINT_RESET);
                     return;
                 }
-                Curr_Token = handle_parser_error(Curr_Token, Top_Symbol, program_fp, debug_fp, 0);
+                Curr_Token = handle_parser_error(Curr_Token, Top_Symbol, program_fp, debug_fp, 0, 3);
                 /* break; */
             }
         } 
@@ -303,12 +308,11 @@ void parse_next(TOKEN Curr_Token, FILE *program_fp,  FILE *debug_fp){
                     fprintf(debug_fp, PRINT_RED "\nFILE EOF ERROR: Stack non empty, Found\n" PRINT_RESET);
                     return;
                 }
-                Curr_Token = handle_parser_error(Curr_Token, Top_Symbol, program_fp, debug_fp, 1);
+                Curr_Token = handle_parser_error(Curr_Token, Top_Symbol, program_fp, debug_fp, 1, 3);
                 /* break; */
             }
         }
     }
-    print_token_details(Curr_Token, stdout);
     if (is_empty_stack(Parser_Stack) == 1 && Curr_Token.name == $){
         fprintf(debug_fp, PRINT_CYAN "\nPARSING COMPLETE.\n" PRINT_RESET);
     }
@@ -348,7 +352,7 @@ int main(){
 
     compute_all_symbols(stdout);
 
-    start_parsing(program_file, stdout);
+    start_parsing(program_file, debug_fp);
     print_error_list(ERROR_LIST, stdout, 1);
     printf(PRINT_CYAN "Printing tree in file...\n" PRINT_RESET);
     printParseTree(Parse_Tree_Root, debug_tree_fp);
