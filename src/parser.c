@@ -29,7 +29,7 @@ void print_error_list(ErrorList *list, FILE *debug_fp, int strict){
     int actual_total_errors = 0;
     printf(PRINT_CYAN "\nPRINTING ALL ERRORS CAUGHT  > > >\n" PRINT_RESET);
     if (list == NULL || list->head == NULL){
-        fprintf(debug_fp, "NO ERRORS - Enjoy your day!\n");
+        fprintf(debug_fp, PRINT_GREEN "NO ERRORS !\n" PRINT_RESET);
         return;
     }
     Error *curr_error = list->head;
@@ -38,11 +38,12 @@ void print_error_list(ErrorList *list, FILE *debug_fp, int strict){
             curr_error = curr_error->next;
         }
         else {
-            fprintf(debug_fp, "\n ERROR DETAILS: LINE - [%d]; TYPE - [%d] - %s\n", curr_error->line, curr_error->type, error_msg(curr_error->type));
+            fprintf(debug_fp, "\n ERROR DETAILS: LINE - [%d]; TYPE - [%d] - %s\n", 
+                curr_error->line, curr_error->type, error_msg(curr_error->type));
             print_token_details(curr_error->token, debug_fp);
-            /* print_symbol_details(curr_error->stack_top, debug_fp); */
-            curr_error = curr_error->next;
+            print_symbol_details(curr_error->stack_top, debug_fp);
             prev_line = curr_error->line;
+            curr_error = curr_error->next;
             actual_total_errors++;
         }
     }
@@ -340,17 +341,19 @@ int main(){
     // starting lexer
     printf(PRINT_CYAN "\n\nStarting lexer...\n" PRINT_RESET);
     char *program_file = "../tests/test_cases_stage_1/t6_syntax_errors.txt"; 
-    /* char *program_file = "../tests/test_lexer_2.txt"; */
+    /* char *program_file = "../tests/test_lexer_7.txt"; */
     printf(PRINT_CYAN "Starting parsing...\n" PRINT_RESET);
     FILE *debug_fp = fopen(debug_file, "w");
     FILE *debug_tree_fp = fopen(debug_tree_file, "w");
 
     compute_all_symbols(stdout);
 
-    start_parsing(program_file, debug_fp);
+    start_parsing(program_file, stdout);
     print_error_list(ERROR_LIST, stdout, 1);
     printf(PRINT_CYAN "Printing tree in file...\n" PRINT_RESET);
     printParseTree(Parse_Tree_Root, debug_tree_fp);
+    fclose(debug_fp);
+    fclose(debug_tree_fp);
 }
 
 /* int main(){ */
