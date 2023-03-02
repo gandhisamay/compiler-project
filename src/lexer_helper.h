@@ -105,6 +105,13 @@ typedef struct ErrorList {
     int size;
 } ErrorList;
 
+ErrorList *ERROR_LIST;
+char *error_msg(int error_type);
+void print_error_list(ErrorList *list, FILE *debug_fp, int strict);
+Error *create_new_error(int line, int type, TOKEN token, Symbol *symbol);
+ErrorList *create_error_list();
+void insert_error(ErrorList *list, Error *new_error);
+
 typedef struct ele
 {
     char key[20];

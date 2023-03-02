@@ -41,7 +41,7 @@ void print_error_list(ErrorList *list, FILE *debug_fp, int strict){
             fprintf(debug_fp, "\n ERROR DETAILS: LINE - [%d]; TYPE - [%d] - %s\n", 
                 curr_error->line, curr_error->type, error_msg(curr_error->type));
             print_token_details(curr_error->token, debug_fp);
-            print_symbol_details(curr_error->stack_top, debug_fp);
+            if (curr_error->stack_top != NULL) print_symbol_details(curr_error->stack_top, debug_fp);
             prev_line = curr_error->line;
             curr_error = curr_error->next;
             actual_total_errors++;
@@ -241,7 +241,7 @@ void parse_next(TOKEN Curr_Token, FILE *program_fp,  FILE *debug_fp){
         print_token_details(Curr_Token, debug_fp);
         if (Curr_Token.name == lEX_ERROR){
             fprintf(debug_fp, PRINT_RED "LEXICAL ERROR: Found\n" PRINT_RESET);
-            handle_parser_error(Curr_Token, Top_Symbol, program_fp, debug_fp, 2, 3);
+            handle_parser_error(Curr_Token, Top_Symbol, program_fp, debug_fp, 2, 4);
             Curr_Token = eval_token(program_fp);
             /* printf("\n after error NEW TOKEN - line - %d, type - %d, id - %s, num - %d, rnum - %f",  */
             /*    Curr_Token.line, Curr_Token.name, Curr_Token.id, Curr_Token.num, Curr_Token.rnum); */
@@ -271,7 +271,7 @@ void parse_next(TOKEN Curr_Token, FILE *program_fp,  FILE *debug_fp){
                     fprintf(debug_fp, PRINT_RED "\nFILE EOF ERROR: Stack non empty, Found\n" PRINT_RESET);
                     return;
                 }
-                Curr_Token = handle_parser_error(Curr_Token, Top_Symbol, program_fp, debug_fp, 0, 3);
+                Curr_Token = handle_parser_error(Curr_Token, Top_Symbol, program_fp, debug_fp, 0, 4);
                 /* break; */
             }
         } 
@@ -308,7 +308,7 @@ void parse_next(TOKEN Curr_Token, FILE *program_fp,  FILE *debug_fp){
                     fprintf(debug_fp, PRINT_RED "\nFILE EOF ERROR: Stack non empty, Found\n" PRINT_RESET);
                     return;
                 }
-                Curr_Token = handle_parser_error(Curr_Token, Top_Symbol, program_fp, debug_fp, 1, 3);
+                Curr_Token = handle_parser_error(Curr_Token, Top_Symbol, program_fp, debug_fp, 1, 4);
                 /* break; */
             }
         }
@@ -352,7 +352,7 @@ int main(){
 
     compute_all_symbols(stdout);
 
-    start_parsing(program_file, debug_fp);
+    start_parsing(program_file, stdout);
     print_error_list(ERROR_LIST, stdout, 1);
     printf(PRINT_CYAN "Printing tree in file...\n" PRINT_RESET);
     printParseTree(Parse_Tree_Root, debug_tree_fp);

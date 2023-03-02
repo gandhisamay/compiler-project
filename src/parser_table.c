@@ -82,7 +82,7 @@ void print_symbol_details(Symbol *s, FILE *debug_fp) {
   }
   fprintf(debug_fp, "[END]\n");
 
-  fprintf(debug_fp, "Row no: %d\n", s->row_no);
+  /* fprintf(debug_fp, "Row no: %d\n", s->row_no); */
   /* printf("\n"); */
 }
 

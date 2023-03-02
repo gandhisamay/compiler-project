@@ -3,3 +3,4 @@
 - [X]  ADD iN in terminals enum
 - [ ] NOTE: Keep track of array sizes / hardocded max lims placed in headers
 - [ ] TREENODE ISSUE WHEN POPPING S at start (initial error)
+- [ ] LEXER error capture from lexer.c, don't pass to parser!
