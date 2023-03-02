@@ -502,6 +502,7 @@ TOKEN eval_token(FILE *fp)
             else
             {
                 state = 19;
+                if( c == '\n') line_no++;
             }
             break;
 
@@ -514,6 +515,7 @@ TOKEN eval_token(FILE *fp)
             else
             {
                 state = 19;
+                if( c == '\n') line_no++;
             }
             break;
 
