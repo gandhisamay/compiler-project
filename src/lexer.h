@@ -1,5 +1,5 @@
-#include <stdio.h>
 #include "parse_tree.h"
+#include <stdio.h>
 #define HASH_SIZE 35
 // #define BUFFER_SIZE 100
 #define P 7
@@ -15,7 +15,7 @@ int stop = -1;
 int LOOKUP_SET = 0;
 
 int BUFFER_SIZE = 100;
-char* Buffer;
+char *Buffer;
 /* typedef enum */
 /* { */
 /*     dECLARE, */
@@ -79,31 +79,29 @@ char* Buffer;
 /*     lEX_ERROR, */
 /* } terminals; */
 
-typedef struct token
-{
-    terminals name;
-    int line;
-    union
-    {
-        char id[20];
-        int num;
-        /* float rnum; */
-        double rnum;
-    };
+typedef struct token {
+  terminals name;
+  int line;
+  union {
+    char id[20];
+    int num;
+    /* float rnum; */
+    double rnum;
+  };
 } TOKEN;
 
 typedef struct Error {
-    int line;
-    int type;
-    TOKEN token;
-    Symbol *stack_top;
-    struct Error *next;
+  int line;
+  int type;
+  TOKEN token;
+  Symbol *stack_top;
+  struct Error *next;
 } Error;
 
 typedef struct ErrorList {
-    Error *head;
-    Error *tail;
-    int size;
+  Error *head;
+  Error *tail;
+  int size;
 } ErrorList;
 
 ErrorList *ERROR_LIST;
@@ -113,10 +111,9 @@ Error *create_new_error(int line, int type, TOKEN token, Symbol *symbol);
 ErrorList *create_error_list();
 void insert_error(ErrorList *list, Error *new_error);
 
-typedef struct ele
-{
-    char key[20];
-    terminals name;
+typedef struct ele {
+  char key[20];
+  terminals name;
 } Element;
 
 Element *Lookup_Table[HASH_SIZE];
@@ -127,7 +124,6 @@ terminals search(char key[], Element *table[]);
 
 void insert(char key[], terminals name, Element *table[]);
 
-
 void populate_buffer(FILE *fp);
 char next_char(FILE *fp);
 void retract(int num);
@@ -137,5 +133,5 @@ TOKEN is_tkn(FILE *fp);
 void lexer_reset(FILE *fp);
 TOKEN eval_token(FILE *fp);
 void remove_comments(FILE *ipt, char *opt_name);
-int test_lexer_run(char *program_file, char *tokenized_file);
+int test_lexer_run(char *program_file);
 void print_token_details(TOKEN curr, FILE *token_fp);
