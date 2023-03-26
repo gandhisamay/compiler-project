@@ -1,0 +1,201 @@
+27. Statements = Statement Statements1
+    Statements.list_head_syn = insert_at_head(Statements1.list_head_syn, Statement.node_syn)
+    free(Statements1)
+    free(Statement)
+
+28. Statements = #
+    Statements.list_head_syn = NULL
+
+30. Statement = SimpleStmt
+    Statement.node_syn = SimpleStmt.node_syn
+    free(SimpleStmt)
+
+36. BoolConstt = tRUE
+    BoolConstt.node_syn = tRUE
+
+37. BoolConstt = fALSE
+    BoolConstt.node_syn = fALSE
+
+51. SimpleStmt = AssignmentStmt
+    SimpleStmt.node_syn = AssignmentStmt.node_syn
+    free(AssignmentStmt)
+
+52. SimpleStmt = ModuleReuseStmt
+    SimpleStmt.node_syn = ModuleReuseStmt.node_syn
+    free(ModuleReuseStmt)
+
+53. AssignmentStmt = iD WhichStmt
+    WhichStmt.node_inh = iD
+    AssignmentStmt.node_syn = WhichStmt.node_syn
+    free(WHICHSTMT)
+
+54. WhichStmt = LvalueIDStmt
+    LvalueIDStmt.node_inh = WhichStmt.node_inh
+    WhichStmt.node_syn = LvalueIDStmt.node_syn
+    free(LvalueIDStmt)
+
+55. WhichStmt = LvalueARRStmt
+    LvalueARRStmt.node_inh = WhichStmt.node_inh
+    WhichStmt.node_syn = LvalueARRStmt.node_syn
+    free(LvalueARRStmt)
+
+56. LvalueIDStmt = aSSIGNOP Expression sEMICOL
+    LvalueIDStmt.node_syn = make_node("ASSIGN", LvalueIDStmt.node_inh, Expression.node_syn)
+    free(aSSIGNOP)
+    free(Expression)
+    free(sEMICOL)
+
+57. LvalueARRStmt = sQBO Element_index_with_expressions sQBC aSSIGNOP Expression sEMICOL
+    LvalueARRStmt.node_syn = make_node("ASSIGN", 
+                                           make_node("ARRAY_ACCESS", LvalueARRStmt.node_inh, Element_index_with_expressions.node_syn), 
+                                           Expression.node_syn
+                                        )
+    free(sQBO)
+    free(Element_index_with_expressions)
+    free(sQBC)
+    free(aSSIGNOP)
+    free(Expression)
+    free(sEMICOL)
+
+
+
+60. New_index = nUM
+    New_index.node_syn = nUM
+    free(nUM)
+
+61. New_index = iD
+    New_index.node_syn = iD
+    free(iD)
+
+62. Sign = pLUS
+    Sign.node_syn = pLUS
+    free(pLUS)
+
+63. Sign = mINUS
+    Sign.node_syn = mINUS
+    free(mINUS)
+
+64. ModuleReuseStmt = Optional uSE mODULE iD wITH pARAMETERS Actual_para_list sEMICOL
+    ModuleReuseStmt.node_syn = Optional.node_syn_list != NULL? 
+                               make_node("ASSIGN_VALUES", Optional.node_syn_list, make_node("FUNCTION_CALL", iD, 
+                               make_node("PARAMETER_LIST", Actual_para_list.node_syn_list)))
+                               :
+                               make_node("FUNCTION_CALL", iD, make_node("PARAMETER_LIST", Actual_para_list.node_syn_list))
+
+65. Actual_para_iD = nUM
+    Actual_para_iD.node_syn = nUM 
+
+66. Actual_para_iD = rNUM
+    Actual_para_iD.node_syn = rNUM 
+
+67. Actual_para_iD = BoolConstt
+    Actual_para_iD.node_syn = BoolConstt.node_syn
+
+68. Actual_para_iD = iD N11
+    Actual_para_iD.node_syn = N11.node_syn
+    free(iD)
+
+69. Actual_para_list = Sign_for_loop Actual_para_iD Actual_para_list1
+    Actual_para_list1.node_syn_list = insert_at_end(Actual_para_iD, Actual_para_list1)
+    
+70. Actual_para_list1 = cOMMA Sign_for_loop Actual_para_iD Actual_para_list1
+    Actual_para_list1.node_syn_list = insert_at_end(Actual_para_iD, Actual_para_list1)
+    free(cOMMA)
+
+71. Actual_para_list1 = #
+    Actual_para_list1.node_syn_list = create_new_list()
+
+72. Optional = sQBO IdList sQBC aSSIGNOP 
+    Optional.node_syn_list = IdList.node_syn_list
+    free(sQBO)
+    free(sQBC)
+    free(aSSIGNOP)
+
+73. Optional = #
+    Optional.node_syn_list = NULL
+    
+74. IdList = iD N3
+    IdList.node_syn_list = insert_at_end(iD, N3.node_syn_list)
+    free(iD)
+
+75. N3 = cOMMA iD N31
+    N3.node_syn_list = insert_at_end(iD, N31.node_syn_list)
+    free(cOMMA)
+    free(iD)
+
+76. N3 = #
+    N3.node_syn_list = create_new_list()
+
+77. Expression = ArithmeticOrBooleanExpr
+    Expression.node_syn = ArithmeticOrBooleanExpr.node_syn
+    free(ArithmeticOrBooleanExpr)
+
+78. Expression = U
+    Expression.node_syn = U.node_syn
+    free(U)
+
+79. U = Unary_op New_NT
+    New_NT.node_inh = Unary_op.node_syn
+    U.node_syn = New_NT.node_syn
+    free(Unary_op)
+    free(New_NT)
+
+80. New_NT = bO ArithmeticExpr bC
+    New_NT.node_syn = make_node("UnaryExpression", New_NT.node_inh, ArithmeticExpr.node_syn)
+    free(bO)
+    free(bC)
+
+81. New_NT = Var_id_num
+    New_NT.node_syn = Var_id_num.node_syn
+    free(Var_id_num)
+
+82. Unary_op = pLUS
+    Unary_op.node_syn = pLUS
+    free(pLUS)
+
+83. Unary_op = mINUS
+    Unary_op.node_syn = mINUS
+    free(mINUS)
+
+101. N11 = sQBO Element_index_with_expressions sQBC   
+     N11.node_syn = Element_index_with_expressions.node_syn
+     free(sQBO)
+     free(sQBC)
+
+102. N11 = #
+     N11.node_syn = N11.node_inh
+
+103. Element_index_with_expressions = Sign N10
+    N10.node_inh = Sign.node_syn
+    Element_index_with_expressions = N10.node_syn
+    free(Sign)
+    free(N10)
+
+104. Element_index_with_expressions = ArrExpr
+    Element_index_with_expressions.node_syn = ArrExpr.node_syn
+    free(ArrExpr)
+
+105. N10 = New_index
+    N10.node_syn = New_index.node_syn
+    free(New_index)
+
+106. N10 = bO ArrExpr bC
+    N10.node_syn = make_node("ElementIndexWithExpressions", N10.node_inh, ArrExpr.node_syn)
+
+
+145. Sign_for_loop = pLUS
+     Sign_for_loop.node_syn = pLUS 
+
+146. Sign_for_loop = mINUS
+     Sign_for_loop.node_syn = mINUS
+147. Sign_for_loop = #
+
+## what the fuck does Sign for loop equal to epsilon mean?
+
+     Sign_for_loop.node_syn = NULL
+
+## TODO: ArithmeticOrBooleanExpr
+## TODO: ArithmeticExpr
+## TODO: ArrExpr
+## TODO: @sg
+
