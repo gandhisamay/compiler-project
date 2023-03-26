@@ -1,0 +1,148 @@
+==============>  Name: dECLARE, Terminal or Non Terminal: Terminal
+Children: [HEAD] -> mODULE -> iD -> sEMICOL -> [END]
+
+
+==============>  Name: ModuleDeclaration, Terminal or Non Terminal: Non Terminal
+Children: [HEAD] -> ModuleDeclarations -> [END]
+
+
+==============>  Name: mODULE, Terminal or Non Terminal: Terminal
+Children: [HEAD] -> iD -> sEMICOL -> [END]
+
+
+==============>  Name: iD, Terminal or Non Terminal: Terminal
+Children: [HEAD] -> sEMICOL -> [END]
+
+
+==============>  Name: sEMICOL, Terminal or Non Terminal: Terminal
+Children: [HEAD] -> [END]
+
+
+==============>  Name: ModuleDeclarations, Terminal or Non Terminal: Non Terminal
+Children: [HEAD] -> OtherModules -> DriverModule -> OtherModules -> [END]
+
+
+==============>  Name: ModuleDeclarations, Terminal or Non Terminal: Non Terminal
+Children: [HEAD] -> [END]
+
+
+==============>  Name: Program, Terminal or Non Terminal: Non Terminal
+Children: [HEAD] -> $ -> [END]
+
+
+==============>  Name: #, Terminal or Non Terminal: Terminal
+Children: [HEAD] -> [END]
+
+
+==============>  Name: OtherModules, Terminal or Non Terminal: Non Terminal
+Children: [HEAD] -> DriverModule -> OtherModules -> [END]
+
+
+==============>  Name: dRIVERDEF, Terminal or Non Terminal: Terminal
+Children: [HEAD] -> dRIVER -> pROGRAM -> dRIVERENDDEF -> ModuleDef -> [END]
+
+
+==============>  Name: DriverModule, Terminal or Non Terminal: Non Terminal
+Children: [HEAD] -> OtherModules -> [END]
+
+
+==============>  Name: dRIVER, Terminal or Non Terminal: Terminal
+Children: [HEAD] -> pROGRAM -> dRIVERENDDEF -> ModuleDef -> [END]
+
+
+==============>  Name: pROGRAM, Terminal or Non Terminal: Terminal
+Children: [HEAD] -> dRIVERENDDEF -> ModuleDef -> [END]
+
+
+==============>  Name: dRIVERENDDEF, Terminal or Non Terminal: Terminal
+Children: [HEAD] -> ModuleDef -> [END]
+
+
+==============>  Name: ModuleDef, Terminal or Non Terminal: Non Terminal
+Children: [HEAD] -> [END]
+
+
+==============>  Name: dEF, Terminal or Non Terminal: Terminal
+Children: [HEAD] -> mODULE -> iD -> eNDDEF -> tAKES -> iNPUT -> sQBO -> Input_plist -> sQBC -> sEMICOL -> Ret -> ModuleDef -> [END]
+
+
+==============>  Name: Module, Terminal or Non Terminal: Non Terminal
+Children: [HEAD] -> OtherModules -> [END]
+
+
+==============>  Name: mODULE, Terminal or Non Terminal: Terminal
+Children: [HEAD] -> iD -> eNDDEF -> tAKES -> iNPUT -> sQBO -> Input_plist -> sQBC -> sEMICOL -> Ret -> ModuleDef -> [END]
+
+
+==============>  Name: iD, Terminal or Non Terminal: Terminal
+Children: [HEAD] -> eNDDEF -> tAKES -> iNPUT -> sQBO -> Input_plist -> sQBC -> sEMICOL -> Ret -> ModuleDef -> [END]
+
+
+==============>  Name: eNDDEF, Terminal or Non Terminal: Terminal
+Children: [HEAD] -> tAKES -> iNPUT -> sQBO -> Input_plist -> sQBC -> sEMICOL -> Ret -> ModuleDef -> [END]
+
+
+==============>  Name: tAKES, Terminal or Non Terminal: Terminal
+Children: [HEAD] -> iNPUT -> sQBO -> Input_plist -> sQBC -> sEMICOL -> Ret -> ModuleDef -> [END]
+
+
+==============>  Name: iNPUT, Terminal or Non Terminal: Terminal
+Children: [HEAD] -> sQBO -> Input_plist -> sQBC -> sEMICOL -> Ret -> ModuleDef -> [END]
+
+
+==============>  Name: sQBO, Terminal or Non Terminal: Terminal
+Children: [HEAD] -> Input_plist -> sQBC -> sEMICOL -> Ret -> ModuleDef -> [END]
+
+
+==============>  Name: iD, Terminal or Non Terminal: Terminal
+Children: [HEAD] -> cOLON -> DataType -> N1 -> [END]
+
+
+==============>  Name: Input_plist, Terminal or Non Terminal: Non Terminal
+Children: [HEAD] -> sQBC -> sEMICOL -> Ret -> ModuleDef -> [END]
+
+
+==============>  Name: cOLON, Terminal or Non Terminal: Terminal
+Children: [HEAD] -> DataType -> N1 -> [END]
+
+
+==============>  Name: DataType, Terminal or Non Terminal: Non Terminal
+Children: [HEAD] -> N1 -> [END]
+
+
+==============>  Name: N1, Terminal or Non Terminal: Non Terminal
+Children: [HEAD] -> [END]
+
+
+==============>  Name: sQBC, Terminal or Non Terminal: Terminal
+Children: [HEAD] -> sEMICOL -> Ret -> ModuleDef -> [END]
+
+
+==============>  Name: sEMICOL, Terminal or Non Terminal: Terminal
+Children: [HEAD] -> Ret -> ModuleDef -> [END]
+
+
+==============>  Name: Ret, Terminal or Non Terminal: Non Terminal
+Children: [HEAD] -> ModuleDef -> [END]
+
+
+==============>  Name: ModuleDef, Terminal or Non Terminal: Non Terminal
+Children: [HEAD] -> [END]
+
+
+==============>  Name: OtherModules, Terminal or Non Terminal: Non Terminal
+Children: [HEAD] -> [END]
+
+
+==============>  Name: OtherModules, Terminal or Non Terminal: Non Terminal
+Children: [HEAD] -> [END]
+
+
+==============>  Name: S, Terminal or Non Terminal: Non Terminal
+Children: [HEAD] -> Program -> $ -> [END]
+
+
+==============>  Name: $, Terminal or Non Terminal: Terminal
+Children: [HEAD] -> [END]
+
+
