@@ -7,7 +7,7 @@
  * Aryan Chavan 2020A7PS1692P
  */
 
-#include "parser.c"
+#include "ast.c"
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -104,7 +104,9 @@ int main(int argc, char **argv) {
       time_calculate(argv[1], argv[2]);
       break;
     }
-
+    case 5: {
+      run_ast(argv[1], argv[2]);
+    } 
     default:
       printf("Wrong input\n");
       break;

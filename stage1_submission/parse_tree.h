@@ -16,6 +16,15 @@ typedef struct TreeNode {
   struct TreeNode *tail;
   struct TreeNode *sibling;
   struct Symbol *symbol;
+  struct TreeNode* node_syn;
+  struct TreeNode* node_inh;
+  struct TreeNode* list_head_syn;
+  struct TreeNode* list_tail_syn;
+  struct TreeNode* list_sib_syn;
+  struct TreeNode* list_head_inh;
+  struct TreeNode* list_tail_inh;
+  struct TreeNode* list_sib_inh;
+  bool visited;
 } TreeNode;
 
 void read_grammar_file(char *file);

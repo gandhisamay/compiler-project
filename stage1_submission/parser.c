@@ -119,7 +119,7 @@ void compute_all_symbols(FILE *debug_fp) {
   for (int i = 0; i < TOTAL_SYMBOLS; i++) {
     symbols[i]->first = compute_first(symbols[i]);
     symbols[i]->follow = compute_follow(symbols[i]);
-    /* print_symbol_details(symbols[i], debug_fp); */
+    //  print_symbol_details(symbols[i], debug_fp); 
   }
   /* for (int j = 0; j < N_TERMINAL_SYM; j++){ */
   /*     printf("RULE: %d at row - %d\n", j, NT_TO_ROW[j]); */
