@@ -829,6 +829,6 @@ int test_lexer_run(char *program_file) {
 /*     char* test_file_1 = "../tests/test_lexer_4.txt";   */
 /*     char* tokenized_file = "test_tokenized.txt";  */
 /*     test_lexer_run(test_file_1, tokenized_file);  */
-/*     printf("\nLEXING COMPLETE\n"); */
 /*     return 0;  */
 /* }  */
+// we form the fucking ast and then we do the needful
