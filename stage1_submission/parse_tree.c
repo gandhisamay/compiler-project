@@ -151,6 +151,7 @@ TreeNode *create_treeNode() {
   x->tail = NULL;
   x->sibling = NULL;
   x->symbol = NULL;
+  x->list = NULL;
   return x;
 }
 
@@ -230,7 +231,7 @@ void insert_child(TreeNode *parent,
 // }
 
 // @TODO: change to astnode
-void print_astnode_details(AST_NODE *node, FILE *debug_fp) {
+void print_astnode_details(AST_Node *node, FILE *debug_fp) {
   if (node == NULL){
     fprintf(debug_fp, "\nAST: NULL\n");
     return;
