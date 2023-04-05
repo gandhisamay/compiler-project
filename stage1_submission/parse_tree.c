@@ -230,29 +230,35 @@ void insert_child(TreeNode *parent,
 // }
 
 // @TODO: change to astnode
-void print_astnode_details(TreeNode *node, FILE *debug_fp) {
-  Symbol *s = node->symbol;
-  fprintf(debug_fp, "Name: %s, ", s->name);
-  fprintf(debug_fp, "Enum_T: %d, Enum_NT: %d, ", s->terminal, s->non_terminal);
-  fprintf(debug_fp, "IS_A: %s\n", s->is_terminal ? "Terminal" : "Non Terminal");
-  if (s->is_terminal){
-    print_token_details(s->token, debug_fp);
+void print_astnode_details(AST_NODE *node, FILE *debug_fp) {
+  if (node == NULL){
+    fprintf(debug_fp, "\nAST: NULL\n");
+    return;
   }
-  /* fprintf(debug_fp, "First: "); */
-  /* print_list(s->first, debug_fp); */
-  /* fprintf(debug_fp, "Follow: "); */
-  /* print_list(s->follow, debug_fp); */
-  fprintf(debug_fp, "Right: [HEAD] -> ");
-
-  Symbol *temp = s->right;
-  while (temp != NULL) {
-    fprintf(debug_fp, "%s -> ", temp->name);
-    temp = temp->right;
+  fprintf(debug_fp, "\nLabel: %s \n", node->label);
+  Symbol *s = node->data;
+  if (s != NULL){
+      fprintf(debug_fp, "DATA: Name: %s ", s->name);
+      fprintf(debug_fp, "Enum_T: %d, Enum_NT: %d, ", s->terminal, s->non_terminal);
+      fprintf(debug_fp, "IS_A: %s\n", s->is_terminal ? "Terminal" : "Non Terminal");
+      if (s->is_terminal){
+        print_token_details(s->token, debug_fp);
+      }
+      /* fprintf(debug_fp, "First: "); */
+      /* print_list(s->first, debug_fp); */
+      /* fprintf(debug_fp, "Follow: "); */
+      /* print_list(s->follow, debug_fp); */
+      /* fprintf(debug_fp, "Right: [HEAD] -> "); */
+      /*  */
+      /* Symbol *temp = s->right; */
+      /* while (temp != NULL) { */
+      /*   fprintf(debug_fp, "%s -> ", temp->name); */
+      /*   temp = temp->right; */
+      /* } */
+      /* fprintf(debug_fp, "[END]\n"); */
+  } else {
+    fprintf(debug_fp, "No data\n"); 
   }
-  fprintf(debug_fp, "[END]\n");
-
-  /* fprintf(debug_fp, "Row no: %d\n", s->row_no); */
-  /* printf("\n"); */
 }
 
 /*
@@ -265,8 +271,8 @@ void printParseTree(TreeNode *root, FILE *outfile) {
     printParseTree(root->head, outfile);
 
     fprintf(outfile, "==============>  ");
-    print_astnode_details(root, outfile);
-    /* print_symbol_details(root->symbol, outfile); */
+    /* print_astnode_details(root, outfile); */
+    print_symbol_details(root->symbol, outfile);
     // print_symbol_info(root->symbol, outfile);
     fprintf(outfile, "\n\n");
 

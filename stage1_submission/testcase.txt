@@ -1,5 +1,4 @@
 <<<driver program>>>
 start
-	declare index:integer;
-	declare t:boolean;
+    get_value(abc);
 end

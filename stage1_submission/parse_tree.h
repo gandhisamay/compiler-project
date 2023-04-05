@@ -10,20 +10,30 @@
 #include "linked_list.c"
 #include "stdbool.h"
 
+typedef struct ast_node
+{
+    char label[200];
+    struct ast_node *head;
+    struct ast_node *tail;
+    struct ast_node *sibling;
+    struct ast_node *parent;
+    Symbol *data;
+} AST_NODE;
+
 typedef struct TreeNode {
   struct TreeNode *parent;
   struct TreeNode *head;
   struct TreeNode *tail;
   struct TreeNode *sibling;
   struct Symbol *symbol;
-  struct Symbol* node_syn;
-  struct Symbol* node_inh;
-  struct TreeNode* list_head_syn;
-  struct TreeNode* list_tail_syn;
-  struct TreeNode* list_sib_syn;
-  struct TreeNode* list_head_inh;
-  struct TreeNode* list_tail_inh;
-  struct TreeNode* list_sib_inh;
+  AST_NODE *node_syn;
+  AST_NODE *node_inh;
+  AST_NODE* list_head_syn;
+  AST_NODE* list_tail_syn;
+  AST_NODE* list_sib_syn;
+  AST_NODE* list_head_inh;
+  AST_NODE* list_tail_inh;
+  AST_NODE* list_sib_inh;
   bool visited;
 } TreeNode;
 
