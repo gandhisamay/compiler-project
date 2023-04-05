@@ -155,21 +155,36 @@ AST_NODE *create_AST_node(char *label, Symbol *data){
 
 AST_NODE *copy_AST_node(AST_NODE *node){
     AST_NODE *tmp = create_AST_node(node->label, node->data);
-    tmp->sibling = node->sibling;
+    /* tmp->sibling = node->sibling; */
     return tmp;
 }
 
-void insert_AST_head(TreeNode *treenode, AST_NODE *astnode)
-{
-    AST_NODE *temp = copy_AST_node(astnode);
-    while (temp->sibling != NULL){
-        temp = temp->sibling;
+void insert_AST_head(TreeNode *treenode, AST_NODE *astnode) {
+    AST_NODE *tmp = astnode;
+    while (tmp->sibling != NULL){
+        tmp = tmp->sibling;
     }
-    temp->sibling = treenode->list_head;
-    treenode->list_head = astnode;
-    if (treenode->list_tail == NULL)
-        treenode->list_tail = temp;
-    free(temp);
+    if (treenode->list_head == NULL){
+        treenode->list_head = astnode;
+        treenode->list_tail = tmp;
+        /* while (astnode->sibling != NULL){ */
+        /*     astnode = astnode->sibling; */
+        /* } */
+        /* treenode->list_tail = astnode; */
+    } else {
+        tmp->sibling = treenode->list_head;
+        treenode->list_head = astnode;
+        printf("\nCHECK %b %b\n", treenode->list_head->sibling == NULL, treenode->list_head->sibling->sibling == NULL);
+    }
+    /* AST_NODE *temp = copy_AST_node(astnode); */
+    /* while (temp->sibling != NULL){ */
+    /*     temp = temp->sibling; */
+    /* } */
+    /* temp->sibling = treenode->list_head; */
+    /* treenode->list_head = astnode; */
+    /* if (treenode->list_tail == NULL) */
+    /*     treenode->list_tail = temp; */
+    /* free(temp); */
 }
 
 void print_astnodes(TreeNode *node){
@@ -181,16 +196,22 @@ void print_astnodes(TreeNode *node){
 }
 
 void insert_AST_tail(TreeNode *treenode, AST_NODE *astnode) {
-    AST_NODE *tmp = treenode->list_tail;
-    AST_NODE *temp = copy_AST_node(astnode);
-    treenode->list_tail->sibling = temp;
-    while (tmp->sibling != NULL){
-        tmp = tmp->sibling;
-    }
-    treenode->list_tail = tmp;
-    if (treenode->list_head == NULL){
+    if (treenode->list_tail == NULL){
         treenode->list_head = astnode;
+        treenode->list_tail = astnode;
+    } else {
+        AST_NODE *tmp = treenode->list_tail;
+        printf("\nIN\n");
+        AST_NODE *temp = copy_AST_node(astnode);
+        treenode->list_tail->sibling = temp;
+        /* printf("CHECK %b %b %b %b\n", temp == NULL, treenode->list_tail->sibling == temp, treenode->list_head->sibling == NULL, treenode->list_tail->sibling == NULL); */
+        while (tmp->sibling != NULL){
+            tmp = tmp->sibling;
+        }
+        treenode->list_tail = tmp;
     }
+    print_astnodes(treenode);
+    printf("\nOUT\n");
 }
 
 void resolve(TreeNode *node) {
@@ -274,8 +295,10 @@ void resolve(TreeNode *node) {
             } else {
                 AST_NODE *GET_VALUE = create_AST_node("GET_VALUE", NULL);
                 insert_AST_head(node, GET_VALUE);
+                insert_AST_head(node, GET_VALUE);
                 resolve(node->head->sibling->sibling); // iD
                 printf("\noutta id %s\n", node->list_head->label);
+                insert_AST_tail(node, node->head->sibling->sibling->list_head);
                 insert_AST_tail(node, node->head->sibling->sibling->list_head);
                 print_astnodes(node);
                 printf("\noutta id\n");
