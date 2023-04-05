@@ -206,8 +206,9 @@ void insert_AST_head(AST_Node_List *list, AST_Node *astnode)
     }
     else
     {
-        astnode->next = list->head;
-        list->head = astnode;
+        AST_Node *tmp = copy_AST_Node(astnode);
+        tmp->next = list->head;
+        list->head = tmp;
     }
 }
 
@@ -254,11 +255,10 @@ void insert_AST_tail(AST_Node_List *AST_list, AST_Node *astnode)
         {
             curr = curr->next;
         }
-        curr->next = astnode;
+        curr->next = copy_AST_Node(astnode);
     }
-
-    // AST_list->size++;
 }
+
 void append_helper(AST_Node_List *list1, AST_Node *node)
 {
     if (node->next == NULL)
@@ -283,13 +283,18 @@ void append_AST_lists_tail(AST_Node_List *list1, AST_Node_List *list2)
     }
     else
     {
-        AST_Node *temp = list1->head;
-        while (temp->next != NULL)
+        AST_Node *temp1 = list1->head;
+        AST_Node *temp2 = list2->head;
+        while (temp1->next != NULL)
         {
-            temp = temp->next;
+            temp1 = temp1->next;
         }
 
-        temp->next = list2->head;
+        while (temp2 != NULL){
+            temp1->next = copy_AST_Node(temp2);
+            temp1 = temp1->next;
+            temp2 = temp2->next;
+        }
         // free(temp);
     }
 }
@@ -324,10 +329,7 @@ void append_AST_lists_head(AST_Node_List *list1, AST_Node_List *list2)
 
 
 
-void resolve(TreeNode *node)
-{
-
-    /* print_symbol_details(node->symbol, stdout); */
+void resolve(TreeNode *node) {
     node->list = create_AST_Node_list();
     printf("\n>>>HERE\n");
     if (node->symbol->is_terminal)
@@ -335,7 +337,6 @@ void resolve(TreeNode *node)
         if (node->symbol->terminal == iD)
         {
             AST_Node *ast_id = create_AST_Node("iD", node->symbol);
-            // ast_id->data = node->symbol;
             insert_AST_tail(node->list, ast_id);
         }
     }
@@ -362,7 +363,7 @@ void resolve(TreeNode *node)
             insert_AST_tail(node->list, STATEMENTS);
             resolve(node->head->sibling); // Statements
             append_AST_lists_tail(node->list, node->head->sibling->list);
-            print_astnodes(node);
+            /* print_astnodes(node); */
             /* AST_Node *tmp = node->node_syn; */
             /* while (tmp != NULL) */
             /* { */
@@ -391,13 +392,13 @@ void resolve(TreeNode *node)
                 /* } */
                 /* printf("done\n"); */
             }
-            print_astnodes(node);
+            /* print_astnodes(node); */
         }
         else if (node->symbol->non_terminal == Statement)
         {
             resolve(node->head); // Statement type (io/cond/iter/etc)
             append_AST_lists_tail(node->list, node->head->list);
-            print_astnodes(node);
+            /* print_astnodes(node); */
             /* if (node->head->symbol == IoStmt){ */
             /*  */
             /* } else if (node->head->symbol == SimpleStmt){ */
@@ -423,19 +424,8 @@ void resolve(TreeNode *node)
             {
                 AST_Node *GET_VALUE = create_AST_Node("GET_VALUE", NULL);
                 insert_AST_tail(node->list, GET_VALUE);
-                print_astnodes(node);
-                printf("\noutta id\n");
-
-                // insert_AST_tail(node->list, GET_VALUE);
                 resolve(node->head->sibling->sibling); // iD
-                print_astnodes(node->head->sibling->sibling);
-                printf("\noutta id\n");
-                // printf("\noutta id %s\n", node->list->head->label);
-                append_AST_lists_head(node->list, node->head->sibling->sibling->list);
-                // append_AST_lists_tail(node->list, node->head->sibling->sibling->list);
-
-                print_astnodes(node);
-                printf("\noutta id\n");
+                insert_AST_tail(node->list, node->head->sibling->sibling->list->head);
             }
         }
     }
