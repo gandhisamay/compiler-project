@@ -12,7 +12,7 @@ TreeNode *create_tree_node_AST(TreeNode *syn_node, TreeNode *inh_node, TreeNode 
 
 AST_NODE *insert_at_head_syn(TreeNode *list_head, AST_NODE *node)
 {
-    node->sibling = list_head;
+    node->sibling = list_head->list_head_syn;
     list_head->list_head_syn = node;
     if (list_head->list_tail_syn == NULL)
         list_head->list_tail_syn = node;
@@ -20,22 +20,31 @@ AST_NODE *insert_at_head_syn(TreeNode *list_head, AST_NODE *node)
 
 AST_NODE *insert_at_head_inh(TreeNode *list_head, AST_NODE *node)
 {
-    node->sibling = list_head;
-    list_head->list_head_inh = node;
+    AST_NODE* temp = node;
+    while(node->sibling != NULL){
+        node = node->sibling;
+    }
+    node->sibling = list_head->list_head_inh;
+    list_head->list_head_inh = temp;
     if (list_head->list_tail_inh == NULL)
         list_head->list_tail_inh = node;
+    free(temp);
 }
 
 AST_NODE *insert_at_end_syn(TreeNode *list_tail, AST_NODE *node)
 {
     if(list_tail->list_tail_syn == NULL) {
         list_tail->list_head_syn = node;
-        list_tail->list_tail_syn = node;
+        
     }
     else{
         list_tail->list_tail_syn->sibling = node;
-        list_tail->list_tail_syn = node;
+        
     }
+    while(node->sibling != NULL){
+        node = node->sibling;
+    }
+    list_tail->list_tail_syn = node;
 
 }
 
@@ -43,12 +52,16 @@ AST_NODE *insert_at_end_inh(TreeNode *list_tail, AST_NODE *node)
 {
     if(list_tail->list_tail_inh == NULL) {
         list_tail->list_head_inh = node;
-        list_tail->list_tail_inh = node;
+        
     }
     else{
         list_tail->list_tail_inh->sibling = node;
-        list_tail->list_tail_inh = node;
+        
     }
+    while(node->sibling != NULL){
+        node = node->sibling;
+    }
+    list_tail->list_tail_inh = node;
 }
 
 AST_NODE *create_AST_node(char *label)
@@ -65,11 +78,20 @@ AST_NODE *create_AST_node(char *label)
 
 AST_NODE *insert_ast_node_head(AST_NODE *parent, AST_NODE *node)
 {
+    AST_NODE* temp = node;
+    while(node->sibling != NULL){
+        node = node->sibling;
+    }
     node->sibling = parent->head;
-    parent->head = node;
-    node->parent = parent;
+    parent->head = temp;
+    temp->parent = parent;
     if (parent->tail == NULL)
         parent->tail = node;
+    while(temp->sibling != NULL){
+        temp->parent = parent;
+        temp = temp->sibling;
+    }
+    free(temp);
 }
 
 AST_NODE *insert_ast_node_tail(AST_NODE *parent, AST_NODE *node)
@@ -77,14 +99,19 @@ AST_NODE *insert_ast_node_tail(AST_NODE *parent, AST_NODE *node)
     if (parent->head == NULL)
     {
         parent->head = node;
-        parent->tail = node;
+        
     }
     else
     {
         parent->tail->sibling = node;
-        parent->tail = node;
+        
     }
     node->parent = parent;
+    while(node->sibling != NULL){
+        node->parent = parent;
+        node = node->sibling;
+    }
+    parent->tail = node;
 }
 // TreeNode* copy_tree(TreeNode* root, TreeNode* new_root){
 
@@ -151,13 +178,13 @@ void resolve(AST_NODE *parent, TreeNode *node)
         {
             AST_NODE *STATEMENTS = create_AST_node("STATEMENTS");
             resolve(STATEMENTS, node->head->sibling); // Statements
-            /* AST_NODE *tmp = node->head->sibling->list_head_syn; */
-            /* while (tmp != NULL){ */
-            /*     insert_ast_node_tail(STATEMENTS, tmp); */
-            /*     tmp = tmp->sibling; */
-            /* } */
             node->node_syn = STATEMENTS;
-            insert_ast_node_tail(parent, node->node_syn);
+            node->node_syn->sibling = node->head->sibling->list_head_syn;
+            AST_NODE *tmp = node->node_syn;
+            while (tmp != NULL) {
+                print_astnode_details(tmp, stdout);
+                tmp = tmp->sibling;
+            }
         }
         else if (node->symbol->non_terminal == Statements)
         {
@@ -167,21 +194,19 @@ void resolve(AST_NODE *parent, TreeNode *node)
             }
             else
             {
-                printf("\nStatements data\n");
                 resolve(NULL, node->tail); // Statements1
                 resolve(NULL, node->head); // Statement
                 node->list_head_syn = node->tail->list_head_syn;
-                printf("sfdsfds1\n");
-                /* insert_ast_node_head(node->list_head_syn, node->head->node_syn); */
+                print_astnode_details(node->head->node_syn, stdout);
                 insert_at_head_syn(node, node->head->node_syn);
-                printf("sfdsfds2\n");
-                AST_NODE *tmp = node->list_head_syn;
-                printf("\nStatements data\n");
-                while (tmp != NULL)
-                {
-                    print_astnode_details(tmp, stdout);
-                    tmp = tmp->sibling;
-                }
+                /* printf("\nsssssssSTATEMENTSSSSSSSSSS\n"); */
+                /* AST_NODE *tmp = node->list_head_syn; */
+                /* while (tmp != NULL) */
+                /* { */
+                /*     print_astnode_details(tmp, stdout); */
+                /*     tmp = tmp->sibling; */
+                /* } */
+                /* printf("done\n"); */
             }
             if (parent != NULL)
             {
@@ -222,10 +247,10 @@ void resolve(AST_NODE *parent, TreeNode *node)
             else
             {
                 AST_NODE *GET_VALUE = create_AST_node("GET_VALUE");
+                GET_VALUE->data = node->head->sibling->sibling->symbol;
                 node->node_syn = GET_VALUE;
-                resolve(NULL, node->head->sibling->sibling);
-                node->node_syn = node->head->sibling->sibling->node_syn;
-                print_astnode_details(node->node_syn, stdout);
+                /* resolve(NULL, node->head->sibling->sibling); */
+                /* node->node_syn->sibling = node->head->sibling->sibling->node_syn; */
             }
         }
     }
