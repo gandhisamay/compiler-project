@@ -10,18 +10,13 @@
 #include "linked_list.c"
 #include "stdbool.h"
 
-typedef struct ast_node
-{
-  char label[200];
-  struct ast_node *head;
-  struct ast_node *tail;
-  struct ast_node *sibling;
-  struct ast_node *parent;
-  Symbol *data;
+typedef struct ast_node {
+    Symbol *data;
+    char label[200];
+    struct ast_node *sibling;
 } AST_NODE;
 
-typedef struct TreeNode
-{
+typedef struct TreeNode {
   struct TreeNode *parent;
   struct TreeNode *head;
   struct TreeNode *tail;
