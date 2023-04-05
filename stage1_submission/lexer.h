@@ -88,16 +88,6 @@ char *Buffer;
 /*     lEX_ERROR, */
 /* } terminals; */
 
-typedef struct token {
-  terminals name;
-  int line;
-  union {
-    char id[20];
-    int num;
-    /* float rnum; */
-    double rnum;
-  };
-} TOKEN;
 
 typedef struct Error {
   int line;

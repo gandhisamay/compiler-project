@@ -30,6 +30,7 @@ TreeNode* insert_at_end_inh(TreeNode* list_tail, TreeNode* node){
 
 TreeNode* copy_tree(TreeNode* root, TreeNode* new_root){
 
+    /* printf(">> HERE \n"); */
     if (root != NULL) {
     copy_tree(root->head,new_root->head);
 
@@ -42,10 +43,12 @@ TreeNode* copy_tree(TreeNode* root, TreeNode* new_root){
       TreeNode *curr = root->head;
       TreeNode* new_curr = create_treeNode();
       curr = curr->sibling;
-      new_curr->sibling = create_treeNode();
+      if(curr->sibling!=NULL){
+        new_curr->sibling = create_treeNode();
+      }
 
       while (curr != NULL) {
-        new_curr = curr;
+        copy_tree(curr, new_curr);
         if(curr->sibling!=NULL){
             new_curr->sibling = create_treeNode();
         }
@@ -58,8 +61,28 @@ TreeNode* copy_tree(TreeNode* root, TreeNode* new_root){
 
 void run_ast(char* prog_file, char* output_file){
     run_parser(prog_file,output_file);
-    TreeNode* AST_root = create_parse_tree();
-    copy_tree(Parse_Tree_Root,AST_root);
-    printParseTree(AST_root,stdout);
+    TreeNode* AST_root = Parse_Tree_Root;
+    printParseTree(AST_root, stdout);
+    printf("SDfsdfds\n");
+    print_astnode_details(AST_root, stdout);
+    TreeNode *tmp = AST_root->head;
+    while (tmp != NULL){
+        print_astnode_details(tmp, stdout);
+        tmp = tmp->sibling;
+    }
+}
 
+void resolve(TreeNode *node){
+    if (node->symbol->is_terminal){
+
+    } else {
+        if (node->symbol->non_terminal == Program){
+            resolve(node->head->sibling->sibling);
+            node->node_syn = node->head->sibling->sibling->node_syn;
+        }
+        else if (node->symbol->non_terminal == DriverModule){
+            resolve(node->tail);
+            node->node_syn = node->tail->node_syn;
+        }
+    }
 }

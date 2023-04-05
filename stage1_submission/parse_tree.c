@@ -229,6 +229,31 @@ void insert_child(TreeNode *parent,
 //   }
 // }
 
+void print_astnode_details(TreeNode *node, FILE *debug_fp) {
+  Symbol *s = node->symbol;
+  fprintf(debug_fp, "Name: %s, ", s->name);
+  fprintf(debug_fp, "Enum_T: %d, Enum_NT: %d, ", s->terminal, s->non_terminal);
+  fprintf(debug_fp, "IS_A: %s\n", s->is_terminal ? "Terminal" : "Non Terminal");
+  if (s->is_terminal){
+    print_token_details(s->token, debug_fp);
+  }
+  /* fprintf(debug_fp, "First: "); */
+  /* print_list(s->first, debug_fp); */
+  /* fprintf(debug_fp, "Follow: "); */
+  /* print_list(s->follow, debug_fp); */
+  fprintf(debug_fp, "Right: [HEAD] -> ");
+
+  Symbol *temp = s->right;
+  while (temp != NULL) {
+    fprintf(debug_fp, "%s -> ", temp->name);
+    temp = temp->right;
+  }
+  fprintf(debug_fp, "[END]\n");
+
+  /* fprintf(debug_fp, "Row no: %d\n", s->row_no); */
+  /* printf("\n"); */
+}
+
 /*
 @brief : Prints parse tree in inorder traversal
 @input : Treenode* , FILE*
@@ -239,8 +264,9 @@ void printParseTree(TreeNode *root, FILE *outfile) {
     printParseTree(root->head, outfile);
 
     fprintf(outfile, "==============>  ");
-    // print_symbol_details(root->symbol, outfile);
-    print_symbol_info(root->symbol, outfile);
+    print_astnode_details(root, outfile);
+    /* print_symbol_details(root->symbol, outfile); */
+    // print_symbol_info(root->symbol, outfile);
     fprintf(outfile, "\n\n");
 
     if (root->head != NULL) {
@@ -253,6 +279,7 @@ void printParseTree(TreeNode *root, FILE *outfile) {
     }
   }
 }
+
 // void print_terminal_list(){
 //   current = terminal_head;
 //   printf("[HEAD] -> ");

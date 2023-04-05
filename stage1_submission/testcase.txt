@@ -1,0 +1,5 @@
+<<<driver program>>>
+start
+	declare index:integer;
+	declare t:boolean;
+end

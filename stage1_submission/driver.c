@@ -106,6 +106,7 @@ int main(int argc, char **argv) {
     }
     case 5: {
       run_ast(argv[1], argv[2]);
+      break;
     } 
     default:
       printf("Wrong input\n");

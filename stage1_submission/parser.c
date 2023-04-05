@@ -282,6 +282,7 @@ void parse_next(TOKEN Curr_Token, FILE *program_fp, FILE *debug_fp) {
                 PRINT_GREEN "DEBUG: Matched Terminal: %d\n" PRINT_RESET,
                 Curr_Token.name);
         pop_stack(Parser_Stack);
+        Top_Symbol->token = Curr_Token;
         curr_node = next_node(curr_node, Top_Symbol);
         /* fprintf(debug_fp, PRINT_RED "\nFILE EOF ERROR: Stack non empty,
          * Found\n" PRINT_RESET); */

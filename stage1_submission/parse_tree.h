@@ -16,8 +16,8 @@ typedef struct TreeNode {
   struct TreeNode *tail;
   struct TreeNode *sibling;
   struct Symbol *symbol;
-  struct TreeNode* node_syn;
-  struct TreeNode* node_inh;
+  struct Symbol* node_syn;
+  struct Symbol* node_inh;
   struct TreeNode* list_head_syn;
   struct TreeNode* list_tail_syn;
   struct TreeNode* list_sib_syn;
