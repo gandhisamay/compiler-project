@@ -7,6 +7,7 @@ typedef struct ast_node
     struct ast_node *tail;
     struct ast_node *sibling;
     struct ast_node *parent;
+    TreeNode *data;
 } AST_NODE;
 
 TreeNode *create_tree_node_AST(TreeNode *syn_node, TreeNode *inh_node, TreeNode *syn_list, TreeNode *inh_list)
@@ -105,19 +106,11 @@ AST_NODE *insert_ast_node_tail(AST_NODE *parent, AST_NODE *node)
 void run_ast(char *prog_file, char *output_file)
 {
     run_parser(prog_file, output_file);
-    TreeNode *AST_root = Parse_Tree_Root;
-    printParseTree(AST_root, stdout);
-    printf("SDfsdfds\n");
-    print_astnode_details(AST_root, stdout);
-    TreeNode *tmp = AST_root->head;
-    while (tmp != NULL)
-    {
-        print_astnode_details(tmp, stdout);
-        tmp = tmp->sibling;
-    }
+    AST_NODE *AST_ROOT = create_AST_node("MAINPROGRAM");
+    resolve(AST_ROOT, Parse_Tree_Root->head->sibling->sibling);
 }
 
-void resolve(TreeNode *node)
+void resolve(AST_NODE *parent, AST_NODE *node)
 {
     if (node->symbol->is_terminal)
     {
@@ -126,13 +119,27 @@ void resolve(TreeNode *node)
     {
         if (node->symbol->non_terminal == Program)
         {
-            resolve(node->head->sibling->sibling);
-            node->node_syn = node->head->sibling->sibling->node_syn;
+            /* resolve(node->head->sibling->sibling); */
+            /* node->node_syn = node->head->sibling->sibling->node_syn; */
+            // throw error
         }
         else if (node->symbol->non_terminal == DriverModule)
         {
-            resolve(node->tail);
-            node->node_syn = node->tail->node_syn;
+            AST_NODE *DRIVER = create_AST_node("DRIVER");
+            resolve(node->tail); // ModuleDef
+            insert_ast_node_tail(DRIVER, node->tail->node_syn);
+            node->node_syn = DRIVER;
+            insert_ast_node_tail(parent, node->node_syn);
+        }
+        else if (node->symbol->non_terminal == ModuleDef){
+            AST_NODE *STATEMENTS = create_AST_node("STATEMENTS");
+            resolve(node->head->sibling); // Statements
+            AST_NODE *tmp = node->head->sibling->list_head_syn;
+            while (tmp != NULL){
+                insert_ast_node_tail(STATEMENTS, tmp);
+                tmp = tmp->sibling;
+            }
+            node->node_syn = STATEMENTS;
         }
     }
 }

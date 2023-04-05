@@ -229,6 +229,7 @@ void insert_child(TreeNode *parent,
 //   }
 // }
 
+// @TODO: change to astnode
 void print_astnode_details(TreeNode *node, FILE *debug_fp) {
   Symbol *s = node->symbol;
   fprintf(debug_fp, "Name: %s, ", s->name);
