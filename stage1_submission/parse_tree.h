@@ -12,28 +12,23 @@
 
 typedef struct ast_node
 {
-    char label[200];
-    struct ast_node *head;
-    struct ast_node *tail;
-    struct ast_node *sibling;
-    struct ast_node *parent;
-    Symbol *data;
+  char label[200];
+  struct ast_node *head;
+  struct ast_node *tail;
+  struct ast_node *sibling;
+  struct ast_node *parent;
+  Symbol *data;
 } AST_NODE;
 
-typedef struct TreeNode {
+typedef struct TreeNode
+{
   struct TreeNode *parent;
   struct TreeNode *head;
   struct TreeNode *tail;
   struct TreeNode *sibling;
   struct Symbol *symbol;
-  AST_NODE *node_syn;
-  AST_NODE *node_inh;
-  AST_NODE* list_head_syn;
-  AST_NODE* list_tail_syn;
-  AST_NODE* list_sib_syn;
-  AST_NODE* list_head_inh;
-  AST_NODE* list_tail_inh;
-  AST_NODE* list_sib_inh;
+  AST_NODE *list_head;
+  AST_NODE *list_tail;
   bool visited;
 } TreeNode;
 
