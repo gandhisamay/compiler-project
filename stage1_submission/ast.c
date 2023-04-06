@@ -477,25 +477,25 @@ void resolve(TreeNode *node)
             if (node->head->symbol->terminal == fOR)
             {
                 AST_Node *FORLOOP = create_AST_Node("FORLOOP", NULL);
-                AST_Node* STATEMENT = create_AST_Node("STATEMENT",NULL);
+                AST_Node* STATEMENTS = create_AST_Node("STATEMENTS",NULL);
                 insert_AST_tail(node->list, FORLOOP);
                 resolve(node->head->sibling->sibling);//iD
                 resolve(node->head->sibling->sibling->sibling->sibling);//Range_for_loop
                 resolve(node->head->sibling->sibling->sibling->sibling->sibling->sibling->sibling);//Statements
-                insert_AST_tail(node->list,STATEMENT);
                 append_AST_lists_tail(node->list, node->head->sibling->sibling->list);
                 append_AST_lists_tail(node->list, node->head->sibling->sibling->sibling->sibling->list);
+                insert_AST_tail(node->list,STATEMENTS);
                 append_AST_lists_tail(node->list, node->head->sibling->sibling->sibling->sibling->sibling->sibling->sibling->list);
             }
             else
             {
                 AST_Node *WHILELOOP = create_AST_Node("WHILELOOP", NULL);
-                AST_Node* STATEMENT = create_AST_Node("STATEMENT",NULL);
+                AST_Node* STATEMENTS = create_AST_Node("STATEMENTS",NULL);
                 insert_AST_tail(node->list, WHILELOOP);
-                resolve(node->head->sibling->sibling);
-                resolve(node->head->sibling->sibling->sibling->sibling->sibling);
-                insert_AST_tail(node->list,STATEMENT);
+                resolve(node->head->sibling->sibling);//ArithmeticOrBooleanExpr
+                resolve(node->head->sibling->sibling->sibling->sibling->sibling);//Statements
                 append_AST_lists_tail(node->list, node->head->sibling->sibling->list);
+                insert_AST_tail(node->list,STATEMENTS);
                 append_AST_lists_tail(node->list, node->head->sibling->sibling->sibling->sibling->sibling->list);
             }
         }
