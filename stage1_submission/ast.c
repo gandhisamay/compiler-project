@@ -413,6 +413,60 @@ void resolve(TreeNode *node)
             /*  */
             /* } */
         }
+        else if (node->symbol->non_terminal == ConditionalStmt){
+            resolve(node->head->sibling->sibling);  // iD
+            AST_Node *switch_node = create_AST_Node("SWITCH", NULL);
+            AST_Node *cases = create_AST_Node("CASES", NULL);
+            insert_AST_tail(node->list, switch_node); // insert SWITCH
+            insert_AST_tail(node->list, node->head->sibling->sibling->list->head); // insert iD
+            insert_AST_tail(node->list, cases); // insert CASES
+            resolve(node->head->sibling->sibling->sibling->sibling->sibling); // CaseStmts
+            resolve(node->head->sibling->sibling->sibling->sibling->sibling->sibling); // Default
+            append_AST_lists_tail(node->list, node->head->sibling->sibling->sibling->sibling->sibling->list); // appending CaseStmts
+            append_AST_lists_tail(node->list, node->head->sibling->sibling->sibling->sibling->sibling->sibling->list); // appending Default
+        }
+        else if (node->symbol->non_terminal == CaseStmts){
+            AST_Node *stmts = create_AST_Node("STATEMENTS", NULL);
+            AST_Node *case_node = create_AST_Node("CASE", NULL);
+            resolve(node->head->sibling); // Value
+            resolve(node->head->sibling->sibling->sibling); // Statements
+            resolve(node->tail); // N9
+            append_AST_lists_tail(node->list, node->tail->list); // append N9 list
+            append_AST_lists_head(node->list, node->head->sibling->sibling->sibling->list); // append Statements list to head
+            insert_AST_head(node->list, stmts); // insert STATEMENTS to head
+            insert_AST_head(node->list, node->head->sibling->list->head); // insert Value to head
+            insert_AST_head(node->list, case_node); // insert CASE to head
+        }
+        else if (node->symbol->non_terminal == Value){
+            AST_Node *val = create_AST_Node("", node->head->symbol);            
+            val->token_set = 1;
+            val->token = node->head->token;
+            insert_AST_head(node->list, val);
+        }
+        else if (node->symbol->non_terminal == N9){
+            if (node->head->sibling == NULL){
+                // N9 => #
+            } else {
+                AST_Node *stmts = create_AST_Node("STATEMENTS", NULL);
+                AST_Node *case_node = create_AST_Node("CASE", NULL);
+                resolve(node->head->sibling); // Value                
+                resolve(node->head->sibling->sibling->sibling); // Statements                
+                resolve(node->tail); // N91 child
+                append_AST_lists_tail(node->list, node->tail->list); // append N91 child
+                append_AST_lists_tail(node->list, node->head->sibling->sibling->sibling->list); // append Statements to head
+                insert_AST_head(node->list, stmts); // insert STATEMENTS to head
+                insert_AST_head(node->list, node->head->sibling->list->head); // insert Value to head
+                insert_AST_head(node->list, case_node); // insert CASE to head
+            }
+        }
+        else if (node->symbol->non_terminal == Default){
+            AST_Node *default_node = create_AST_Node("DEFAULTCASE", NULL);
+            AST_Node *stmts = create_AST_Node("STATEMENTS", NULL);
+            insert_AST_tail(node->list, default_node); // insert DEFAULTCASE
+            insert_AST_tail(node->list, stmts); // insert STATEMENTS
+            resolve(node->head->sibling->sibling); // Statements
+            append_AST_lists_tail(node->list, node->head->sibling->sibling->list); // append Statements list
+        }
         else if (node->symbol->non_terminal == IoStmt)
         {
             if (node->head->symbol->terminal == pRINT)

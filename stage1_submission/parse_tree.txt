@@ -628,6 +628,90 @@ Right: [HEAD] -> eND -> [END]
 LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
 
 
+==============>  Name: dECLARE, Enum_T: 0, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> IdList -> cOLON -> DataType -> sEMICOL -> [END]
+LINE: [11] ENUM: 0  TOKEN: ID/KEYW        : declare
+
+
+==============>  Name: DeclareStmt, Enum_T: -1, Enum_NT: 63, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
+
+
+==============>  Name: iD, Enum_T: 3, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> N3 -> [END]
+LINE: [11] ENUM: 3  TOKEN: ID/KEYW        : k
+
+
+==============>  Name: IdList, Enum_T: -1, Enum_NT: 36, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> cOLON -> DataType -> sEMICOL -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
+
+
+==============>  Name: #, Enum_T: 0, Enum_NT: 0, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
+
+
+==============>  Name: N3, Enum_T: -1, Enum_NT: 37, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
+
+
+==============>  Name: cOLON, Enum_T: 16, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> DataType -> sEMICOL -> [END]
+LINE: [11] ENUM: 16  TOKEN: ID/KEYW        : :
+
+
+==============>  Name: iNTEGER, Enum_T: 18, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> [END]
+LINE: [11] ENUM: 18  TOKEN: ID/KEYW        : integer
+
+
+==============>  Name: DataType, Enum_T: -1, Enum_NT: 12, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> sEMICOL -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
+
+
+==============>  Name: sEMICOL, Enum_T: 4, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> [END]
+LINE: [11] ENUM: 4  TOKEN: ID/KEYW        : ;
+
+
+==============>  Name: Statement, Enum_T: -1, Enum_NT: 17, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> Statements -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
+
+
+==============>  Name: Statements, Enum_T: -1, Enum_NT: 16, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
+
+
 ==============>  Name: #, Enum_T: 0, Enum_NT: 0, IS_A: Terminal
 First: List is empty
 Follow: List is empty
@@ -646,7 +730,7 @@ LINE: [0] ENUM: 0  TOKEN: ID/KEYW        :
 First: List is empty
 Follow: List is empty
 Right: [HEAD] -> [END]
-LINE: [11] ENUM: 25  TOKEN: ID/KEYW        : end
+LINE: [12] ENUM: 25  TOKEN: ID/KEYW        : end
 
 
 ==============>  Name: #, Enum_T: 0, Enum_NT: 0, IS_A: Terminal
@@ -674,6 +758,6 @@ LINE: [0] ENUM: 0  TOKEN: ID/KEYW        :
 First: List is empty
 Follow: List is empty
 Right: [HEAD] -> [END]
-LINE: [12] ENUM: 1  TOKEN: EOF/DOLLAR: EOF
+LINE: [13] ENUM: 1  TOKEN: EOF/DOLLAR: EOF
 
 

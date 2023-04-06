@@ -1,3 +1,5 @@
+- [ ] Check for duplicates 'else if' in `resolve` ast fxn
+
 - [X] Do we need to create a seperate method to remove comments.
 - [ ] NOTE: Running lexer without removing comments, causes wrong line numbers - shouldn't be an issue unless we would be required to not use the remove comments fxn?
 - [X]  ADD iN in terminals enum

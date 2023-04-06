@@ -12,5 +12,6 @@ start
 end
 <<<driver program>>>
 start
-    declare var:integer;
+    get_value(abc);
+	declare k:integer;
 end
