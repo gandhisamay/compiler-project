@@ -126,7 +126,7 @@ void resolve(TreeNode *node)
     {
         if (node->symbol->terminal == iD)
         {
-            AST_Node *ast_id = create_AST_Node("ID", node->symbol);
+            AST_Node *ast_id = create_AST_Node("", node->symbol);
             ast_id->token = node->token;
             ast_id->token_set = 1;
             insert_AST_tail(node->list, ast_id);
@@ -169,6 +169,18 @@ void resolve(TreeNode *node)
         else if (node->symbol->terminal == mINUS)
         {
             AST_Node *ast_id = create_AST_Node("MINUS", node->symbol);
+            ast_id->token = node->token;
+            ast_id->token_set = 1;
+            insert_AST_tail(node->list, ast_id);
+        }
+        else if (node->symbol->terminal == tRUE){
+            AST_Node *ast_id = create_AST_Node("TRUE", node->symbol);
+            ast_id->token = node->token;
+            ast_id->token_set = 1;
+            insert_AST_tail(node->list, ast_id);
+        }
+        else if (node->symbol->terminal == fALSE){
+            AST_Node *ast_id = create_AST_Node("FALSE", node->symbol);
             ast_id->token = node->token;
             ast_id->token_set = 1;
             insert_AST_tail(node->list, ast_id);
@@ -394,7 +406,7 @@ void resolve(TreeNode *node)
                 resolve(node->tail); // Statements1
                 resolve(node->head); // Statement
                 append_AST_lists_tail(node->list, node->tail->list);
-                append_AST_lists_tail(node->list, node->head->list);
+                append_AST_lists_head(node->list, node->head->list);
             }
         }
         else if (node->symbol->non_terminal == Statement)
@@ -413,13 +425,67 @@ void resolve(TreeNode *node)
             /*  */
             /* } */
         }
+        else if (node->symbol->non_terminal == ConditionalStmt){
+            resolve(node->head->sibling->sibling);  // iD
+            AST_Node *switch_node = create_AST_Node("SWITCH", NULL);
+            AST_Node *cases = create_AST_Node("CASES", NULL);
+            insert_AST_tail(node->list, switch_node); // insert SWITCH
+            insert_AST_tail(node->list, node->head->sibling->sibling->list->head); // insert iD
+            insert_AST_tail(node->list, cases); // insert CASES
+            resolve(node->head->sibling->sibling->sibling->sibling->sibling); // CaseStmts
+            resolve(node->head->sibling->sibling->sibling->sibling->sibling->sibling); // Default
+            append_AST_lists_tail(node->list, node->head->sibling->sibling->sibling->sibling->sibling->list); // appending CaseStmts
+            append_AST_lists_tail(node->list, node->head->sibling->sibling->sibling->sibling->sibling->sibling->list); // appending Default
+        }
+        else if (node->symbol->non_terminal == CaseStmts){
+            AST_Node *stmts = create_AST_Node("STATEMENTS", NULL);
+            AST_Node *case_node = create_AST_Node("CASE", NULL);
+            resolve(node->head->sibling); // Value
+            resolve(node->head->sibling->sibling->sibling); // Statements
+            resolve(node->tail); // N9
+            append_AST_lists_tail(node->list, node->tail->list); // append N9 list
+            append_AST_lists_head(node->list, node->head->sibling->sibling->sibling->list); // append Statements list to head
+            insert_AST_head(node->list, stmts); // insert STATEMENTS to head
+            insert_AST_head(node->list, node->head->sibling->list->head); // insert Value to head
+            insert_AST_head(node->list, case_node); // insert CASE to head
+        }
+        else if (node->symbol->non_terminal == Value){
+            AST_Node *val = create_AST_Node("", node->head->symbol);            
+            val->token_set = 1;
+            val->token = node->head->token;
+            insert_AST_head(node->list, val);
+        }
+        else if (node->symbol->non_terminal == N9){
+            if (node->head->sibling == NULL){
+                // N9 => #
+            } else {
+                AST_Node *stmts = create_AST_Node("STATEMENTS", NULL);
+                AST_Node *case_node = create_AST_Node("CASE", NULL);
+                resolve(node->head->sibling); // Value                
+                resolve(node->head->sibling->sibling->sibling); // Statements                
+                resolve(node->tail); // N91 child
+                append_AST_lists_tail(node->list, node->tail->list); // append N91 child
+                append_AST_lists_tail(node->list, node->head->sibling->sibling->sibling->list); // append Statements to head
+                insert_AST_head(node->list, stmts); // insert STATEMENTS to head
+                insert_AST_head(node->list, node->head->sibling->list->head); // insert Value to head
+                insert_AST_head(node->list, case_node); // insert CASE to head
+            }
+        }
+        else if (node->symbol->non_terminal == Default){
+            AST_Node *default_node = create_AST_Node("DEFAULTCASE", NULL);
+            AST_Node *stmts = create_AST_Node("STATEMENTS", NULL);
+            insert_AST_tail(node->list, default_node); // insert DEFAULTCASE
+            insert_AST_tail(node->list, stmts); // insert STATEMENTS
+            resolve(node->head->sibling->sibling); // Statements
+            append_AST_lists_tail(node->list, node->head->sibling->sibling->list); // append Statements list
+        }
         else if (node->symbol->non_terminal == IoStmt)
         {
             if (node->head->symbol->terminal == pRINT)
             {
                 AST_Node *PRINT = create_AST_Node("PRINT", NULL);
                 insert_AST_tail(node->list, PRINT);
-                resolve(node->head->sibling->sibling); // iD
+                resolve(node->head->sibling->sibling); // Var_print
                 append_AST_lists_tail(node->list, node->head->sibling->sibling->list);
             }
             else
@@ -429,6 +495,43 @@ void resolve(TreeNode *node)
                 resolve(node->head->sibling->sibling); // iD
                 insert_AST_tail(node->list, node->head->sibling->sibling->list->head);
             }
+        }
+        else if (node->symbol->non_terminal == Var_print){
+            print_symbol_details(node->head->sibling->head->symbol, stdout);
+            if (node->head->sibling != NULL){
+                if (node->head->sibling->head->sibling == NULL){ // only iD
+                    resolve(node->head); // iD
+                    append_AST_lists_tail(node->list, node->head->list); // append iD
+                    
+                } else { // iD with ARRAY_ACCESS
+                    AST_Node *array_access = create_AST_Node("ARRAY_ACCESS", NULL);
+                    resolve(node->head); // iD
+                    resolve(node->head->sibling); // P1
+                    insert_AST_head(node->list, array_access); // insert ARRAY_ACCESS
+                    append_AST_lists_tail(node->list, node->head->list); // append iD
+                    append_AST_lists_tail(node->list, node->head->sibling->list); // append P1
+                }
+            } else {
+                if (node->head->head == NULL){
+                    resolve(node->head); // nUM/rNUM
+                    insert_AST_head(node->list, node->head->list->head); // insert nUM/rNUM
+                } else {
+                    resolve(node->head); // BoolConstt
+                    append_AST_lists_head(node->list, node->head->list); // append BoolConstt
+                }
+            }
+        }
+        else if (node->symbol->non_terminal == P1){
+            if (node->head->sibling == NULL){
+                // P1 => #
+            } else {
+                resolve(node->head->sibling); // Index_arr
+                append_AST_lists_head(node->list, node->head->sibling->list); // append Index_arr
+            }
+        }
+        else if (node->symbol->non_terminal == BoolConstt){
+            resolve(node->head); // tRUE/fALSE
+            insert_AST_head(node->list, node->head->list->head); // insert tRUE/fALSE
         }
         else if (node->symbol->non_terminal == DeclareStmt)
         {
@@ -742,5 +845,4 @@ void run_ast(char *prog_file, char *output_file)
     run_parser(prog_file, output_file);
     resolve(Parse_Tree_Root->head);
     print_astnodes(Parse_Tree_Root->head);
-    printf("\n\n");
 }
