@@ -1,5 +1,7 @@
 - [ ] Check for duplicates 'else if' in `resolve` ast fxn
-- [ ] sign todo resolve
+- [ ] @mohitdmak sign todo resolve
+- [ ] if/else?
+- [ ] arith/bool exp no label?
 - [ ] how to  know when for loop's statements ended?
 
 - [X] Do we need to create a seperate method to remove comments.
