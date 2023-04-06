@@ -14,6 +14,8 @@ typedef struct ast_node
 {
   Symbol *data;
   char label[200];
+  TOKEN token;
+  int token_set;
   struct ast_node *next;
 } AST_Node;
 
@@ -31,6 +33,7 @@ typedef struct TreeNode
   struct TreeNode *tail;
   struct TreeNode *sibling;
   struct Symbol *symbol;
+  TOKEN token;
   AST_Node_List *list;
   bool visited;
 } TreeNode;

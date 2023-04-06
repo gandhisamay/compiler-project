@@ -312,7 +312,6 @@ typedef struct Symbol {
   terminals terminal;
   n_terminals non_terminal;
   int row_no;
-  TOKEN token;
 
   struct LinkedList *first;
   struct LinkedList *follow;

@@ -152,6 +152,7 @@ TreeNode *create_treeNode() {
   x->sibling = NULL;
   x->symbol = NULL;
   x->list = NULL;
+  /* x->token = NULL; */
   return x;
 }
 
@@ -237,14 +238,12 @@ void print_astnode_details(AST_Node *node, FILE *debug_fp) {
     return;
   }
   fprintf(debug_fp, "\nLabel: %s \n", node->label);
+  if (node->token_set) print_token_details(node->token, debug_fp);
   Symbol *s = node->data;
   if (s != NULL){
       fprintf(debug_fp, "DATA: Name: %s ", s->name);
       fprintf(debug_fp, "Enum_T: %d, Enum_NT: %d, ", s->terminal, s->non_terminal);
       fprintf(debug_fp, "IS_A: %s\n", s->is_terminal ? "Terminal" : "Non Terminal");
-      if (s->is_terminal){
-        print_token_details(s->token, debug_fp);
-      }
       /* fprintf(debug_fp, "First: "); */
       /* print_list(s->first, debug_fp); */
       /* fprintf(debug_fp, "Follow: "); */
@@ -274,6 +273,7 @@ void printParseTree(TreeNode *root, FILE *outfile) {
     fprintf(outfile, "==============>  ");
     /* print_astnode_details(root, outfile); */
     print_symbol_details(root->symbol, outfile);
+    print_token_details(root->token, outfile);
     // print_symbol_info(root->symbol, outfile);
     fprintf(outfile, "\n\n");
 
