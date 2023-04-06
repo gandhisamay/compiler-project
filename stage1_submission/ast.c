@@ -139,6 +139,7 @@ void resolve(TreeNode *node) {
             AST_Node *main_program = create_AST_Node("MAINPROGRAM", NULL);
             AST_Node *module_declarations = create_AST_Node("MODULEDECLARATIONS", NULL);
             AST_Node *module_definitions = create_AST_Node("MODULEDEFINITIONS", NULL);
+            AST_Node *module_definitions1 = create_AST_Node("MODULEDEFINITIONS", NULL);
             insert_AST_head(node->list, main_program);
             insert_AST_tail(node->list, module_declarations);
             append_AST_lists_tail(node->list, node->head->list); // append ModuleDeclarations
@@ -146,6 +147,9 @@ void resolve(TreeNode *node) {
             resolve(node->head->sibling); // OtherModules
             append_AST_lists_tail(node->list, node->head->sibling->list); // append OtherModules
             append_AST_lists_tail(node->list, node->head->sibling->sibling->list); // append DriverModule
+            insert_AST_tail(node->list, module_definitions1);
+            resolve(node->tail); // OtherModules1
+            append_AST_lists_tail(node->list, node->tail->list); // append OtherModules1
         }
         else if (node->symbol->non_terminal == ModuleDeclarations){
             if (node->head->sibling == NULL){
@@ -200,15 +204,12 @@ void resolve(TreeNode *node) {
             }
         }
         else if (node->symbol->non_terminal == Input_plist){
-            printf("\n::::::::::::\n");
             resolve(node->head); // iD
             resolve(node->head->sibling->sibling); // Type
             resolve(node->head->sibling->sibling->sibling);  // N1
             append_AST_lists_tail(node->list, node->head->sibling->sibling->sibling->list); // appending to N1
             insert_AST_head(node->list, node->head->sibling->sibling->list->head); // insert type at head to N1
             insert_AST_head(node->list, node->head->list->head); // insert iD at head to N1
-            print_astnodes(node);
-            printf("\n::::::::::::\n");
         }
         else if (node->symbol->non_terminal == Output_plist){
             resolve(node->head); // iD
