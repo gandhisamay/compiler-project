@@ -488,9 +488,11 @@ void resolve(TreeNode *node)
             else
             {
                 AST_Node *WHILELOOP = create_AST_Node("WHILELOOP", NULL);
+                AST_Node* STATEMENT = create_AST_Node("STATEMENT",NULL);
                 insert_AST_tail(node->list, WHILELOOP);
                 resolve(node->head->sibling->sibling);
                 resolve(node->head->sibling->sibling->sibling->sibling->sibling);
+                insert_AST_tail(node->list,STATEMENT);
                 append_AST_lists_tail(node->list, node->head->sibling->sibling->list);
                 append_AST_lists_tail(node->list, node->head->sibling->sibling->sibling->sibling->sibling->list);
             }
@@ -505,9 +507,11 @@ void resolve(TreeNode *node)
         else if (node->symbol->non_terminal == Index_for_loop)
         {   
             AST_Node* INDEX_FOR_LOOP = create_AST_Node("INDEX_FOR_LOOP",NULL);
+            AST_Node* STATEMENT = create_AST_Node("STATEMENT",NULL);
             insert_AST_tail(node->list,INDEX_FOR_LOOP);
             resolve(node->head);
             resolve(node->tail);
+            insert_AST_tail(node->list,STATEMENT);
             append_AST_lists_tail(node->list, node->head->list);
             append_AST_lists_tail(node->list, node->tail->list);
         }
@@ -530,7 +534,14 @@ void resolve(TreeNode *node)
         }
         else if(node->symbol->non_terminal == AssignmentStmt){
             AST_Node* ASSIGNSTMT = create_AST_Node("ASSIGNSTMT", NULL);
-            // insert_AST_tail(node->tail);
+            insert_AST_tail(node->list,ASSIGNSTMT);
+            resolve(node->head);
+            resolve(node->tail);
+            insert_AST_tail(node->list,node->head->list->head);
+            append_AST_lists_tail(node->list,node->tail->list);
+        }
+        else if(node->symbol->non_terminal == WhichStmt){
+            // resolve
         }
         else if (node->symbol->non_terminal == ModuleReuseStmt){
 
