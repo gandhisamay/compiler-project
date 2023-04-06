@@ -4,7 +4,11 @@ declare module mod2;
 <<module mod1>>
 takes input[x: integer, arr1: array[1..15] of real];
 start
-    get_value(cba);
+    for(index in  -10..+15)
+	start
+        declare var:integer;
+
+	end
 end
 <<<driver program>>>
 start

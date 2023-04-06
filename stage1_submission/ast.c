@@ -126,28 +126,49 @@ void resolve(TreeNode *node)
     {
         if (node->symbol->terminal == iD)
         {
-            AST_Node *ast_id = create_AST_Node("", node->symbol);
+            AST_Node *ast_id = create_AST_Node("ID", node->symbol);
             ast_id->token = node->token;
             ast_id->token_set = 1;
             insert_AST_tail(node->list, ast_id);
         }
-        if (node->symbol->terminal == iNTEGER)
+        else if (node->symbol->terminal == iNTEGER)
         {
-            AST_Node *ast_id = create_AST_Node("", node->symbol);
+            AST_Node *ast_id = create_AST_Node("INTEGER", node->symbol);
             ast_id->token = node->token;
             ast_id->token_set = 1;
             insert_AST_tail(node->list, ast_id);
         }
-        if (node->symbol->terminal == rEAL)
+        else if (node->symbol->terminal == rEAL)
         {
-            AST_Node *ast_id = create_AST_Node("", node->symbol);
+            AST_Node *ast_id = create_AST_Node("REAL", node->symbol);
             ast_id->token = node->token;
             ast_id->token_set = 1;
             insert_AST_tail(node->list, ast_id);
         }
-        if (node->symbol->terminal == bOOLEAN)
+        else if (node->symbol->terminal == bOOLEAN)
         {
-            AST_Node *ast_id = create_AST_Node("", node->symbol);
+            AST_Node *ast_id = create_AST_Node("BOOLEAN", node->symbol);
+            ast_id->token = node->token;
+            ast_id->token_set = 1;
+            insert_AST_tail(node->list, ast_id);
+        }
+        else if (node->symbol->terminal == nUM)
+        {
+            AST_Node *ast_id = create_AST_Node("NUM", node->symbol);
+            ast_id->token = node->token;
+            ast_id->token_set = 1;
+            insert_AST_tail(node->list, ast_id);
+        }
+        else if (node->symbol->terminal == pLUS)
+        {
+            AST_Node *ast_id = create_AST_Node("PLUS", node->symbol);
+            ast_id->token = node->token;
+            ast_id->token_set = 1;
+            insert_AST_tail(node->list, ast_id);
+        }
+        else if (node->symbol->terminal == mINUS)
+        {
+            AST_Node *ast_id = create_AST_Node("MINUS", node->symbol);
             ast_id->token = node->token;
             ast_id->token_set = 1;
             insert_AST_tail(node->list, ast_id);
@@ -167,11 +188,11 @@ void resolve(TreeNode *node)
             insert_AST_tail(node->list, module_declarations);
             append_AST_lists_tail(node->list, node->head->list); // append ModuleDeclarations
             insert_AST_tail(node->list, module_definitions);
-            resolve(node->head->sibling); // OtherModules
-            append_AST_lists_tail(node->list, node->head->sibling->list); // append OtherModules
+            resolve(node->head->sibling);                                          // OtherModules
+            append_AST_lists_tail(node->list, node->head->sibling->list);          // append OtherModules
             append_AST_lists_tail(node->list, node->head->sibling->sibling->list); // append DriverModule
             insert_AST_tail(node->list, module_definitions1);
-            resolve(node->tail); // OtherModules1
+            resolve(node->tail);                                 // OtherModules1
             append_AST_lists_tail(node->list, node->tail->list); // append OtherModules1
         }
         else if (node->symbol->non_terminal == ModuleDeclarations)
@@ -193,130 +214,159 @@ void resolve(TreeNode *node)
             resolve(node->head->sibling->sibling); // iD
             insert_AST_head(node->list, node->head->sibling->sibling->list->head);
         }
-        else if (node->symbol->non_terminal == OtherModules){
-            if (node->head->sibling == NULL){
+        else if (node->symbol->non_terminal == OtherModules)
+        {
+            if (node->head->sibling == NULL)
+            {
                 // OtherModules => #
-            } else {
+            }
+            else
+            {
                 resolve(node->tail); // OtherModules1 child
                 resolve(node->head); // Module
                 append_AST_lists_tail(node->list, node->tail->list);
                 append_AST_lists_head(node->list, node->head->list);
             }
         }
-        else if (node->symbol->non_terminal == Module){
+        else if (node->symbol->non_terminal == Module)
+        {
             AST_Node *module = create_AST_Node("MODULE", NULL);
             AST_Node *input_plist = create_AST_Node("INPUT_PARAMETERS_LIST", NULL);
             insert_AST_head(node->list, module);
             // resolve and add ID
-            resolve(node->head->sibling->sibling); // iD
+            resolve(node->head->sibling->sibling);                                 // iD
             insert_AST_tail(node->list, node->head->sibling->sibling->list->head); // insert iD
             // resolve and add Input_plist
             resolve(node->head->sibling->sibling->sibling->sibling->sibling->sibling->sibling); // Input_plist
             insert_AST_tail(node->list, input_plist);
             append_AST_lists_tail(node->list, node->head->sibling->sibling->sibling->sibling->sibling->sibling->sibling->list); // insert plist
             // resolve and add Return_plist
-            resolve(node->head->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling); // RET
+            resolve(node->head->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling);                                 // RET
             append_AST_lists_tail(node->list, node->head->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->list); // insert RET
             // resolve and add ModuleDef
-            resolve(node->head->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling); // ModuleDef
+            resolve(node->head->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling);                                 // ModuleDef
             append_AST_lists_tail(node->list, node->head->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->list); // insert ModuleDef
         }
-        else if (node->symbol->non_terminal == Ret){
+        else if (node->symbol->non_terminal == Ret)
+        {
             AST_Node *return_plist = create_AST_Node("RETURN_PARAMETERS_LIST", NULL);
             insert_AST_tail(node->list, return_plist);
-            if (node->head->sibling == NULL){
+            if (node->head->sibling == NULL)
+            {
                 // Ret => #
-            } else {
-                resolve(node->head->sibling->sibling); // Output_plist
+            }
+            else
+            {
+                resolve(node->head->sibling->sibling);                                 // Output_plist
                 append_AST_lists_tail(node->list, node->head->sibling->sibling->list); // insert Output_plist
             }
         }
-        else if (node->symbol->non_terminal == Input_plist){
-            resolve(node->head); // iD
-            resolve(node->head->sibling->sibling); // Type
-            resolve(node->head->sibling->sibling->sibling);  // N1
+        else if (node->symbol->non_terminal == Input_plist)
+        {
+            resolve(node->head);                                                            // iD
+            resolve(node->head->sibling->sibling);                                          // Type
+            resolve(node->head->sibling->sibling->sibling);                                 // N1
             append_AST_lists_tail(node->list, node->head->sibling->sibling->sibling->list); // appending to N1
-            insert_AST_head(node->list, node->head->sibling->sibling->list->head); // insert type at head to N1
-            insert_AST_head(node->list, node->head->list->head); // insert iD at head to N1
+            insert_AST_head(node->list, node->head->sibling->sibling->list->head);          // insert type at head to N1
+            insert_AST_head(node->list, node->head->list->head);                            // insert iD at head to N1
         }
-        else if (node->symbol->non_terminal == Output_plist){
-            resolve(node->head); // iD
-            resolve(node->head->sibling->sibling); // Type
-            resolve(node->head->sibling->sibling->sibling);  // N2
+        else if (node->symbol->non_terminal == Output_plist)
+        {
+            resolve(node->head);                                                            // iD
+            resolve(node->head->sibling->sibling);                                          // Type
+            resolve(node->head->sibling->sibling->sibling);                                 // N2
             append_AST_lists_tail(node->list, node->head->sibling->sibling->sibling->list); // appending to N2
-            insert_AST_head(node->list, node->head->sibling->sibling->list->head); // insert type at head to N2
-            insert_AST_head(node->list, node->head->list->head); // insert iD at head to N2
+            insert_AST_head(node->list, node->head->sibling->sibling->list->head);          // insert type at head to N2
+            insert_AST_head(node->list, node->head->list->head);                            // insert iD at head to N2
         }
-        else if (node->symbol->non_terminal == DataType){
-            if (node->head->sibling == NULL){
-                AST_Node *type = create_AST_Node("", node->head->symbol);            
+        else if (node->symbol->non_terminal == DataType)
+        {
+            if (node->head->sibling == NULL)
+            {
+                AST_Node *type = create_AST_Node("", node->head->symbol);
                 type->token_set = 1;
                 type->token = node->head->token;
                 insert_AST_head(node->list, type);
-            } else {
-                AST_Node *array = create_AST_Node("ARRAY", node->head->symbol);            
+            }
+            else
+            {
+                AST_Node *array = create_AST_Node("ARRAY", node->head->symbol);
                 insert_AST_head(node->list, array);
-                resolve(node->tail); // Type
-                insert_AST_tail(node->list, node->tail->list->head); // add Type
-                resolve(node->head->sibling->sibling); // Range_arrays
+                resolve(node->tail);                                                   // Type
+                insert_AST_tail(node->list, node->tail->list->head);                   // add Type
+                resolve(node->head->sibling->sibling);                                 // Range_arrays
                 append_AST_lists_tail(node->list, node->head->sibling->sibling->list); // append Range_arrays
             }
         }
-        else if (node->symbol->non_terminal == Range_arrays){
+        else if (node->symbol->non_terminal == Range_arrays)
+        {
             resolve(node->head); // Index_arr1
             resolve(node->tail); // Index_arr2
-            AST_Node *range = create_AST_Node("RANGE_ARRAY", node->head->symbol);            
+            AST_Node *range = create_AST_Node("RANGE_ARRAY", node->head->symbol);
             insert_AST_head(node->list, range);
             append_AST_lists_tail(node->list, node->head->list); // append Index_arr1
             append_AST_lists_tail(node->list, node->tail->list); // append Index_arr2
         }
-        else if (node->symbol->non_terminal == Index_arr){
-            AST_Node *range_index = create_AST_Node("RANGE_ARRAY_INDEX", node->head->symbol);            
+        else if (node->symbol->non_terminal == Index_arr)
+        {
+            AST_Node *range_index = create_AST_Node("RANGE_ARRAY_INDEX", node->head->symbol);
             insert_AST_head(node->list, range_index);
-            if (node->head->sibling == NULL){
-                AST_Node *new_index = create_AST_Node("", node->head->head->symbol);            
+            if (node->head->sibling == NULL)
+            {
+                AST_Node *new_index = create_AST_Node("", node->head->head->symbol);
                 new_index->token_set = 1;
                 new_index->token = node->head->head->token;
                 insert_AST_tail(node->list, new_index); // insert new_index
-            } else {
-                AST_Node *sign = create_AST_Node("", node->head->head->symbol);            
+            }
+            else
+            {
+                AST_Node *sign = create_AST_Node("", node->head->head->symbol);
                 sign->token_set = 1;
                 sign->token = node->head->head->token;
                 insert_AST_tail(node->list, sign); // insert sign
-                AST_Node *new_index = create_AST_Node("", node->head->sibling->head->symbol);            
+                AST_Node *new_index = create_AST_Node("", node->head->sibling->head->symbol);
                 new_index->token_set = 1;
                 new_index->token = node->head->sibling->head->token;
                 insert_AST_tail(node->list, new_index); // insert new_index
             }
         }
-        else if (node->symbol->non_terminal == Type){
-            AST_Node *type = create_AST_Node("", node->head->symbol);            
+        else if (node->symbol->non_terminal == Type)
+        {
+            AST_Node *type = create_AST_Node("", node->head->symbol);
             type->token_set = 1;
             type->token = node->head->token;
             insert_AST_head(node->list, type);
         }
-        else if (node->symbol->non_terminal == N2){
-            if (node->head->sibling == NULL){
+        else if (node->symbol->non_terminal == N2)
+        {
+            if (node->head->sibling == NULL)
+            {
                 // N2 => #
-            } else {
-                resolve(node->tail); // N21 child
-                resolve(node->head->sibling); // iD
-                resolve(node->head->sibling->sibling->sibling); // Type
-                append_AST_lists_tail(node->list, node->tail->list); // N2.syn_list = N21.syn_list
+            }
+            else
+            {
+                resolve(node->tail);                                                            // N21 child
+                resolve(node->head->sibling);                                                   // iD
+                resolve(node->head->sibling->sibling->sibling);                                 // Type
+                append_AST_lists_tail(node->list, node->tail->list);                            // N2.syn_list = N21.syn_list
                 insert_AST_head(node->list, node->head->sibling->sibling->sibling->list->head); // add type to list head
-                insert_AST_head(node->list, node->head->sibling->list->head); // add iD to list head
+                insert_AST_head(node->list, node->head->sibling->list->head);                   // add iD to list head
             }
         }
-        else if (node->symbol->non_terminal == N1){
-            if (node->head->sibling == NULL){
+        else if (node->symbol->non_terminal == N1)
+        {
+            if (node->head->sibling == NULL)
+            {
                 // N1 => #
-            } else {
-                resolve(node->tail); // N11 child
-                resolve(node->head->sibling); // iD
-                resolve(node->head->sibling->sibling->sibling); // Type
-                append_AST_lists_tail(node->list, node->tail->list); // N1.syn_list = N11.syn_list
+            }
+            else
+            {
+                resolve(node->tail);                                                            // N11 child
+                resolve(node->head->sibling);                                                   // iD
+                resolve(node->head->sibling->sibling->sibling);                                 // Type
+                append_AST_lists_tail(node->list, node->tail->list);                            // N1.syn_list = N11.syn_list
                 insert_AST_head(node->list, node->head->sibling->sibling->sibling->list->head); // add type to list head
-                insert_AST_head(node->list, node->head->sibling->list->head); // add iD to list head
+                insert_AST_head(node->list, node->head->sibling->list->head);                   // add iD to list head
             }
         }
         else if (node->symbol->non_terminal == DriverModule)
@@ -380,78 +430,111 @@ void resolve(TreeNode *node)
                 insert_AST_tail(node->list, node->head->sibling->sibling->list->head);
             }
         }
-        else if(node->symbol->non_terminal == DeclareStmt){
-            AST_Node* DECLARE = create_AST_Node("DECLARE", NULL);
-            insert_AST_tail(node->list,DECLARE);
+        else if (node->symbol->non_terminal == DeclareStmt)
+        {
+            AST_Node *DECLARE = create_AST_Node("DECLARE", NULL);
+            insert_AST_tail(node->list, DECLARE);
             resolve(node->head->sibling);
             resolve(node->head->sibling->sibling->sibling);
-            append_AST_lists_tail(node->list,node->head->sibling->list);
-            append_AST_lists_tail(node->list,node->head->sibling->sibling->sibling->list);
+            append_AST_lists_tail(node->list, node->head->sibling->list);
+            append_AST_lists_tail(node->list, node->head->sibling->sibling->sibling->list);
         }
-        else if(node->symbol->non_terminal == IdList){
+        else if (node->symbol->non_terminal == IdList)
+        {
             resolve(node->head);
             resolve(node->tail);
-            append_AST_lists_tail(node->list,node->head->list);
-            append_AST_lists_head (node->list,node->tail->list);
+            append_AST_lists_tail(node->list, node->head->list);
+            append_AST_lists_head(node->list, node->tail->list);
         }
-        else if (node->symbol->non_terminal == N3){
-            if(node->head->sibling == NULL){
-
+        else if (node->symbol->non_terminal == N3)
+        {
+            if (node->head->sibling == NULL)
+            {
             }
-            else {
+            else
+            {
                 resolve(node->head->sibling);
                 resolve(node->tail);
-                append_AST_lists_tail(node->list,node->head->sibling->list);
-                append_AST_lists_tail(node->list,node->tail->list);
+                append_AST_lists_tail(node->list, node->head->sibling->list);
+                append_AST_lists_tail(node->list, node->tail->list);
             }
         }
-        else if( node->symbol->non_terminal == DataType){
-            if(node->head->sibling==NULL){
-                resolve(node->head);
-                insert_AST_tail(node->list,node->head->list->head);                
-            }
-            else {
-                AST_Node* ARRAY = create_AST_Node("ARRAY",NULL);
-                insert_AST_tail(node->list, ARRAY);
-                resolve(node->head->sibling->sibling);
-                resolve(node->tail);
-                append_AST_lists_tail(node->list, node->head->sibling->sibling->list);
-            }
-        }
+        // else if( node->symbol->non_terminal == DataType){
+        //     if(node->head->sibling==NULL){
+        //         resolve(node->head);
+        //         insert_AST_tail(node->list,node->head->list->head);
+        //     }
+        //     else {
+        //         AST_Node* ARRAY = create_AST_Node("ARRAY",NULL);
+        //         insert_AST_tail(node->list, ARRAY);
+        //         resolve(node->head->sibling->sibling);
+        //         resolve(node->tail);
+        //         append_AST_lists_tail(node->list, node->head->sibling->sibling->list);
+        //     }
+        // }
         else if (node->symbol->non_terminal == IterativeStmt)
-        {   
-            if (node->head->symbol->terminal == fOR){
-                AST_Node* FORLOOP = create_AST_Node("FORLOOP",NULL);
-                insert_AST_tail(node->list,FORLOOP);
+        {
+            if (node->head->symbol->terminal == fOR)
+            {
+                AST_Node *FORLOOP = create_AST_Node("FORLOOP", NULL);
+                insert_AST_tail(node->list, FORLOOP);
                 resolve(node->head->sibling->sibling);
                 resolve(node->head->sibling->sibling->sibling->sibling);
                 resolve(node->head->sibling->sibling->sibling->sibling->sibling->sibling->sibling);
-                append_AST_lists_tail(node->list,node->head->sibling->sibling->list);
-                append_AST_lists_tail(node->list,node->head->sibling->sibling->sibling->sibling->list);
-                append_AST_lists_tail(node->list,node->head->sibling->sibling->sibling->sibling->sibling->sibling->sibling->list);
+                append_AST_lists_tail(node->list, node->head->sibling->sibling->list);
+                append_AST_lists_tail(node->list, node->head->sibling->sibling->sibling->sibling->list);
+                append_AST_lists_tail(node->list, node->head->sibling->sibling->sibling->sibling->sibling->sibling->sibling->list);
             }
-            else {
-                AST_Node* WHILELOOP  = create_AST_Node("WHILELOOP",NULL);
-                insert_AST_tail(node->list,WHILELOOP);
+            else
+            {
+                AST_Node *WHILELOOP = create_AST_Node("WHILELOOP", NULL);
+                insert_AST_tail(node->list, WHILELOOP);
                 resolve(node->head->sibling->sibling);
                 resolve(node->head->sibling->sibling->sibling->sibling->sibling);
-                append_AST_lists_tail(node->list,node->head->sibling->sibling);
-                append_AST_lists_tail(node->list,node->head->sibling->sibling->sibling->sibling->sibling->list);
+                append_AST_lists_tail(node->list, node->head->sibling->sibling->list);
+                append_AST_lists_tail(node->list, node->head->sibling->sibling->sibling->sibling->sibling->list);
             }
         }
-        else if(node->symbol->non_terminal == Range_for_loop){
+        else if (node->symbol->non_terminal == Range_for_loop)
+        {
             resolve(node->head);
             resolve(node->tail);
+            append_AST_lists_tail(node->list, node->head->list);
+            append_AST_lists_tail(node->list, node->tail->list);
+        }
+        else if (node->symbol->non_terminal == Index_for_loop)
+        {   
+            AST_Node* INDEX_FOR_LOOP = create_AST_Node("INDEX_FOR_LOOP",NULL);
+            insert_AST_tail(node->list,INDEX_FOR_LOOP);
+            resolve(node->head);
+            resolve(node->tail);
+            append_AST_lists_tail(node->list, node->head->list);
+            append_AST_lists_tail(node->list, node->tail->list);
+        }
+        else if (node->symbol->non_terminal == Sign_for_loop){
+            if(node->head == NULL){
+
+            }
+            else{
+                resolve(node->head);
+                insert_AST_tail(node->list,node->head->list->head);
+            }
+        }
+        else if (node->symbol->non_terminal == New_index_for_loop){
+            resolve(node->head);
+            insert_AST_tail(node->list,node->head->list->head);
+        }
+        else if (node->symbol->non_terminal == SimpleStmt){
+            resolve(node->head);
             append_AST_lists_tail(node->list,node->head->list);
-            append_AST_lists_tail(node->list,node->tail->list);
         }
-        else if(node->symbol->non_terminal == Index_for_loop){
-            resolve(node->head);
-            resolve(node->tail);
-            append_AST_lists_tail(node->list,node->head->list->head);
-            append_AST_lists_tail(node->list,node->tail->list->head);
+        else if(node->symbol->non_terminal == AssignmentStmt){
+            AST_Node* ASSIGNSTMT = create_AST_Node("ASSIGNSTMT", NULL);
+            // insert_AST_tail(node->tail);
         }
-        else
+        else if (node->symbol->non_terminal == ModuleReuseStmt){
+
+        }
     }
 }
 
