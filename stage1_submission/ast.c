@@ -126,7 +126,7 @@ void resolve(TreeNode *node)
     {
         if (node->symbol->terminal == iD)
         {
-            AST_Node *ast_id = create_AST_Node("ID", node->symbol);
+            AST_Node *ast_id = create_AST_Node("", node->symbol);
             ast_id->token = node->token;
             ast_id->token_set = 1;
             insert_AST_tail(node->list, ast_id);
@@ -394,7 +394,7 @@ void resolve(TreeNode *node)
                 resolve(node->tail); // Statements1
                 resolve(node->head); // Statement
                 append_AST_lists_tail(node->list, node->tail->list);
-                append_AST_lists_tail(node->list, node->head->list);
+                append_AST_lists_head(node->list, node->head->list);
             }
         }
         else if (node->symbol->non_terminal == Statement)

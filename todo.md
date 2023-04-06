@@ -1,4 +1,6 @@
 - [ ] Check for duplicates 'else if' in `resolve` ast fxn
+- [ ] sign todo resolve
+- [ ] how to  know when for loop's statements ended?
 
 - [X] Do we need to create a seperate method to remove comments.
 - [ ] NOTE: Running lexer without removing comments, causes wrong line numbers - shouldn't be an issue unless we would be required to not use the remove comments fxn?
