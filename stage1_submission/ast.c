@@ -434,15 +434,15 @@ void resolve(TreeNode *node)
         {
             AST_Node *DECLARE = create_AST_Node("DECLARE", NULL);
             insert_AST_tail(node->list, DECLARE);
-            resolve(node->head->sibling);
-            resolve(node->head->sibling->sibling->sibling);
+            resolve(node->head->sibling);//IdList
+            resolve(node->head->sibling->sibling->sibling);//DataType
             append_AST_lists_tail(node->list, node->head->sibling->list);
             append_AST_lists_tail(node->list, node->head->sibling->sibling->sibling->list);
         }
         else if (node->symbol->non_terminal == IdList)
         {
-            resolve(node->head);
-            resolve(node->tail);
+            resolve(node->head);//iD
+            resolve(node->tail);//N3
             append_AST_lists_tail(node->list, node->head->list);
             append_AST_lists_head(node->list, node->tail->list);
         }
@@ -453,8 +453,8 @@ void resolve(TreeNode *node)
             }
             else
             {
-                resolve(node->head->sibling);
-                resolve(node->tail);
+                resolve(node->head->sibling);//iD
+                resolve(node->tail);//N3
                 append_AST_lists_tail(node->list, node->head->sibling->list);
                 append_AST_lists_tail(node->list, node->tail->list);
             }
@@ -477,10 +477,12 @@ void resolve(TreeNode *node)
             if (node->head->symbol->terminal == fOR)
             {
                 AST_Node *FORLOOP = create_AST_Node("FORLOOP", NULL);
+                AST_Node* STATEMENT = create_AST_Node("STATEMENT",NULL);
                 insert_AST_tail(node->list, FORLOOP);
-                resolve(node->head->sibling->sibling);
-                resolve(node->head->sibling->sibling->sibling->sibling);
-                resolve(node->head->sibling->sibling->sibling->sibling->sibling->sibling->sibling);
+                resolve(node->head->sibling->sibling);//iD
+                resolve(node->head->sibling->sibling->sibling->sibling);//Range_for_loop
+                resolve(node->head->sibling->sibling->sibling->sibling->sibling->sibling->sibling);//Statements
+                insert_AST_tail(node->list,STATEMENT);
                 append_AST_lists_tail(node->list, node->head->sibling->sibling->list);
                 append_AST_lists_tail(node->list, node->head->sibling->sibling->sibling->sibling->list);
                 append_AST_lists_tail(node->list, node->head->sibling->sibling->sibling->sibling->sibling->sibling->sibling->list);
@@ -507,11 +509,11 @@ void resolve(TreeNode *node)
         else if (node->symbol->non_terminal == Index_for_loop)
         {   
             AST_Node* INDEX_FOR_LOOP = create_AST_Node("INDEX_FOR_LOOP",NULL);
-            AST_Node* STATEMENT = create_AST_Node("STATEMENT",NULL);
+         
             insert_AST_tail(node->list,INDEX_FOR_LOOP);
             resolve(node->head);
             resolve(node->tail);
-            insert_AST_tail(node->list,STATEMENT);
+ 
             append_AST_lists_tail(node->list, node->head->list);
             append_AST_lists_tail(node->list, node->tail->list);
         }
