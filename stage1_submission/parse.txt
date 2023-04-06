@@ -1,162 +1,343 @@
-==============>  Name: #, Enum_T: 0, Enum_NT: 0, IS_A: Terminal
+==============>  Name: dECLARE, Enum_T: 0, Enum_NT: -1, IS_A: Terminal
 First: List is empty
 Follow: List is empty
-Right: [HEAD] -> [END]
+Right: [HEAD] -> mODULE -> iD -> sEMICOL -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : declare
 
 
-==============>  Name: ModuleDeclarations, Enum_T: -1, Enum_NT: 2, IS_A: Non Terminal
+==============>  Name: ModuleDeclaration, Enum_T: -1, Enum_NT: 3, IS_A: Non Terminal
 First: List is empty
 Follow: List is empty
-Right: [HEAD] -> OtherModules -> DriverModule -> OtherModules -> [END]
+Right: [HEAD] -> ModuleDeclarations -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
 
 
-==============>  Name: Program, Enum_T: -1, Enum_NT: 1, IS_A: Non Terminal
+==============>  Name: mODULE, Enum_T: 2, Enum_NT: -1, IS_A: Terminal
 First: List is empty
 Follow: List is empty
-Right: [HEAD] -> $ -> [END]
-
-
-==============>  Name: #, Enum_T: 0, Enum_NT: 0, IS_A: Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> [END]
-
-
-==============>  Name: OtherModules, Enum_T: -1, Enum_NT: 4, IS_A: Non Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> DriverModule -> OtherModules -> [END]
-
-
-==============>  Name: dRIVERDEF, Enum_T: 5, Enum_NT: -1, IS_A: Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> dRIVER -> pROGRAM -> dRIVERENDDEF -> ModuleDef -> [END]
-
-
-==============>  Name: DriverModule, Enum_T: -1, Enum_NT: 5, IS_A: Non Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> OtherModules -> [END]
-
-
-==============>  Name: dRIVER, Enum_T: 6, Enum_NT: -1, IS_A: Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> pROGRAM -> dRIVERENDDEF -> ModuleDef -> [END]
-
-
-==============>  Name: pROGRAM, Enum_T: 7, Enum_NT: -1, IS_A: Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> dRIVERENDDEF -> ModuleDef -> [END]
-
-
-==============>  Name: dRIVERENDDEF, Enum_T: 8, Enum_NT: -1, IS_A: Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> ModuleDef -> [END]
-
-
-==============>  Name: sTART, Enum_T: 24, Enum_NT: -1, IS_A: Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> Statements -> eND -> [END]
-
-
-==============>  Name: ModuleDef, Enum_T: -1, Enum_NT: 15, IS_A: Non Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> [END]
-
-
-==============>  Name: gET_VALUE, Enum_T: 26, Enum_NT: -1, IS_A: Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> bO -> iD -> bC -> sEMICOL -> [END]
-
-
-==============>  Name: IoStmt, Enum_T: -1, Enum_NT: 18, IS_A: Non Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> [END]
-
-
-==============>  Name: bO, Enum_T: 27, Enum_NT: -1, IS_A: Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> iD -> bC -> sEMICOL -> [END]
+Right: [HEAD] -> iD -> sEMICOL -> [END]
+LINE: [0] ENUM: 2  TOKEN: ID/KEYW        : module
 
 
 ==============>  Name: iD, Enum_T: 3, Enum_NT: -1, IS_A: Terminal
 First: List is empty
 Follow: List is empty
-Right: [HEAD] -> bC -> sEMICOL -> [END]
-
-
-==============>  Name: bC, Enum_T: 28, Enum_NT: -1, IS_A: Terminal
-First: List is empty
-Follow: List is empty
 Right: [HEAD] -> sEMICOL -> [END]
+LINE: [0] ENUM: 3  TOKEN: ID/KEYW        : mod1
 
 
 ==============>  Name: sEMICOL, Enum_T: 4, Enum_NT: -1, IS_A: Terminal
 First: List is empty
 Follow: List is empty
 Right: [HEAD] -> [END]
+LINE: [0] ENUM: 4  TOKEN: ID/KEYW        : ;
+
+
+==============>  Name: ModuleDeclarations, Enum_T: -1, Enum_NT: 2, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> OtherModules -> DriverModule -> OtherModules -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
+
+
+==============>  Name: dECLARE, Enum_T: 0, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> mODULE -> iD -> sEMICOL -> [END]
+LINE: [1] ENUM: 0  TOKEN: ID/KEYW        : declare
+
+
+==============>  Name: ModuleDeclaration, Enum_T: -1, Enum_NT: 3, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> ModuleDeclarations -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
+
+
+==============>  Name: mODULE, Enum_T: 2, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> iD -> sEMICOL -> [END]
+LINE: [1] ENUM: 2  TOKEN: ID/KEYW        : module
+
+
+==============>  Name: iD, Enum_T: 3, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> sEMICOL -> [END]
+LINE: [1] ENUM: 3  TOKEN: ID/KEYW        : mod3
+
+
+==============>  Name: sEMICOL, Enum_T: 4, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> [END]
+LINE: [1] ENUM: 4  TOKEN: ID/KEYW        : ;
+
+
+==============>  Name: ModuleDeclarations, Enum_T: -1, Enum_NT: 2, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
+
+
+==============>  Name: dECLARE, Enum_T: 0, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> mODULE -> iD -> sEMICOL -> [END]
+LINE: [2] ENUM: 0  TOKEN: ID/KEYW        : declare
+
+
+==============>  Name: ModuleDeclaration, Enum_T: -1, Enum_NT: 3, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> ModuleDeclarations -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
+
+
+==============>  Name: mODULE, Enum_T: 2, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> iD -> sEMICOL -> [END]
+LINE: [2] ENUM: 2  TOKEN: ID/KEYW        : module
+
+
+==============>  Name: iD, Enum_T: 3, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> sEMICOL -> [END]
+LINE: [2] ENUM: 3  TOKEN: ID/KEYW        : mod2
+
+
+==============>  Name: sEMICOL, Enum_T: 4, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> [END]
+LINE: [2] ENUM: 4  TOKEN: ID/KEYW        : ;
+
+
+==============>  Name: ModuleDeclarations, Enum_T: -1, Enum_NT: 2, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
+
+
+==============>  Name: #, Enum_T: 0, Enum_NT: 0, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
+
+
+==============>  Name: ModuleDeclarations, Enum_T: -1, Enum_NT: 2, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
+
+
+==============>  Name: Program, Enum_T: -1, Enum_NT: 1, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> $ -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
+
+
+==============>  Name: #, Enum_T: 0, Enum_NT: 0, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
+
+
+==============>  Name: OtherModules, Enum_T: -1, Enum_NT: 4, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> DriverModule -> OtherModules -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
+
+
+==============>  Name: dRIVERDEF, Enum_T: 5, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> dRIVER -> pROGRAM -> dRIVERENDDEF -> ModuleDef -> [END]
+LINE: [3] ENUM: 5  TOKEN: ID/KEYW        : <<<
+
+
+==============>  Name: DriverModule, Enum_T: -1, Enum_NT: 5, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> OtherModules -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
+
+
+==============>  Name: dRIVER, Enum_T: 6, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> pROGRAM -> dRIVERENDDEF -> ModuleDef -> [END]
+LINE: [3] ENUM: 6  TOKEN: ID/KEYW        : driver
+
+
+==============>  Name: pROGRAM, Enum_T: 7, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> dRIVERENDDEF -> ModuleDef -> [END]
+LINE: [3] ENUM: 7  TOKEN: ID/KEYW        : program
+
+
+==============>  Name: dRIVERENDDEF, Enum_T: 8, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> ModuleDef -> [END]
+LINE: [3] ENUM: 8  TOKEN: ID/KEYW        : >>>
+
+
+==============>  Name: sTART, Enum_T: 24, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> Statements -> eND -> [END]
+LINE: [4] ENUM: 24  TOKEN: ID/KEYW        : start
+
+
+==============>  Name: ModuleDef, Enum_T: -1, Enum_NT: 15, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
+
+
+==============>  Name: dECLARE, Enum_T: 0, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> IdList -> cOLON -> DataType -> sEMICOL -> [END]
+LINE: [5] ENUM: 0  TOKEN: ID/KEYW        : declare
+
+
+==============>  Name: DeclareStmt, Enum_T: -1, Enum_NT: 63, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
+
+
+==============>  Name: iD, Enum_T: 3, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> N3 -> [END]
+LINE: [5] ENUM: 3  TOKEN: ID/KEYW        : var
+
+
+==============>  Name: IdList, Enum_T: -1, Enum_NT: 36, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> cOLON -> DataType -> sEMICOL -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
+
+
+==============>  Name: #, Enum_T: 0, Enum_NT: 0, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
+
+
+==============>  Name: N3, Enum_T: -1, Enum_NT: 37, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
+
+
+==============>  Name: cOLON, Enum_T: 16, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> DataType -> sEMICOL -> [END]
+LINE: [5] ENUM: 16  TOKEN: ID/KEYW        : :
+
+
+==============>  Name: iNTEGER, Enum_T: 18, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> [END]
+LINE: [5] ENUM: 18  TOKEN: ID/KEYW        : integer
+
+
+==============>  Name: DataType, Enum_T: -1, Enum_NT: 12, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> sEMICOL -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
+
+
+==============>  Name: sEMICOL, Enum_T: 4, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> [END]
+LINE: [5] ENUM: 4  TOKEN: ID/KEYW        : ;
 
 
 ==============>  Name: Statement, Enum_T: -1, Enum_NT: 17, IS_A: Non Terminal
 First: List is empty
 Follow: List is empty
 Right: [HEAD] -> Statements -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
 
 
 ==============>  Name: Statements, Enum_T: -1, Enum_NT: 16, IS_A: Non Terminal
 First: List is empty
 Follow: List is empty
 Right: [HEAD] -> eND -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
 
 
 ==============>  Name: #, Enum_T: 0, Enum_NT: 0, IS_A: Terminal
 First: List is empty
 Follow: List is empty
 Right: [HEAD] -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
 
 
 ==============>  Name: Statements, Enum_T: -1, Enum_NT: 16, IS_A: Non Terminal
 First: List is empty
 Follow: List is empty
 Right: [HEAD] -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
 
 
 ==============>  Name: eND, Enum_T: 25, Enum_NT: -1, IS_A: Terminal
 First: List is empty
 Follow: List is empty
 Right: [HEAD] -> [END]
+LINE: [6] ENUM: 25  TOKEN: ID/KEYW        : end
 
 
 ==============>  Name: #, Enum_T: 0, Enum_NT: 0, IS_A: Terminal
 First: List is empty
 Follow: List is empty
 Right: [HEAD] -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
 
 
 ==============>  Name: OtherModules, Enum_T: -1, Enum_NT: 4, IS_A: Non Terminal
 First: List is empty
 Follow: List is empty
 Right: [HEAD] -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
 
 
 ==============>  Name: S, Enum_T: -1, Enum_NT: 0, IS_A: Non Terminal
 First: dECLARE,dEF,dRIVERDEF
 Follow: List is empty
 Right: [HEAD] -> Program -> $ -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
 
 
 ==============>  Name: $, Enum_T: 1, Enum_NT: -1, IS_A: Terminal
 First: List is empty
 Follow: List is empty
 Right: [HEAD] -> [END]
+LINE: [7] ENUM: 1  TOKEN: EOF/DOLLAR: EOF
 
 

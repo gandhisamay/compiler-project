@@ -3,5 +3,5 @@ declare module mod3;
 declare module mod2;
 <<<driver program>>>
 start
-    get_value(abc);
+    declare var:integer;
 end
