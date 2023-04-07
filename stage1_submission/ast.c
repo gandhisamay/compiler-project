@@ -659,7 +659,6 @@ void resolve(TreeNode *node)
             if (node->head->sibling->sibling->sibling->head->sibling == NULL){ // Not Array
                 AST_Node *ID = node->head->sibling->list->head;
                 while(ID != NULL){
-                    print_astnode_details(ID, stdout);
                     // TODO: FIX Offset
                     SYMBOL_TABLE_ELEMENT *el = create_symbol_table_element(ID->token.id, false, ID->token.name, 0, 0, 0, ID->token.line);
                     insert_symbol_table(el, scope->table);
@@ -715,8 +714,6 @@ void resolve(TreeNode *node)
                 }
                 AST_Node *ID = node->head->sibling->list->head;
                 while(ID != NULL){
-                    printf("\n_________________ start %d end %d\n", start, end);
-                    print_astnode_details(ID, stdout);
                     // TODO: FIX Offset
                     SYMBOL_TABLE_ELEMENT *el = create_symbol_table_element(ID->token.id, true, ID->token.name, start, end, 0, ID->token.line);
                     insert_symbol_table(el, scope->table);

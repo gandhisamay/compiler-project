@@ -1,6 +1,8 @@
 - [ ] Check for duplicates 'else if' in `resolve` ast fxn
 - [ ] @mohitdmak sign todo resolve
 - [ ] if/else?
+- [ ] remove 'RANGE_ARRAY' label
+- [ ] add N8 to grammar
 - [ ] arith/bool exp no end label?
 - [ ] how to  know when for loop's statements ended?
 
