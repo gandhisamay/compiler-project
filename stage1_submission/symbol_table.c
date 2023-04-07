@@ -28,7 +28,7 @@ int symbol_table_code(char *id)
     for (int i = 0; i < size; i++)
     {
 
-        code = (code + (id[i] - 'a' + 1) * pow) % SYMB_SIZE;
+        code = (code + (id[i] - 'A' + 1) * pow) % SYMB_SIZE;
         pow = (pow * SYM_P) % SYMB_SIZE;
     }
 
@@ -73,11 +73,9 @@ SYMBOL_TABLE_ELEMENT* create_symbol_table_element(char id[], bool isArray, termi
 
 void insert_symbol_table(SYMBOL_TABLE_ELEMENT* ele, SYMBOL_TABLE_ELEMENT* table[])
 {
-    printf("\n::\n");
     int index = symbol_table_code(ele->id);
     while (table[index] != NULL) {
 
-    printf("\n::\n");
     ++index;
     index %= SYMB_SIZE;
   }

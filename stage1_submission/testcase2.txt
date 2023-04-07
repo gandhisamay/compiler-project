@@ -1,10 +1,11 @@
 ** This is a small code for verifying syntactic correctness of an empty driver and an empty module **
 <<<driver program>>>
 start
-	
+	b:=w*z*a;
 end
 <<module empty>>
 takes input[a:boolean];
+
 start
 
 end
