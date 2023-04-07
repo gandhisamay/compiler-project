@@ -1,4 +1,4 @@
-#include "parser.c"
+#include "scope.c"
 
 // TreeNode *create_tree_node_AST(TreeNode *syn_node, TreeNode *inh_node, TreeNode *syn_list, TreeNode *inh_list);
 // AST_NODE *insert_at_head_syn(TreeNode *list_head, AST_NODE *node);
