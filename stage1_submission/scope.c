@@ -36,7 +36,7 @@ void print_scopes(Scope *scope, char pre[200]){
     strcpy(old_pre, pre);
     strcat(pre, "   ");
     print_scope(scope);
-    if (scope->child_scope != NULL){
+    if (scope !=NULL && scope->child_scope != NULL){
         printf("%s", pre);
         print_scopes(scope->child_scope, pre);
     }
