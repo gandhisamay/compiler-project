@@ -24,6 +24,10 @@ void insert_scope(Scope *scope, Scope *child){
 }
 
 void print_scope(Scope *scope){
+    if (scope == NULL){
+        printf("SCOPE: NULL\n");
+        return;
+    }
     printf("SCOPE: Start %d End %d\n", scope->start_line, scope->end_line);
 }
 
@@ -63,24 +67,30 @@ TOKEN resolve_scopes(Scope *scope, TOKEN curr, FILE *test_fp){
 }
 
 Scope * find_scope(Scope *scope, int line){
+    /* printf("\nHOLA %d\n", line); */
+    /* print_scope(scope); */
     if (scope == NULL){
         return GLOBAL_SCOPE;
     }
     if (line > scope->end_line){
         if (scope->sibling_scope == NULL){
-            return find_scope(scope->parent_scope, line);
+            return scope->parent_scope;
         } else {
             return find_scope(scope->sibling_scope, line);
         }
     }
     else if (line < scope->start_line){
-        return find_scope(scope->parent_scope, line);
+        return scope->parent_scope;
     }
     else if (line == scope->start_line || line == scope->end_line){
         return scope;
     }
     else {
-        return find_scope(scope->child_scope, line);
+        if (scope->child_scope != NULL){
+            return find_scope(scope->child_scope, line);
+        } else {
+            return scope;
+        }
     }
 }
 
@@ -105,8 +115,10 @@ void create_scopes(char *prog_file, char *output_file){
     GLOBAL_SCOPE->end_line = curr.line;
     char prefix[200] = "";
     print_scopes(GLOBAL_SCOPE, prefix);
-    /* Scope *found_scope = find_scope(GLOBAL_SCOPE, 10); */
     printf("\n");
-    /* print_scope(found_scope); */
+    int line = 22;
+    Scope *found_scope = find_scope(GLOBAL_SCOPE, line);
+    printf("\n\n    SCOPE AT LINE: %d: \n", line);
+    print_scope(found_scope);
 }
 
