@@ -221,7 +221,8 @@ void resolve(TreeNode *node)
             ast_id->token = node->token;
             ast_id->token_set = 1;
             insert_AST_tail(node->list, ast_id);
-        }else if (node->symbol->terminal == lT)
+        }
+        else if (node->symbol->terminal == lT)
         {
             AST_Node *ast_id = create_AST_Node("", node->symbol);
             ast_id->token = node->token;
@@ -266,7 +267,8 @@ void resolve(TreeNode *node)
     }
     else
     {
-        if (node->head == NULL){
+        if (node->head == NULL)
+        {
             return;
         }
         else if (node->symbol->non_terminal == Program)
@@ -339,6 +341,43 @@ void resolve(TreeNode *node)
             // resolve and add ModuleDef
             resolve(node->head->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling);                                 // ModuleDef
             append_AST_lists_tail(node->list, node->head->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->list); // insert ModuleDef
+
+            int start_line = node->tail->head->token.line;
+
+            //output_plist
+            if (node->head->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->head->sibling == NULL)
+            { // ret
+            }
+            else
+            {
+                AST_Node *tmp = copy_AST_Node(node->head->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->head->sibling->sibling->list->head); // output_plist
+                while (tmp != NULL)
+                {
+                    SYMBOL_TABLE_ELEMENT *temp = create_symbol_table_element(tmp->token.id, false, tmp->next->token.name, 0, 0, 0, start_line);
+                    insert_symbol_table(temp, find_scope(GLOBAL_SCOPE, start_line)->table);
+                    tmp = tmp->next;
+                    if (tmp != NULL)
+                        tmp = tmp->next;
+                }
+            }
+
+            //input_plist
+            AST_Node* tmp = copy_AST_Node(node->head->sibling->sibling->sibling->sibling->sibling->sibling->sibling->list->head);
+            while(tmp!=NULL){
+                if(strcmp(tmp->next->label,"ARRAY") == 0){
+                    SYMBOL_TABLE_ELEMENT* temp = create_symbol_table_element(tmp->token.id,true,tmp->next->next->token.name,tmp->next->next->next->next->next->token.num,tmp->next->next->next->next->next->next->next->token.num,0,start_line);
+                    tmp = tmp->next->next->next->next->next->next->next->next;
+                }
+                else {
+                    SYMBOL_TABLE_ELEMENT *temp = create_symbol_table_element(tmp->token.id, false, tmp->next->token.name, 0, 0, 0, start_line);
+                    insert_symbol_table(temp, find_scope(GLOBAL_SCOPE, start_line)->table);
+                    tmp = tmp->next;
+                    if (tmp != NULL)
+                        tmp = tmp->next;
+                }
+            }
+            printf("\n :-------: \n");
+            print_symbol_table(find_scope(GLOBAL_SCOPE,start_line)->table);
         }
         else if (node->symbol->non_terminal == Ret)
         {
@@ -561,9 +600,12 @@ void resolve(TreeNode *node)
         }
         else if (node->symbol->non_terminal == Default)
         {
-            if (node->head->sibling == NULL){
+            if (node->head->sibling == NULL)
+            {
                 // Default => #
-            } else {
+            }
+            else
+            {
                 AST_Node *default_node = create_AST_Node("DEFAULTCASE", NULL);
                 AST_Node *stmts = create_AST_Node("STATEMENTS", NULL);
                 insert_AST_tail(node->list, default_node);                             // insert DEFAULTCASE
@@ -650,10 +692,12 @@ void resolve(TreeNode *node)
             // Add to symbol table
             Scope *scope = find_scope(GLOBAL_SCOPE, node->head->token.line); // line no of 'dECLARE'
             SYMBOL_TABLE_ELEMENT **table = scope->table;
-            if (node->head->sibling->sibling->sibling->head->sibling == NULL){ // Not Array
+            if (node->head->sibling->sibling->sibling->head->sibling == NULL)
+            { // Not Array
                 printf("\n\nHOLAAAAAAAAAAAAAAAAAAAAAAAAA\n\n");
                 AST_Node *ID = node->head->sibling->list->head;
-                while(ID != NULL){
+                while (ID != NULL)
+                {
                     print_astnode_details(ID, stdout);
                     // TODO: FIX Offset
                     SYMBOL_TABLE_ELEMENT *el = create_symbol_table_element(ID->token.id, false, ID->token.name, 0, 0, 0, ID->token.line);
@@ -664,13 +708,13 @@ void resolve(TreeNode *node)
                 printf("\n::::::\n");
             }
             /* else { // Is an Array */
-                /* AST_Node *ID = node->head->sibling->list->head; */
-                /* while(ID != NULL){ */
-                /*     // TODO: FIX Offset */
-                /*     SYMBOL_TABLE_ELEMENT *el = create_symbol_table_element(ID->token.id, true, ID->token.name, 0, 0, 0, ID->token.line); */
-                /*     insert_symbol_table(el, table); */
-                /*     ID = ID->next; */
-                /* } */
+            /* AST_Node *ID = node->head->sibling->list->head; */
+            /* while(ID != NULL){ */
+            /*     // TODO: FIX Offset */
+            /*     SYMBOL_TABLE_ELEMENT *el = create_symbol_table_element(ID->token.id, true, ID->token.name, 0, 0, 0, ID->token.line); */
+            /*     insert_symbol_table(el, table); */
+            /*     ID = ID->next; */
+            /* } */
             /* } */
         }
         else if (node->symbol->non_terminal == IdList)
@@ -804,18 +848,21 @@ void resolve(TreeNode *node)
             insert_AST_tail(node->list, ARITHORBOOLEXP);
             resolve(node->head); // AnyTerm
             resolve(node->tail); // N7
-            AST_Node* LOGIC;
-            if(node->tail->head->sibling == NULL){
-
+            AST_Node *LOGIC;
+            if (node->tail->head->sibling == NULL)
+            {
             }
-            else {
-                if(node->tail->head->head->symbol->terminal == aND){
-                    LOGIC = create_AST_Node("AND",NULL);
+            else
+            {
+                if (node->tail->head->head->symbol->terminal == aND)
+                {
+                    LOGIC = create_AST_Node("AND", NULL);
                 }
-                else {
-                    LOGIC = create_AST_Node("OR",NULL);
+                else
+                {
+                    LOGIC = create_AST_Node("OR", NULL);
                 }
-                insert_AST_tail(node->list,LOGIC);
+                insert_AST_tail(node->list, LOGIC);
             }
             append_AST_lists_tail(node->list, node->head->list);
             append_AST_lists_tail(node->list, node->tail->list);
@@ -824,50 +871,60 @@ void resolve(TreeNode *node)
         {
             resolve(node->head); // ArithmeticExpr
             resolve(node->tail); // N8
-            AST_Node* REL;
-            if(node->tail->head->sibling == NULL){
-
+            AST_Node *REL;
+            if (node->tail->head->sibling == NULL)
+            {
             }
-            else {
-                if(node->tail->head->head->symbol->terminal == lT){
-                    REL = create_AST_Node("LT",NULL);
+            else
+            {
+                if (node->tail->head->head->symbol->terminal == lT)
+                {
+                    REL = create_AST_Node("LT", NULL);
                 }
-                else if(node->tail->head->head->symbol->terminal == lE){
-                    REL = create_AST_Node("LE",NULL);
+                else if (node->tail->head->head->symbol->terminal == lE)
+                {
+                    REL = create_AST_Node("LE", NULL);
                 }
-                else if(node->tail->head->head->symbol->terminal == gT){
-                    REL = create_AST_Node("GT",NULL);
+                else if (node->tail->head->head->symbol->terminal == gT)
+                {
+                    REL = create_AST_Node("GT", NULL);
                 }
-                else if(node->tail->head->head->symbol->terminal == gE){
-                    REL = create_AST_Node("GE",NULL);
+                else if (node->tail->head->head->symbol->terminal == gE)
+                {
+                    REL = create_AST_Node("GE", NULL);
                 }
-                else if(node->tail->head->head->symbol->terminal == eQ){
-                    REL = create_AST_Node("EQ",NULL);
+                else if (node->tail->head->head->symbol->terminal == eQ)
+                {
+                    REL = create_AST_Node("EQ", NULL);
                 }
-                else if(node->tail->head->head->symbol->terminal == nE){
-                    REL = create_AST_Node("NE",NULL);
+                else if (node->tail->head->head->symbol->terminal == nE)
+                {
+                    REL = create_AST_Node("NE", NULL);
                 }
-                insert_AST_tail(node->list,REL);
+                insert_AST_tail(node->list, REL);
             }
             append_AST_lists_tail(node->list, node->head->list);
             append_AST_lists_tail(node->list, node->tail->list);
         }
         else if (node->symbol->non_terminal == ArithmeticExpr)
-        {   
+        {
             resolve(node->head); // Term
             resolve(node->tail); // N4
-            AST_Node* OP1;
-            if(node->tail->head->sibling == NULL){
-
+            AST_Node *OP1;
+            if (node->tail->head->sibling == NULL)
+            {
             }
-            else {
-                if(node->tail->head->head->symbol->terminal == pLUS){
-                    OP1 = create_AST_Node("ADD",NULL);
+            else
+            {
+                if (node->tail->head->head->symbol->terminal == pLUS)
+                {
+                    OP1 = create_AST_Node("ADD", NULL);
                 }
-                else {
-                    OP1 = create_AST_Node("SUBTRACT",NULL);
+                else
+                {
+                    OP1 = create_AST_Node("SUBTRACT", NULL);
                 }
-                insert_AST_tail(node->list,OP1);
+                insert_AST_tail(node->list, OP1);
             }
             append_AST_lists_tail(node->list, node->head->list);
             append_AST_lists_tail(node->list, node->tail->list);
@@ -876,19 +933,22 @@ void resolve(TreeNode *node)
         {
             resolve(node->head); // Factor
             resolve(node->tail); // N5
-            AST_Node* OP2;
-                if(node->tail->head->sibling == NULL){
-
+            AST_Node *OP2;
+            if (node->tail->head->sibling == NULL)
+            {
+            }
+            else
+            {
+                if (node->tail->head->head->symbol->terminal == mUL)
+                {
+                    OP2 = create_AST_Node("MUL", NULL);
                 }
-                else {
-                    if(node->tail->head->head->symbol->terminal == mUL){
-                        OP2 = create_AST_Node("MUL",NULL);
-                    }
-                    else {
-                        OP2 = create_AST_Node("DIV",NULL);
-                    }
-                    insert_AST_tail(node->list,OP2);
+                else
+                {
+                    OP2 = create_AST_Node("DIV", NULL);
                 }
+                insert_AST_tail(node->list, OP2);
+            }
             append_AST_lists_tail(node->list, node->head->list);
             append_AST_lists_tail(node->list, node->tail->list);
         }
@@ -926,19 +986,19 @@ void resolve(TreeNode *node)
         else if (node->symbol->non_terminal == Element_index_with_expressions)
         {
             if (node->head->sibling == NULL)
-            {   
+            {
                 // AST_Node* ARR_EXP = create_AST_Node("ARR_EXP",NULL);
                 resolve(node->head); // ArrExpr
                 // insert_AST_tail(node->list,ARR_EXP);
                 append_AST_lists_tail(node->list, node->head->list);
             }
             else
-            {   
-                AST_Node* ARR_INDEX = create_AST_Node("ARR_INDEX",NULL);
+            {
+                AST_Node *ARR_INDEX = create_AST_Node("ARR_INDEX", NULL);
 
                 resolve(node->head); // Sign
                 resolve(node->tail); // N10
-                insert_AST_tail(node->list,ARR_INDEX);
+                insert_AST_tail(node->list, ARR_INDEX);
                 append_AST_lists_tail(node->list, node->head->list);
                 append_AST_lists_tail(node->list, node->tail->list);
             }
@@ -974,18 +1034,21 @@ void resolve(TreeNode *node)
             insert_AST_tail(node->list, ARREXPR);
             resolve(node->head); // ArrTerm
             resolve(node->tail); // Arr_N4
-            AST_Node* OP1;
-            if(node->tail->head->sibling == NULL){
-
+            AST_Node *OP1;
+            if (node->tail->head->sibling == NULL)
+            {
             }
-            else {
-                if(node->tail->head->head->symbol->terminal == pLUS){
-                    OP1 = create_AST_Node("ADD",NULL);
+            else
+            {
+                if (node->tail->head->head->symbol->terminal == pLUS)
+                {
+                    OP1 = create_AST_Node("ADD", NULL);
                 }
-                else {
-                    OP1 = create_AST_Node("SUBTRACT",NULL);
+                else
+                {
+                    OP1 = create_AST_Node("SUBTRACT", NULL);
                 }
-                insert_AST_tail(node->list,OP1);
+                insert_AST_tail(node->list, OP1);
             }
             append_AST_lists_tail(node->list, node->head->list);
             append_AST_lists_tail(node->list, node->tail->list);
@@ -994,18 +1057,21 @@ void resolve(TreeNode *node)
         {
             resolve(node->head); // ArrFactor
             resolve(node->tail); // Arr_N5
-            AST_Node* OP2;
-            if(node->tail->head->sibling == NULL){
-
+            AST_Node *OP2;
+            if (node->tail->head->sibling == NULL)
+            {
             }
-            else {
-                if(node->tail->head->head->symbol->terminal == mUL){
-                    OP2 = create_AST_Node("MUL",NULL);
+            else
+            {
+                if (node->tail->head->head->symbol->terminal == mUL)
+                {
+                    OP2 = create_AST_Node("MUL", NULL);
                 }
-                else {
-                    OP2 = create_AST_Node("DIV",NULL);
+                else
+                {
+                    OP2 = create_AST_Node("DIV", NULL);
                 }
-                insert_AST_tail(node->list,OP2);
+                insert_AST_tail(node->list, OP2);
             }
             append_AST_lists_tail(node->list, node->head->list);
             append_AST_lists_tail(node->list, node->tail->list);
@@ -1035,18 +1101,21 @@ void resolve(TreeNode *node)
                 resolve(node->tail);          // Arr_N4
 
                 append_AST_lists_tail(node->list, node->head->list);
-                AST_Node* OP1;
-                if(node->tail->head->sibling == NULL){
-
+                AST_Node *OP1;
+                if (node->tail->head->sibling == NULL)
+                {
                 }
-                else {
-                    if(node->tail->head->head->symbol->terminal == pLUS){
-                        OP1 = create_AST_Node("ADD",NULL);
+                else
+                {
+                    if (node->tail->head->head->symbol->terminal == pLUS)
+                    {
+                        OP1 = create_AST_Node("ADD", NULL);
                     }
-                    else {
-                        OP1 = create_AST_Node("SUBTRACT",NULL);
+                    else
+                    {
+                        OP1 = create_AST_Node("SUBTRACT", NULL);
                     }
-                    insert_AST_tail(node->list,OP1);
+                    insert_AST_tail(node->list, OP1);
                 }
                 append_AST_lists_tail(node->list, node->head->sibling->list);
                 append_AST_lists_tail(node->list, node->tail->list);
@@ -1063,18 +1132,21 @@ void resolve(TreeNode *node)
                 resolve(node->head->sibling); // ArrFactor
                 resolve(node->tail);          // Arr_N5
                 append_AST_lists_tail(node->list, node->head->list);
-                AST_Node* OP2;
-                if(node->tail->head->sibling == NULL){
-
+                AST_Node *OP2;
+                if (node->tail->head->sibling == NULL)
+                {
                 }
-                else {
-                    if(node->tail->head->head->symbol->terminal == mUL){
-                        OP2 = create_AST_Node("MUL",NULL);
+                else
+                {
+                    if (node->tail->head->head->symbol->terminal == mUL)
+                    {
+                        OP2 = create_AST_Node("MUL", NULL);
                     }
-                    else {
-                        OP2 = create_AST_Node("DIV",NULL);
+                    else
+                    {
+                        OP2 = create_AST_Node("DIV", NULL);
                     }
-                    insert_AST_tail(node->list,OP2);
+                    insert_AST_tail(node->list, OP2);
                 }
                 append_AST_lists_tail(node->list, node->head->sibling->list);
                 append_AST_lists_tail(node->list, node->tail->list);
@@ -1116,191 +1188,220 @@ void resolve(TreeNode *node)
                 resolve(node->head->sibling); // Term
                 resolve(node->tail);          // N4
                 insert_AST_tail(node->list, node->head->list->head);
-                AST_Node* OP1;
-                if(node->tail->head->sibling == NULL){
-
+                AST_Node *OP1;
+                if (node->tail->head->sibling == NULL)
+                {
                 }
-                else {
-                    if(node->tail->head->head->symbol->terminal == pLUS){
-                        OP1 = create_AST_Node("ADD",NULL);
+                else
+                {
+                    if (node->tail->head->head->symbol->terminal == pLUS)
+                    {
+                        OP1 = create_AST_Node("ADD", NULL);
                     }
-                    else {
-                        OP1 = create_AST_Node("SUBTRACT",NULL);
+                    else
+                    {
+                        OP1 = create_AST_Node("SUBTRACT", NULL);
                     }
-                    insert_AST_tail(node->list,OP1);
+                    insert_AST_tail(node->list, OP1);
                 }
                 append_AST_lists_tail(node->list, node->head->sibling->list);
                 append_AST_lists_tail(node->list, node->tail->list);
             }
         }
         else if (node->symbol->non_terminal == N8)
-        {   
-            if(node->head->sibling == NULL){
-
+        {
+            if (node->head->sibling == NULL)
+            {
             }
-            else {
-                resolve(node->head);//RelationalOp
-                resolve(node->head->sibling);//ArithmeticExpr
-                resolve(node->tail);//N8
-                append_AST_lists_tail(node->list,node->head->list);
-                AST_Node* REL;
-                if(node->tail->head->sibling == NULL){
-
+            else
+            {
+                resolve(node->head);          // RelationalOp
+                resolve(node->head->sibling); // ArithmeticExpr
+                resolve(node->tail);          // N8
+                append_AST_lists_tail(node->list, node->head->list);
+                AST_Node *REL;
+                if (node->tail->head->sibling == NULL)
+                {
                 }
-                else {
-                    if(node->tail->head->head->symbol->terminal == lT){
-                        REL = create_AST_Node("LT",NULL);
+                else
+                {
+                    if (node->tail->head->head->symbol->terminal == lT)
+                    {
+                        REL = create_AST_Node("LT", NULL);
                     }
-                    else if(node->tail->head->head->symbol->terminal == lE){
-                        REL = create_AST_Node("LE",NULL);
+                    else if (node->tail->head->head->symbol->terminal == lE)
+                    {
+                        REL = create_AST_Node("LE", NULL);
                     }
-                    else if(node->tail->head->head->symbol->terminal == gT){
-                        REL = create_AST_Node("GT",NULL);
+                    else if (node->tail->head->head->symbol->terminal == gT)
+                    {
+                        REL = create_AST_Node("GT", NULL);
                     }
-                    else if(node->tail->head->head->symbol->terminal == gE){
-                        REL = create_AST_Node("GE",NULL);
+                    else if (node->tail->head->head->symbol->terminal == gE)
+                    {
+                        REL = create_AST_Node("GE", NULL);
                     }
-                    else if(node->tail->head->head->symbol->terminal == eQ){
-                        REL = create_AST_Node("EQ",NULL);
+                    else if (node->tail->head->head->symbol->terminal == eQ)
+                    {
+                        REL = create_AST_Node("EQ", NULL);
                     }
-                    else if(node->tail->head->head->symbol->terminal == nE){
-                        REL = create_AST_Node("NE",NULL);
+                    else if (node->tail->head->head->symbol->terminal == nE)
+                    {
+                        REL = create_AST_Node("NE", NULL);
                     }
-                    insert_AST_tail(node->list,REL);
+                    insert_AST_tail(node->list, REL);
                 }
-                append_AST_lists_tail(node->list,node->head->sibling->list);
-                append_AST_lists_tail(node->list,node->tail->list);
+                append_AST_lists_tail(node->list, node->head->sibling->list);
+                append_AST_lists_tail(node->list, node->tail->list);
             }
         }
-        else if(node->symbol->non_terminal == RelationalOp){
-            resolve(node->head);//lt/le/gt.....
-            insert_AST_tail(node->list,node->head->list->head);
+        else if (node->symbol->non_terminal == RelationalOp)
+        {
+            resolve(node->head); // lt/le/gt.....
+            insert_AST_tail(node->list, node->head->list->head);
         }
         else if (node->symbol->non_terminal == N7)
         {
-            if(node->head->sibling == NULL){
-
+            if (node->head->sibling == NULL)
+            {
             }
-            else {
-                resolve(node->head);//LogicalalOp
-                resolve(node->tail);//N7
-                resolve(node->head->sibling);//AnyTerm
-                append_AST_lists_tail(node->list,node->head->list);
-                AST_Node* LOGIC;
-                if(node->tail->head->sibling == NULL){
-
+            else
+            {
+                resolve(node->head);          // LogicalalOp
+                resolve(node->tail);          // N7
+                resolve(node->head->sibling); // AnyTerm
+                append_AST_lists_tail(node->list, node->head->list);
+                AST_Node *LOGIC;
+                if (node->tail->head->sibling == NULL)
+                {
                 }
-                else {
-                    if(node->tail->head->head->symbol->terminal == aND){
-                        LOGIC = create_AST_Node("AND",NULL);
+                else
+                {
+                    if (node->tail->head->head->symbol->terminal == aND)
+                    {
+                        LOGIC = create_AST_Node("AND", NULL);
                     }
-                    else {
-                        LOGIC = create_AST_Node("OR",NULL);
+                    else
+                    {
+                        LOGIC = create_AST_Node("OR", NULL);
                     }
-                    insert_AST_tail(node->list,LOGIC);
+                    insert_AST_tail(node->list, LOGIC);
                 }
-                append_AST_lists_tail(node->list,node->head->sibling->list);
-                append_AST_lists_tail(node->list,node->tail->list);
+                append_AST_lists_tail(node->list, node->head->sibling->list);
+                append_AST_lists_tail(node->list, node->tail->list);
             }
         }
-        else if(node->symbol->non_terminal == LogicalOp){
-            resolve(node->head);//and/or
-            insert_AST_tail(node->list,node->head->list->head);
+        else if (node->symbol->non_terminal == LogicalOp)
+        {
+            resolve(node->head); // and/or
+            insert_AST_tail(node->list, node->head->list->head);
         }
         else if (node->symbol->non_terminal == U)
-        {   
-            resolve(node->head);//Unary_op
-            resolve(node->tail);//New_nt
-            insert_AST_tail(node->list,node->head->list->head);
-            append_AST_lists_tail(node->list,node->tail->list);
+        {
+            resolve(node->head); // Unary_op
+            resolve(node->tail); // New_nt
+            insert_AST_tail(node->list, node->head->list->head);
+            append_AST_lists_tail(node->list, node->tail->list);
         }
-        else if(node->symbol->non_terminal == Unary_op){
-            resolve(node->head);//plus/minus
-            insert_AST_tail(node->list,node->head->list->head);
+        else if (node->symbol->non_terminal == Unary_op)
+        {
+            resolve(node->head); // plus/minus
+            insert_AST_tail(node->list, node->head->list->head);
         }
-        else if (node->symbol->non_terminal == New_NT){
-            if(node->head->sibling == NULL){
-                resolve(node->head);//var_id_num
-                append_AST_lists_tail(node->list,node->head->list);
+        else if (node->symbol->non_terminal == New_NT)
+        {
+            if (node->head->sibling == NULL)
+            {
+                resolve(node->head); // var_id_num
+                append_AST_lists_tail(node->list, node->head->list);
             }
-            else {
-                resolve(node->head->sibling);//ArithmeticExpr
-                append_AST_lists_tail(node->list,node->head->sibling->list);
+            else
+            {
+                resolve(node->head->sibling); // ArithmeticExpr
+                append_AST_lists_tail(node->list, node->head->sibling->list);
             }
         }
-        else if(node->symbol->non_terminal == Var_id_num){
-            resolve(node->head);//id/num/rnum
-            append_AST_lists_tail(node->list,node->head->list);
+        else if (node->symbol->non_terminal == Var_id_num)
+        {
+            resolve(node->head); // id/num/rnum
+            append_AST_lists_tail(node->list, node->head->list);
         }
         else if (node->symbol->non_terminal == LvalueARRStmt)
         {
-            AST_Node* ASSIGN = create_AST_Node("ASSIGN",NULL);
-            resolve(node->head->sibling);//Element_index_with_expr
-            resolve(node->head->sibling->sibling->sibling->sibling);//Expression
-            append_AST_lists_tail(node->list,node->head->sibling->list);
-            insert_AST_tail(node->list,ASSIGN);
-            append_AST_lists_tail(node->list,node->head->sibling->sibling->sibling->sibling->list);
+            AST_Node *ASSIGN = create_AST_Node("ASSIGN", NULL);
+            resolve(node->head->sibling);                            // Element_index_with_expr
+            resolve(node->head->sibling->sibling->sibling->sibling); // Expression
+            append_AST_lists_tail(node->list, node->head->sibling->list);
+            insert_AST_tail(node->list, ASSIGN);
+            append_AST_lists_tail(node->list, node->head->sibling->sibling->sibling->sibling->list);
         }
         else if (node->symbol->non_terminal == ModuleReuseStmt)
         {
-            AST_Node* OPTIONAL = create_AST_Node("FUNCTION_CALL",NULL);
-            resolve(node->head);//Optional
-            AST_Node* MODULE = create_AST_Node("MODULE", NULL);
-            AST_Node* PARAMETERS = create_AST_Node("PARAMETERS",NULL);
-            resolve(node->head->sibling->sibling->sibling);//id
-            resolve(node->head->sibling->sibling->sibling->sibling->sibling->sibling);//Actual_para_list
-            insert_AST_tail(node->list,OPTIONAL);
-            append_AST_lists_tail(node->list,node->head->list);//optional
-            insert_AST_tail(node->list,MODULE);
-            insert_AST_tail(node->list,node->head->sibling->sibling->sibling->list->head);//id
-            insert_AST_tail(node->list,PARAMETERS);//parameters
+            AST_Node *OPTIONAL = create_AST_Node("FUNCTION_CALL", NULL);
+            resolve(node->head); // Optional
+            AST_Node *MODULE = create_AST_Node("MODULE", NULL);
+            AST_Node *PARAMETERS = create_AST_Node("PARAMETERS", NULL);
+            resolve(node->head->sibling->sibling->sibling);                            // id
+            resolve(node->head->sibling->sibling->sibling->sibling->sibling->sibling); // Actual_para_list
+            insert_AST_tail(node->list, OPTIONAL);
+            append_AST_lists_tail(node->list, node->head->list); // optional
+            insert_AST_tail(node->list, MODULE);
+            insert_AST_tail(node->list, node->head->sibling->sibling->sibling->list->head); // id
+            insert_AST_tail(node->list, PARAMETERS);                                        // parameters
             // append_AST_lists_tail(node->list,node->head->sibling->sibling->sibling->sibling->sibling->list);
-            append_AST_lists_tail(node->list,node->head->sibling->sibling->sibling->sibling->sibling->sibling->list);//Actual_para_list
+            append_AST_lists_tail(node->list, node->head->sibling->sibling->sibling->sibling->sibling->sibling->list); // Actual_para_list
         }
-        else if(node->symbol->non_terminal == Optional){
-            if(node->head->sibling == NULL){
-
+        else if (node->symbol->non_terminal == Optional)
+        {
+            if (node->head->sibling == NULL)
+            {
             }
-            else {
-                AST_Node* OPTIONAL_LIST = create_AST_Node("OPTIONAL_PARAMETERS",NULL);
-                insert_AST_tail(node->list,OPTIONAL_LIST);
-                resolve(node->head->sibling);//IDlist
-                append_AST_lists_tail(node->list,node->head->sibling->list);
-            }
-            
-        }
-        else if(node->symbol->non_terminal ==Actual_para_list){
-            resolve(node->head);//Sign_for_loop
-            resolve(node->head->sibling);//Actual_para_id
-            resolve(node->tail);//Actual_para_list1
-            append_AST_lists_tail(node->list,node->head->list);
-            append_AST_lists_tail(node->list,node->head->list);
-            append_AST_lists_tail(node->list,node->head->sibling->list);
-            append_AST_lists_tail(node->list,node->tail->list);
-        }
-        else if (node->symbol->non_terminal == Actual_para_iD){
-            if(node->head->sibling==NULL){
-                resolve(node->head);//num/rnum/boolconst
-                append_AST_lists_tail(node->list,node->head->list);
-            }
-            else{
-                resolve(node->head);//id
-                resolve(node->tail);//N11
-                append_AST_lists_tail(node->list,node->head->list);
-                append_AST_lists_tail(node->list,node->tail->list);
+            else
+            {
+                AST_Node *OPTIONAL_LIST = create_AST_Node("OPTIONAL_PARAMETERS", NULL);
+                insert_AST_tail(node->list, OPTIONAL_LIST);
+                resolve(node->head->sibling); // IDlist
+                append_AST_lists_tail(node->list, node->head->sibling->list);
             }
         }
-        else if (node->symbol->non_terminal == Actual_para_list1){
-            if(node->head->sibling == NULL){
-
+        else if (node->symbol->non_terminal == Actual_para_list)
+        {
+            resolve(node->head);          // Sign_for_loop
+            resolve(node->head->sibling); // Actual_para_id
+            resolve(node->tail);          // Actual_para_list1
+            append_AST_lists_tail(node->list, node->head->list);
+            append_AST_lists_tail(node->list, node->head->list);
+            append_AST_lists_tail(node->list, node->head->sibling->list);
+            append_AST_lists_tail(node->list, node->tail->list);
+        }
+        else if (node->symbol->non_terminal == Actual_para_iD)
+        {
+            if (node->head->sibling == NULL)
+            {
+                resolve(node->head); // num/rnum/boolconst
+                append_AST_lists_tail(node->list, node->head->list);
             }
-            else {
-                resolve(node->head->sibling);//Sign_for_loop
-                resolve(node->head->sibling->sibling);//Actual_para_id
-                resolve(node->tail);//ACtual_para_list1
-                append_AST_lists_tail(node->list,node->head->sibling->list);
-                append_AST_lists_tail(node->list,node->head->sibling->sibling->list);
-                append_AST_lists_tail(node->list,node->tail->list);
+            else
+            {
+                resolve(node->head); // id
+                resolve(node->tail); // N11
+                append_AST_lists_tail(node->list, node->head->list);
+                append_AST_lists_tail(node->list, node->tail->list);
+            }
+        }
+        else if (node->symbol->non_terminal == Actual_para_list1)
+        {
+            if (node->head->sibling == NULL)
+            {
+            }
+            else
+            {
+                resolve(node->head->sibling);          // Sign_for_loop
+                resolve(node->head->sibling->sibling); // Actual_para_id
+                resolve(node->tail);                   // ACtual_para_list1
+                append_AST_lists_tail(node->list, node->head->sibling->list);
+                append_AST_lists_tail(node->list, node->head->sibling->sibling->list);
+                append_AST_lists_tail(node->list, node->tail->list);
             }
         }
     }

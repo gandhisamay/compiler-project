@@ -86,9 +86,11 @@ void insert_symbol_table(SYMBOL_TABLE_ELEMENT* ele, SYMBOL_TABLE_ELEMENT* table[
 }
 
 void print_symbol_table_element(SYMBOL_TABLE_ELEMENT* ele){
+    if(ele == NULL) return;
     printf("ID: %s, ISARRAY: %d, TYPE: %s, DECLARE_LINE: %d\n ARR_ST: %d, ARR_END: %d, OFFSET: %d\n",ele->id,ele->isArray,term_str[ele->type],ele->declare_lineno,ele->arr_start,ele->arr_end,ele->offset);
 }
 void print_symbol_table(SYMBOL_TABLE_ELEMENT* table[]){
+    if(table == NULL) return;
     for (int i=0;i<SYMB_SIZE;i++){
         if(table[i]== NULL)continue;
         print_symbol_table_element(table[i]);
