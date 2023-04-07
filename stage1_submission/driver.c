@@ -108,6 +108,10 @@ int main(int argc, char **argv) {
       run_ast(argv[1], argv[2]);
       break;
     } 
+    case 6: {
+      create_scopes(argv[1], argv[2]);
+      break;
+    } 
     default:
       printf("Wrong input\n");
       break;
