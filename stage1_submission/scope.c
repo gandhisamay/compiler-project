@@ -66,9 +66,7 @@ TOKEN resolve_scopes(Scope *scope, TOKEN curr, FILE *test_fp){
     return curr;
 }
 
-Scope * find_scope(Scope *scope, int line){
-    /* printf("\nHOLA %d\n", line); */
-    /* print_scope(scope); */
+Scope *find_scope(Scope *scope, int line){
     if (scope == NULL){
         return GLOBAL_SCOPE;
     }
@@ -116,7 +114,7 @@ void create_scopes(char *prog_file, char *output_file){
     char prefix[200] = "";
     print_scopes(GLOBAL_SCOPE, prefix);
     printf("\n");
-    int line = 0;
+    int line = 61;
     Scope *found_scope = find_scope(GLOBAL_SCOPE, line);
     printf("\n\n    SCOPE AT LINE: %d: \n", line);
     print_scope(found_scope);
