@@ -779,6 +779,19 @@ void resolve(TreeNode *node)
             insert_AST_tail(node->list, ARITHORBOOLEXP);
             resolve(node->head); // AnyTerm
             resolve(node->tail); // N7
+            AST_Node* LOGIC;
+            if(node->tail->head->sibling == NULL){
+
+            }
+            else {
+                if(node->tail->head->head->symbol->terminal == aND){
+                    LOGIC = create_AST_Node("AND",NULL);
+                }
+                else {
+                    LOGIC = create_AST_Node("OR",NULL);
+                }
+                insert_AST_tail(node->list,LOGIC);
+            }
             append_AST_lists_tail(node->list, node->head->list);
             append_AST_lists_tail(node->list, node->tail->list);
         }
@@ -786,13 +799,51 @@ void resolve(TreeNode *node)
         {
             resolve(node->head); // ArithmeticExpr
             resolve(node->tail); // N8
+            AST_Node* REL;
+            if(node->tail->head->sibling == NULL){
+
+            }
+            else {
+                if(node->tail->head->head->symbol->terminal == lT){
+                    REL = create_AST_Node("LT",NULL);
+                }
+                else if(node->tail->head->head->symbol->terminal == lE){
+                    REL = create_AST_Node("LE",NULL);
+                }
+                else if(node->tail->head->head->symbol->terminal == gT){
+                    REL = create_AST_Node("GT",NULL);
+                }
+                else if(node->tail->head->head->symbol->terminal == gE){
+                    REL = create_AST_Node("GE",NULL);
+                }
+                else if(node->tail->head->head->symbol->terminal == eQ){
+                    REL = create_AST_Node("EQ",NULL);
+                }
+                else if(node->tail->head->head->symbol->terminal == nE){
+                    REL = create_AST_Node("NE",NULL);
+                }
+                insert_AST_tail(node->list,REL);
+            }
             append_AST_lists_tail(node->list, node->head->list);
             append_AST_lists_tail(node->list, node->tail->list);
         }
         else if (node->symbol->non_terminal == ArithmeticExpr)
-        {
+        {   
             resolve(node->head); // Term
             resolve(node->tail); // N4
+            AST_Node* OP1;
+            if(node->tail->head->sibling == NULL){
+
+            }
+            else {
+                if(node->tail->head->head->symbol->terminal == pLUS){
+                    OP1 = create_AST_Node("ADD",NULL);
+                }
+                else {
+                    OP1 = create_AST_Node("SUBTRACT",NULL);
+                }
+                insert_AST_tail(node->list,OP1);
+            }
             append_AST_lists_tail(node->list, node->head->list);
             append_AST_lists_tail(node->list, node->tail->list);
         }
@@ -800,6 +851,19 @@ void resolve(TreeNode *node)
         {
             resolve(node->head); // Factor
             resolve(node->tail); // N5
+            AST_Node* OP2;
+                if(node->tail->head->sibling == NULL){
+
+                }
+                else {
+                    if(node->tail->head->head->symbol->terminal == mUL){
+                        OP2 = create_AST_Node("MUL",NULL);
+                    }
+                    else {
+                        OP2 = create_AST_Node("DIV",NULL);
+                    }
+                    insert_AST_tail(node->list,OP2);
+                }
             append_AST_lists_tail(node->list, node->head->list);
             append_AST_lists_tail(node->list, node->tail->list);
         }
@@ -885,6 +949,19 @@ void resolve(TreeNode *node)
             insert_AST_tail(node->list, ARREXPR);
             resolve(node->head); // ArrTerm
             resolve(node->tail); // Arr_N4
+            AST_Node* OP1;
+            if(node->tail->head->sibling == NULL){
+
+            }
+            else {
+                if(node->tail->head->head->symbol->terminal == pLUS){
+                    OP1 = create_AST_Node("ADD",NULL);
+                }
+                else {
+                    OP1 = create_AST_Node("SUBTRACT",NULL);
+                }
+                insert_AST_tail(node->list,OP1);
+            }
             append_AST_lists_tail(node->list, node->head->list);
             append_AST_lists_tail(node->list, node->tail->list);
         }
@@ -892,6 +969,19 @@ void resolve(TreeNode *node)
         {
             resolve(node->head); // ArrFactor
             resolve(node->tail); // Arr_N5
+            AST_Node* OP2;
+            if(node->tail->head->sibling == NULL){
+
+            }
+            else {
+                if(node->tail->head->head->symbol->terminal == mUL){
+                    OP2 = create_AST_Node("MUL",NULL);
+                }
+                else {
+                    OP2 = create_AST_Node("DIV",NULL);
+                }
+                insert_AST_tail(node->list,OP2);
+            }
             append_AST_lists_tail(node->list, node->head->list);
             append_AST_lists_tail(node->list, node->tail->list);
         }
@@ -918,7 +1008,21 @@ void resolve(TreeNode *node)
                 resolve(node->head);          // Op1
                 resolve(node->head->sibling); // ArrTerm
                 resolve(node->tail);          // Arr_N4
+
                 append_AST_lists_tail(node->list, node->head->list);
+                AST_Node* OP1;
+                if(node->tail->head->sibling == NULL){
+
+                }
+                else {
+                    if(node->tail->head->head->symbol->terminal == pLUS){
+                        OP1 = create_AST_Node("ADD",NULL);
+                    }
+                    else {
+                        OP1 = create_AST_Node("SUBTRACT",NULL);
+                    }
+                    insert_AST_tail(node->list,OP1);
+                }
                 append_AST_lists_tail(node->list, node->head->sibling->list);
                 append_AST_lists_tail(node->list, node->tail->list);
             }
@@ -934,6 +1038,19 @@ void resolve(TreeNode *node)
                 resolve(node->head->sibling); // ArrFactor
                 resolve(node->tail);          // Arr_N5
                 append_AST_lists_tail(node->list, node->head->list);
+                AST_Node* OP2;
+                if(node->tail->head->sibling == NULL){
+
+                }
+                else {
+                    if(node->tail->head->head->symbol->terminal == mUL){
+                        OP2 = create_AST_Node("MUL",NULL);
+                    }
+                    else {
+                        OP2 = create_AST_Node("DIV",NULL);
+                    }
+                    insert_AST_tail(node->list,OP2);
+                }
                 append_AST_lists_tail(node->list, node->head->sibling->list);
                 append_AST_lists_tail(node->list, node->tail->list);
             }
@@ -974,6 +1091,19 @@ void resolve(TreeNode *node)
                 resolve(node->head->sibling); // Term
                 resolve(node->tail);          // N4
                 insert_AST_tail(node->list, node->head->list->head);
+                AST_Node* OP1;
+                if(node->tail->head->sibling == NULL){
+
+                }
+                else {
+                    if(node->tail->head->head->symbol->terminal == pLUS){
+                        OP1 = create_AST_Node("ADD",NULL);
+                    }
+                    else {
+                        OP1 = create_AST_Node("SUBTRACT",NULL);
+                    }
+                    insert_AST_tail(node->list,OP1);
+                }
                 append_AST_lists_tail(node->list, node->head->sibling->list);
                 append_AST_lists_tail(node->list, node->tail->list);
             }
@@ -985,8 +1115,35 @@ void resolve(TreeNode *node)
             }
             else {
                 resolve(node->head);//RelationalOp
-                resolve(node->tail);//ArithmeticExpr
+                resolve(node->head->sibling);//ArithmeticExpr
+                resolve(node->tail);//N8
                 append_AST_lists_tail(node->list,node->head->list);
+                AST_Node* REL;
+                if(node->tail->head->sibling == NULL){
+
+                }
+                else {
+                    if(node->tail->head->head->symbol->terminal == lT){
+                        REL = create_AST_Node("LT",NULL);
+                    }
+                    else if(node->tail->head->head->symbol->terminal == lE){
+                        REL = create_AST_Node("LE",NULL);
+                    }
+                    else if(node->tail->head->head->symbol->terminal == gT){
+                        REL = create_AST_Node("GT",NULL);
+                    }
+                    else if(node->tail->head->head->symbol->terminal == gE){
+                        REL = create_AST_Node("GE",NULL);
+                    }
+                    else if(node->tail->head->head->symbol->terminal == eQ){
+                        REL = create_AST_Node("EQ",NULL);
+                    }
+                    else if(node->tail->head->head->symbol->terminal == nE){
+                        REL = create_AST_Node("NE",NULL);
+                    }
+                    insert_AST_tail(node->list,REL);
+                }
+                append_AST_lists_tail(node->list,node->head->sibling->list);
                 append_AST_lists_tail(node->list,node->tail->list);
             }
         }
@@ -1004,6 +1161,19 @@ void resolve(TreeNode *node)
                 resolve(node->tail);//N7
                 resolve(node->head->sibling);//AnyTerm
                 append_AST_lists_tail(node->list,node->head->list);
+                AST_Node* LOGIC;
+                if(node->tail->head->sibling == NULL){
+
+                }
+                else {
+                    if(node->tail->head->head->symbol->terminal == aND){
+                        LOGIC = create_AST_Node("AND",NULL);
+                    }
+                    else {
+                        LOGIC = create_AST_Node("OR",NULL);
+                    }
+                    insert_AST_tail(node->list,LOGIC);
+                }
                 append_AST_lists_tail(node->list,node->head->sibling->list);
                 append_AST_lists_tail(node->list,node->tail->list);
             }
