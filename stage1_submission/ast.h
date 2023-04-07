@@ -22,3 +22,4 @@ typedef struct Scope{
 } Scope;
 
 Scope *GLOBAL_SCOPE;
+int CURR_OFFSET = 0;

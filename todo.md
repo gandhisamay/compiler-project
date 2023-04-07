@@ -2,6 +2,7 @@
 - [ ] @mohitdmak sign todo resolve
 - [ ] if/else?
 - [ ] remove 'RANGE_ARRAY' label
+- [ ] DOUBT: for offset calc of array with ID in range, gotta know ID's num value for offset comp?
 - [ ] add N8 to grammar
 - [ ] arith/bool exp no end label?
 - [ ] how to  know when for loop's statements ended?
