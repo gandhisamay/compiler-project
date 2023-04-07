@@ -70,13 +70,22 @@ SYMBOL_TABLE_ELEMENT* create_symbol_table_element(char id[], bool isArray, termi
 }
 
 void print_symbol_table_element(SYMBOL_TABLE_ELEMENT* ele){
-    printf("ID: %s, ISARRAY: %d, TYPE: %s, DECLARE_LINE: %d\n ARR_ST: %d, ARR_END: %d, OFFSET: %d\n",ele->id,ele->isArray,term_str[ele->type],ele->declare_lineno,ele->arr_start,ele->arr_end,ele->offset);
+    printf("ID: %s, ISARRAY: %d, TYPE: %s, DECLARE_LINE: %d ARR_ST: %d, ARR_END: %d, OFFSET: %d\n",ele->id,ele->isArray,term_str[ele->type],ele->declare_lineno,ele->arr_start,ele->arr_end,ele->offset);
+}
+void print_symbol_table_element_for_scope(SYMBOL_TABLE_ELEMENT* ele, char pre[200]){
+    printf("%s", pre);
+    printf("ID: %s, ISARRAY: %d, TYPE: %s, DECLARE_LINE: %d ARR_ST: %d, ARR_END: %d, OFFSET: %d\n",ele->id,ele->isArray,term_str[ele->type],ele->declare_lineno,ele->arr_start,ele->arr_end,ele->offset);
 }
 void print_symbol_table(SYMBOL_TABLE_ELEMENT* table[]){
     for (int i=0;i<SYMB_SIZE;i++){
         if(table[i]== NULL)continue;
         print_symbol_table_element(table[i]);
-        printf("\n");
+    }
+}
+void print_symbol_table_for_scope(SYMBOL_TABLE_ELEMENT* table[], char pre[200]){
+    for (int i=0;i<SYMB_SIZE;i++){
+        if(table[i]== NULL)continue;
+        print_symbol_table_element_for_scope(table[i], pre);
     }
 }
 

@@ -18,7 +18,6 @@ typedef struct Scope{
     struct Scope *sibling_scope;
     struct Scope *parent_scope;
     SYMBOL_TABLE_ELEMENT* table[SYMB_SIZE];
-
 } Scope;
 
 Scope *GLOBAL_SCOPE;

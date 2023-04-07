@@ -1380,4 +1380,7 @@ void run_ast(char *prog_file, char *output_file)
     run_parser(prog_file, output_file);
     resolve(Parse_Tree_Root->head);
     print_astnodes(Parse_Tree_Root->head);
+    char prefix[200] = "";
+    print_scopes(GLOBAL_SCOPE, prefix);
+    /* print_scopes_with_tables(GLOBAL_SCOPE, prefix); */
 }

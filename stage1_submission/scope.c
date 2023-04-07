@@ -46,6 +46,23 @@ void print_scopes(Scope *scope, char pre[200]){
     }
 }
 
+void print_scopes_with_tables(Scope *scope, char pre[200]){
+    char old_pre[200];
+    strcpy(old_pre, pre);
+    strcat(pre, "   ");
+    print_scope(scope);
+    /* print_symbol_table_element_for_scope(scope->table, pre); */
+    print_symbol_table_element(scope->table);
+    if (scope->child_scope != NULL){
+        printf("%s", pre);
+        print_scopes_with_tables(scope->child_scope, pre);
+    }
+    if (scope->sibling_scope != NULL){
+        printf("%s", old_pre);
+        print_scopes_with_tables(scope->sibling_scope, old_pre);
+    }
+}
+
 TOKEN resolve_scopes(Scope *scope, TOKEN curr, FILE *test_fp){
     while (curr.name != $){
         if (curr.name == sTART){
