@@ -1,4 +1,4 @@
-#include "ast.h"
+#include "scope.c"
 
 AST_Node_List *create_AST_Node_list()
 {

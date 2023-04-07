@@ -1,12 +1,4 @@
-#include "symbol_table.c"
-
-typedef struct Scope{
-    int start_line;
-    int end_line;
-    struct Scope *child_scope;
-    struct Scope *sibling_scope;
-    struct Scope *parent_scope;
-} Scope;
+#include "ast.h"
 
 Scope *create_new_scope(int start, int end){
     Scope *scope = (Scope *)malloc(sizeof(Scope));
@@ -35,13 +27,17 @@ void print_scope(Scope *scope){
     printf("SCOPE: Start %d End %d\n", scope->start_line, scope->end_line);
 }
 
-void print_scopes(Scope *scope){
+void print_scopes(Scope *scope, char pre[200]){
+    char old_pre[200];
+    strcpy(old_pre, pre);
+    strcat(pre, "   ");
     print_scope(scope);
     if (scope->child_scope != NULL){
-        print_scopes(scope->child_scope);
+        printf("%s", pre);
+        print_scopes(scope->child_scope, pre);
     }
     if (scope->sibling_scope != NULL){
-        print_scopes(scope->sibling_scope);
+        print_scopes(scope->sibling_scope, old_pre);
     }
 }
 
@@ -65,12 +61,34 @@ TOKEN resolve_scopes(Scope *scope, TOKEN curr, FILE *test_fp){
     return curr;
 }
 
+Scope * find_scope(Scope *scope, int line){
+    if (scope == NULL){
+        return GLOBAL_SCOPE;
+    }
+    if (line > scope->end_line){
+        if (scope->sibling_scope == NULL){
+            return find_scope(scope->parent_scope, line);
+        } else {
+            return find_scope(scope->sibling_scope, line);
+        }
+    }
+    else if (line < scope->start_line){
+        return find_scope(scope->parent_scope, line);
+    }
+    else if (line == scope->start_line || line == scope->end_line){
+        return scope;
+    }
+    else {
+        return find_scope(scope->child_scope, line);
+    }
+}
+
 void create_scopes(char *prog_file, char *output_file){
     FILE *test_fp = fopen(prog_file, "r");
     lexer_reset(test_fp);
     TOKEN curr;
     curr.name = lEX_ERROR;
-    Scope *GLOBAL_SCOPE = create_new_scope(0, -1);
+    GLOBAL_SCOPE = create_new_scope(0, -1);
     while (curr.name != $) {
         if (curr.name == sTART){
             Scope *scope = create_new_scope(curr.line, -1);
@@ -84,5 +102,10 @@ void create_scopes(char *prog_file, char *output_file){
         curr = eval_token(test_fp);
     }
     GLOBAL_SCOPE->end_line = curr.line;
-    print_scopes(GLOBAL_SCOPE);
+    char prefix[200] = "";
+    print_scopes(GLOBAL_SCOPE, prefix);
+    /* Scope *found_scope = find_scope(GLOBAL_SCOPE, 10); */
+    printf("\n");
+    /* print_scope(found_scope); */
 }
+
