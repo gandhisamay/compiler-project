@@ -1,4 +1,4 @@
-#include "parser.c"
+#include "symbol_table.c"
 
 // TreeNode *create_tree_node_AST(TreeNode *syn_node, TreeNode *inh_node, TreeNode *syn_list, TreeNode *inh_list);
 // AST_NODE *insert_at_head_syn(TreeNode *list_head, AST_NODE *node);
@@ -17,6 +17,8 @@ typedef struct Scope{
     struct Scope *child_scope;
     struct Scope *sibling_scope;
     struct Scope *parent_scope;
+    SYMBOL_TABLE_ELEMENT* table[SYMB_SIZE];
+
 } Scope;
 
 Scope *GLOBAL_SCOPE;

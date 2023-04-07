@@ -116,7 +116,7 @@ void create_scopes(char *prog_file, char *output_file){
     char prefix[200] = "";
     print_scopes(GLOBAL_SCOPE, prefix);
     printf("\n");
-    int line = 22;
+    int line = 0;
     Scope *found_scope = find_scope(GLOBAL_SCOPE, line);
     printf("\n\n    SCOPE AT LINE: %d: \n", line);
     print_scope(found_scope);

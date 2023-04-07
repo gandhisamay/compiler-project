@@ -14,6 +14,7 @@ typedef struct symbol_table_element
     int arr_start;
     int arr_end;
     int offset;
+    int declare_lineno;
 
 } SYMBOL_TABLE_ELEMENT;
 
@@ -52,7 +53,7 @@ SYMBOL_TABLE_ELEMENT* search_symbol_table(char id[], SYMBOL_TABLE_ELEMENT* table
     return NULL;
 }
 
-SYMBOL_TABLE_ELEMENT* create_symbol_table_element(char id[], bool isArray, terminals type, int arr_start, int arr_end, int offset){
+SYMBOL_TABLE_ELEMENT* create_symbol_table_element(char id[], bool isArray, terminals type, int arr_start, int arr_end, int offset, int declare){
     SYMBOL_TABLE_ELEMENT* ele = (SYMBOL_TABLE_ELEMENT*)malloc(sizeof(SYMBOL_TABLE_ELEMENT));
     strcpy(ele->id,id);
     ele->isArray = isArray;
@@ -66,6 +67,7 @@ SYMBOL_TABLE_ELEMENT* create_symbol_table_element(char id[], bool isArray, termi
         ele->arr_start = -1;
     }
     ele->offset = offset;
+    ele->declare_lineno = declare;
     return ele;
 }
 

@@ -110,7 +110,14 @@ int main(int argc, char **argv) {
     } 
     case 6: {
       create_scopes(argv[1], argv[2]);
-      break;
+      // SYMBOL_TABLE_ELEMENT* ele1 = create_symbol_table_element("hey",false,iNTEGER,0,0,3456,4);
+      // SYMBOL_TABLE_ELEMENT* ele2 = create_symbol_table_element("heyo",false,iNTEGER,0,0,456,6);
+      // insert_symbol_table(ele1,find_scope(GLOBAL_SCOPE,ele1->declare_lineno)->table);
+      // insert_symbol_table(ele2,find_scope(GLOBAL_SCOPE,ele2->declare_lineno)->table);
+
+      // SYMBOL_TABLE_ELEMENT* test = search_symbol_table("hey",find_scope(GLOBAL_SCOPE,ele1->declare_lineno)->table);
+      // printf("id: %s\n offset: %d",test->id,test->offset);
+      // break;
     } 
     default:
       printf("Wrong input\n");
