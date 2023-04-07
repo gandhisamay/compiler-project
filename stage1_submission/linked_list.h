@@ -1,3 +1,12 @@
+/*
+ * Group 22
+ * Samay Gandhi 2020A7PS0299P
+ * Mohit Makwana 2020A7PS0048P
+ * Kathan Patel 2020A7PS0058P
+ * Aditya Sheth 2020A7PS1511P
+ * Aryan Chavan 2020A7PS1692P
+ */
+
 #include "stdbool.h"
 #include <stdio.h>
 
@@ -286,6 +295,17 @@ int NT_TO_ROW[N_TERMINAL_SYM];
  * {"S","Program","ModuleDeclarations","ModuleDeclaration","OtherModules","DriverModule","Module","Ret","Input_plist","Inpl_1","Output_plist","Onpl_1","DataType","Range_Array","Type","ModuleDef","Statements","Statement","IoStmt","Var_id_num","Array_element_for_print","Var_print","Arr_value","BoolConstt","SimpleStmt","AssignmentStmt","WhichStmt","LvalueiDStmt","LvalueARRStmt","Array_Index","New_index","Sign","ModuleReuseStmt","Actual_para_list","Optional","IdList","Idl_1","Expression","U","New_NT","Unary_op","ArithmeticOrBooleanExpr","N7","AnyTerm","N8","ArithmeticExpr","N4","Term","N5","Factor","N11","Element_index_with_expressions","ArrExpr","Arr_N4","ArrTerm","Arr_N5","ArrFactor","Op1","Op2","LogicalOp","RelationalOp","DeclareStmt","ConditionalStmt","CaseStmts","N9","Value","Default","IterativeStmt","Range","Range_for_loop","Index_for_loop","New_index_for_loop","Sign_for_loop","Range_Index","N_TERMINAL_SYM"};
  */
 
+typedef struct token {
+  terminals name;
+  int line;
+  union {
+    char id[20];
+    int num;
+    /* float rnum; */
+    double rnum;
+  };
+} TOKEN;
+
 typedef struct Symbol {
   char *name;
   bool is_terminal;
@@ -324,12 +344,6 @@ void merge_list(LinkedList *l1, LinkedList *l2);
 bool find_node(char *name, LinkedList *ll);
 void delete_node(char *name, LinkedList *ll);
 int get_length(Symbol *Rule);
-
-void push_stack(LinkedList *stack, Symbol *s);
-bool is_empty_stack(LinkedList *stack);
-void pop_stack(LinkedList *stack);
-Symbol *top_stack(LinkedList *stack);
-void print_stack(LinkedList *stack, FILE *debug_fp);
 
 // Debugging use cases
 #define PRINT_RED "\x1b[31m"

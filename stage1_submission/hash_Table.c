@@ -1,3 +1,15 @@
+/*
+ * Group 22
+ * Samay Gandhi 2020A7PS0299P
+ * Mohit Makwana 2020A7PS0048P
+ * Kathan Patel 2020A7PS0058P
+ * Aditya Sheth 2020A7PS1511P
+ * Aryan Chavan 2020A7PS1692P
+ */
+
+
+
+
 #include "lexer.h"
 #include <stdbool.h>
 #include <stdio.h>

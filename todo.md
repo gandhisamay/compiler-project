@@ -1,5 +1,12 @@
+- [ ] Check for duplicates 'else if' in `resolve` ast fxn
+- [ ] @mohitdmak sign todo resolve
+- [ ] if/else?
+- [ ] arith/bool exp no end label?
+- [ ] how to  know when for loop's statements ended?
+
 - [X] Do we need to create a seperate method to remove comments.
 - [ ] NOTE: Running lexer without removing comments, causes wrong line numbers - shouldn't be an issue unless we would be required to not use the remove comments fxn?
 - [X]  ADD iN in terminals enum
 - [ ] NOTE: Keep track of array sizes / hardocded max lims placed in headers
 - [ ] TREENODE ISSUE WHEN POPPING S at start (initial error)
+- [ ] LEXER error capture from lexer.c, don't pass to parser!

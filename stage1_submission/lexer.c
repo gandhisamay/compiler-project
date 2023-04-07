@@ -1,3 +1,13 @@
+/*
+ * Group 22
+ * Samay Gandhi 2020A7PS0299P
+ * Mohit Makwana 2020A7PS0048P
+ * Kathan Patel 2020A7PS0058P
+ * Aditya Sheth 2020A7PS1511P
+ * Aryan Chavan 2020A7PS1692P
+ */
+
+
 #include "hash_Table.c"
 #include <stdbool.h>
 #include <stdio.h>
@@ -753,6 +763,48 @@ void removeComments(FILE *ipt) {
 @input : TOKEN , FILE*
 @output : void
 */
+void print_ptrtoken_details(TOKEN *curr, FILE *token_fp) {
+  if (curr == NULL){
+      fprintf(token_fp, "TOKEN: NULL \n");
+        return;
+    }
+  if (curr->name == nUM) {
+    if (token_fp != NULL)
+      fprintf(token_fp, "LINE: [%d] ENUM: %d TOKEN: NUM       : %d \n",
+              curr->line, curr->name, curr->num);
+    else
+      printf("LINE: [%d] ENUM: %d TOKEN: NUM       : %d \n", curr->line,
+             curr->name, curr->num);
+  } else if (curr->name == rNUM) {
+    if (token_fp != NULL)
+      fprintf(token_fp, "LINE: [%d] ENUM: %d  TOKEN: RNUM      : %f \n",
+              curr->line, curr->name, curr->rnum);
+    else
+      printf("LINE: [%d] ENUM: %d  TOKEN: RNUM      : %f \n", curr->line,
+             curr->name, curr->rnum);
+  } else if (curr->name == $) {
+    if (token_fp != NULL)
+      fprintf(token_fp, "LINE: [%d] ENUM: %d  TOKEN: EOF/DOLLAR: %s\n",
+              curr->line, curr->name, curr->id);
+    else
+      printf("LINE: [%d] ENUM: %d  TOKEN: EOF/DOLLAR: %s\n", curr->line,
+             curr->name, curr->id);
+  } else if (curr->name == lEX_ERROR) {
+    if (token_fp != NULL)
+      fprintf(token_fp, "LINE: [%d] ENUM: %d  TOKEN: ERROR     : %s\n",
+              curr->line, curr->name, curr->id);
+    else
+      printf("LINE: [%d] ENUM: %d  TOKEN: ERROR     : %s\n", curr->line,
+             curr->name, curr->id);
+  } else {
+    if (token_fp != NULL)
+      fprintf(token_fp, "LINE: [%d] ENUM: %d  TOKEN: ID/KEYW        : %s\n",
+              curr->line, curr->name, curr->id);
+    else
+      printf("LINE: [%d] ENUM: %d  TOKEN: ID/KEYW        : %s\n", curr->line,
+             curr->name, curr->id);
+  }
+}
 void print_token_details(TOKEN curr, FILE *token_fp) {
   if (curr.name == nUM) {
     if (token_fp != NULL)
@@ -829,6 +881,6 @@ int test_lexer_run(char *program_file) {
 /*     char* test_file_1 = "../tests/test_lexer_4.txt";   */
 /*     char* tokenized_file = "test_tokenized.txt";  */
 /*     test_lexer_run(test_file_1, tokenized_file);  */
+/*     printf("\nLEXING COMPLETE\n"); */
 /*     return 0;  */
 /* }  */
-// we form the fucking ast and then we do the needful
