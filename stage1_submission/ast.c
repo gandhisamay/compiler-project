@@ -830,23 +830,28 @@ void resolve(TreeNode *node)
             }
             else
             {
-                resolve(node->tail); // Element_index_with_expression
-                append_AST_lists_tail(node->list, node->tail->list);
+                resolve(node->head->sibling); // Element_index_with_expression
+                append_AST_lists_tail(node->list, node->head->sibling->list);
             }
         }
         else if (node->symbol->non_terminal == Element_index_with_expressions)
         {
             if (node->head->sibling == NULL)
-            {
+            {   
+                // AST_Node* ARR_EXP = create_AST_Node("ARR_EXP",NULL);
                 resolve(node->head); // ArrExpr
+                // insert_AST_tail(node->list,ARR_EXP);
                 append_AST_lists_tail(node->list, node->head->list);
             }
             else
-            {
+            {   
+                AST_Node* ARR_INDEX = create_AST_Node("ARR_INDEX",NULL);
+
                 resolve(node->head); // Sign
                 resolve(node->tail); // N10
+                insert_AST_tail(node->list,ARR_INDEX);
                 append_AST_lists_tail(node->list, node->head->list);
-                append_AST_lists_head(node->list, node->tail->list);
+                append_AST_lists_tail(node->list, node->tail->list);
             }
         }
         else if (node->symbol->non_terminal == Sign)
@@ -1045,15 +1050,15 @@ void resolve(TreeNode *node)
         {
             AST_Node* OPTIONAL = create_AST_Node("FUNCTION_CALL",NULL);
             resolve(node->head);//Optional
-            AST_Node* OPTIONAL_LIST = create_AST_Node("PARAMETERS",NULL);
+            AST_Node* MODULE = create_AST_Node("MODULE", NULL);
             AST_Node* PARAMETERS = create_AST_Node("PARAMETERS",NULL);
             resolve(node->head->sibling->sibling->sibling);//id
             resolve(node->head->sibling->sibling->sibling->sibling->sibling->sibling);//Actual_para_list
             insert_AST_tail(node->list,OPTIONAL);
-            insert_AST_tail(node->list,OPTIONAL_LIST);
             append_AST_lists_tail(node->list,node->head->list);//optional
+            insert_AST_tail(node->list,MODULE);
             insert_AST_tail(node->list,node->head->sibling->sibling->sibling->list->head);//id
-            // insert_AST_tail(node->list,PARAMETERS);//parameters
+            insert_AST_tail(node->list,PARAMETERS);//parameters
             // append_AST_lists_tail(node->list,node->head->sibling->sibling->sibling->sibling->sibling->list);
             append_AST_lists_tail(node->list,node->head->sibling->sibling->sibling->sibling->sibling->sibling->list);//Actual_para_list
         }
@@ -1062,6 +1067,8 @@ void resolve(TreeNode *node)
 
             }
             else {
+                AST_Node* OPTIONAL_LIST = create_AST_Node("OPTIONAL_PARAMETERS",NULL);
+                insert_AST_tail(node->list,OPTIONAL_LIST);
                 resolve(node->head->sibling);//IDlist
                 append_AST_lists_tail(node->list,node->head->sibling->list);
             }
