@@ -105,6 +105,7 @@ int main(int argc, char **argv) {
       break;
     }
     case 5: {
+      create_scopes(argv[1], argv[2]);
       run_ast(argv[1], argv[2]);
       break;
     } 
