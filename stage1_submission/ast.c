@@ -647,6 +647,30 @@ void resolve(TreeNode *node)
             resolve(node->head->sibling->sibling->sibling); // DataType
             append_AST_lists_tail(node->list, node->head->sibling->list);
             append_AST_lists_tail(node->list, node->head->sibling->sibling->sibling->list);
+            // Add to symbol table
+            Scope *scope = find_scope(GLOBAL_SCOPE, node->head->token.line); // line no of 'dECLARE'
+            /* SYMBOL_TABLE_ELEMENT **table = scope->table; */
+            if (node->head->sibling->sibling->sibling->head->sibling == NULL){ // Not Array
+                printf("\n\nHOLAAAAAAAAAAAAAAAAAAAAAAAAA\n\n");
+                AST_Node *ID = node->head->sibling->list->head;
+                while(ID != NULL){
+                    print_astnode_details(ID, stdout);
+                    // TODO: FIX Offset
+                    SYMBOL_TABLE_ELEMENT *el = create_symbol_table_element(ID->token.id, false, ID->token.name, 0, 0, 0, ID->token.line);
+                    insert_symbol_table(el, scope->table);
+                    ID = ID->next;
+                }
+                print_symbol_table();
+            }
+            /* else { // Is an Array */
+                /* AST_Node *ID = node->head->sibling->list->head; */
+                /* while(ID != NULL){ */
+                /*     // TODO: FIX Offset */
+                /*     SYMBOL_TABLE_ELEMENT *el = create_symbol_table_element(ID->token.id, true, ID->token.name, 0, 0, 0, ID->token.line); */
+                /*     insert_symbol_table(el, table); */
+                /*     ID = ID->next; */
+                /* } */
+            /* } */
         }
         else if (node->symbol->non_terminal == IdList)
         {
