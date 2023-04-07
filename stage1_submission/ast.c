@@ -273,8 +273,7 @@ void resolve(TreeNode *node)
         }
         else if (node->symbol->non_terminal == Program)
         {
-            resolve(node->head);                   // ModuleDeclarations
-            resolve(node->head->sibling->sibling); // DriverModule
+            resolve(node->head); // ModuleDeclarations
             AST_Node *main_program = create_AST_Node("MAINPROGRAM", NULL);
             AST_Node *module_declarations = create_AST_Node("MODULEDECLARATIONS", NULL);
             AST_Node *module_definitions = create_AST_Node("MODULEDEFINITIONS", NULL);
@@ -285,6 +284,7 @@ void resolve(TreeNode *node)
             insert_AST_tail(node->list, module_definitions);
             resolve(node->head->sibling);                                          // OtherModules
             append_AST_lists_tail(node->list, node->head->sibling->list);          // append OtherModules
+            resolve(node->head->sibling->sibling);                                 // DriverModule
             append_AST_lists_tail(node->list, node->head->sibling->sibling->list); // append DriverModule
             insert_AST_tail(node->list, module_definitions1);
             resolve(node->tail);                                 // OtherModules1
@@ -639,8 +639,8 @@ void resolve(TreeNode *node)
             }
             else
             {
-                resolve(node->tail); // Statements1
                 resolve(node->head); // Statement
+                resolve(node->tail); // Statements1
                 append_AST_lists_tail(node->list, node->tail->list);
                 append_AST_lists_head(node->list, node->head->list);
             }
@@ -810,26 +810,44 @@ void resolve(TreeNode *node)
             SYMBOL_TABLE_ELEMENT **table = scope->table;
             if (node->head->sibling->sibling->sibling->head->sibling == NULL)
             { // Not Array
+                terminals type = node->head->sibling->sibling->sibling->head->token.name;
                 AST_Node *ID = node->head->sibling->list->head;
                 while (ID != NULL)
                 {
-                    // print_astnode_details(ID, stdout);
                     // TODO: FIX Offset
-                    SYMBOL_TABLE_ELEMENT *el = create_symbol_table_element(ID->token.id, false, ID->token.name, 0, 0, 0, ID->token.line);
+                    SYMBOL_TABLE_ELEMENT *el = create_symbol_table_element(ID->token.id, false, type, 0, 0, CURR_OFFSET, ID->token.line);
                     insert_symbol_table(el, scope->table);
                     ID = ID->next;
+                    if (type == iNTEGER)
+                    {
+                        CURR_OFFSET += 4;
+                    }
+                    else if (type == rEAL)
+                    {
+                        CURR_OFFSET += 8;
+                    }
+                    else if (type == bOOLEAN)
+                    {
+                        CURR_OFFSET += 2;
+                    }
                 }
             }
             else
             { // Is an Array
                 TreeNode *range_array = node->head->sibling->sibling->sibling->head->sibling->sibling;
+                terminals type = node->head->sibling->sibling->sibling->tail->head->token.name;
                 int start, end;
+                int nUM_or_iD = 1;
                 // Start Index_arr
                 if (range_array->head->head->sibling == NULL)
                 { // Index_arr => New_index
                     if (range_array->head->head->head->token.name == nUM)
                     {
                         start = range_array->head->head->head->token.num;
+                    }
+                    else
+                    { // iD type
+                        nUM_or_iD = 0;
                     }
                     else
                     { // iD type
@@ -845,6 +863,10 @@ void resolve(TreeNode *node)
                         }
                         else
                         { // iD type
+                            nUM_or_iD = 0;
+                        }
+                        else
+                        { // iD type
                         }
                     }
                     else
@@ -855,6 +877,7 @@ void resolve(TreeNode *node)
                         }
                         else
                         { // iD type
+                            nUM_or_iD = 0;
                         }
                     }
                 }
@@ -864,6 +887,10 @@ void resolve(TreeNode *node)
                     if (range_array->head->sibling->sibling->head->head->token.name == nUM)
                     {
                         end = range_array->head->sibling->sibling->head->head->token.num;
+                    }
+                    else
+                    { // iD type
+                        nUM_or_iD = 0;
                     }
                     else
                     { // iD type
@@ -879,6 +906,10 @@ void resolve(TreeNode *node)
                         }
                         else
                         { // iD type
+                            nUM_or_iD = 0;
+                        }
+                        else
+                        { // iD type
                         }
                     }
                     else
@@ -889,18 +920,32 @@ void resolve(TreeNode *node)
                         }
                         else
                         { // iD type
+                            nUM_or_iD = 0;
                         }
                     }
                 }
                 AST_Node *ID = node->head->sibling->list->head;
                 while (ID != NULL)
                 {
-                    // printf("\n_________________ start %d end %d\n",start, end);
-                    // print_astnode_details(ID, stdout);
                     // TODO: FIX Offset
-                    SYMBOL_TABLE_ELEMENT *el = create_symbol_table_element(ID->token.id, true, ID->token.name, start, end, 0, ID->token.line);
+                    SYMBOL_TABLE_ELEMENT *el = create_symbol_table_element(ID->token.id, true, type, start, end, CURR_OFFSET, ID->token.line);
                     insert_symbol_table(el, scope->table);
                     ID = ID->next;
+                    if (nUM_or_iD)
+                    {
+                        if (type == iNTEGER)
+                        {
+                            CURR_OFFSET += 4 * (end - start);
+                        }
+                        else if (type == rEAL)
+                        {
+                            CURR_OFFSET += 8 * (end - start);
+                        }
+                        else if (type == bOOLEAN)
+                        {
+                            CURR_OFFSET += 2 * (end - start);
+                        }
+                    }
                 }
             }
             // printf("\n::::::: :::::\n");
@@ -1617,4 +1662,7 @@ void run_ast(char *prog_file, char *output_file)
     run_parser(prog_file, output_file);
     resolve(Parse_Tree_Root->head);
     print_astnodes(Parse_Tree_Root->head);
+    char prefix[200] = "";
+    print_scopes(GLOBAL_SCOPE, prefix);
+    /* print_scopes_with_tables(GLOBAL_SCOPE, prefix); */
 }

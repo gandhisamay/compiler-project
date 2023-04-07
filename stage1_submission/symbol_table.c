@@ -27,11 +27,9 @@ int symbol_table_code(char *id)
     
     for (int i = 0; i < size; i++)
     {
-
         code = (code + (id[i] - 'A' + 1) * pow) % SYMB_SIZE;
         pow = (pow * SYM_P) % SYMB_SIZE;
     }
-
     return code;
 }
 
@@ -71,29 +69,36 @@ SYMBOL_TABLE_ELEMENT* create_symbol_table_element(char id[], bool isArray, termi
     return ele;
 }
 
-void insert_symbol_table(SYMBOL_TABLE_ELEMENT* ele, SYMBOL_TABLE_ELEMENT* table[])
-{
-    int index = symbol_table_code(ele->id);
-    while (table[index] != NULL) {
-
-    ++index;
-    index %= SYMB_SIZE;
-  }
-
-  table[index] = ele;
-}
-
 void print_symbol_table_element(SYMBOL_TABLE_ELEMENT* ele){
-    if(ele == NULL) return;
-    printf("ID: %s, ISARRAY: %d, TYPE: %s, DECLARE_LINE: %d\n ARR_ST: %d, ARR_END: %d, OFFSET: %d\n",ele->id,ele->isArray,term_str[ele->type],ele->declare_lineno,ele->arr_start,ele->arr_end,ele->offset);
+    printf("ID: %s, ISARRAY: %d, TYPE: %s, DECLARE_LINE: %d ARR_ST: %d, ARR_END: %d, OFFSET: %d\n",ele->id,ele->isArray,term_str[ele->type],ele->declare_lineno,ele->arr_start,ele->arr_end,ele->offset);
+}
+void print_symbol_table_element_for_scope(SYMBOL_TABLE_ELEMENT* ele, char pre[200]){
+    printf("%s", pre);
+    printf("ID: %s, ISARRAY: %d, TYPE: %s, DECLARE_LINE: %d ARR_ST: %d, ARR_END: %d, OFFSET: %d\n",ele->id,ele->isArray,term_str[ele->type],ele->declare_lineno,ele->arr_start,ele->arr_end,ele->offset);
 }
 void print_symbol_table(SYMBOL_TABLE_ELEMENT* table[]){
     if(table == NULL) return;
     for (int i=0;i<SYMB_SIZE;i++){
         if(table[i]== NULL)continue;
         print_symbol_table_element(table[i]);
-        printf("\n");
     }
+}
+void print_symbol_table_for_scope(SYMBOL_TABLE_ELEMENT* table[], char pre[200]){
+    for (int i=0;i<SYMB_SIZE;i++){
+        if(table[i]== NULL)continue;
+        print_symbol_table_element_for_scope(table[i], pre);
+    }
+}
+
+void insert_symbol_table(SYMBOL_TABLE_ELEMENT* ele, SYMBOL_TABLE_ELEMENT* table[])
+{
+    int index = symbol_table_code(ele->id);
+    index %= SYMB_SIZE;
+    while (table[index] != NULL) {
+        ++index;
+        index %= SYMB_SIZE;
+    }
+  table[index] = ele;
 }
 
 // int main(){
