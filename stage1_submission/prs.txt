@@ -145,21 +145,42 @@ Right: [HEAD] -> N4 -> [END]
 LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
 
 
-==============>  Name: mUL, Enum_T: 40, Enum_NT: -1, IS_A: Terminal
+==============>  Name: #, Enum_T: 0, Enum_NT: 0, IS_A: Terminal
 First: List is empty
 Follow: List is empty
 Right: [HEAD] -> [END]
-LINE: [3] ENUM: 40  TOKEN: ID/KEYW        : *
-
-
-==============>  Name: Op2, Enum_T: -1, Enum_NT: 60, IS_A: Non Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> Factor -> N5 -> [END]
 LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
 
 
 ==============>  Name: N5, Enum_T: -1, Enum_NT: 49, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
+
+
+==============>  Name: ArithmeticExpr, Enum_T: -1, Enum_NT: 46, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> N8 -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
+
+
+==============>  Name: pLUS, Enum_T: 35, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> [END]
+LINE: [3] ENUM: 35  TOKEN: ID/KEYW        : +
+
+
+==============>  Name: Op1, Enum_T: -1, Enum_NT: 59, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> Term -> N4 -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
+
+
+==============>  Name: N4, Enum_T: -1, Enum_NT: 47, IS_A: Non Terminal
 First: List is empty
 Follow: List is empty
 Right: [HEAD] -> [END]
@@ -194,21 +215,42 @@ Right: [HEAD] -> [END]
 LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
 
 
-==============>  Name: mUL, Enum_T: 40, Enum_NT: -1, IS_A: Terminal
+==============>  Name: Term, Enum_T: -1, Enum_NT: 48, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> N4 -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
+
+
+==============>  Name: #, Enum_T: 0, Enum_NT: 0, IS_A: Terminal
 First: List is empty
 Follow: List is empty
 Right: [HEAD] -> [END]
-LINE: [3] ENUM: 40  TOKEN: ID/KEYW        : *
-
-
-==============>  Name: Op2, Enum_T: -1, Enum_NT: 60, IS_A: Non Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> Factor -> N5 -> [END]
 LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
 
 
 ==============>  Name: N5, Enum_T: -1, Enum_NT: 49, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
+
+
+==============>  Name: pLUS, Enum_T: 35, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> [END]
+LINE: [3] ENUM: 35  TOKEN: ID/KEYW        : +
+
+
+==============>  Name: Op1, Enum_T: -1, Enum_NT: 59, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> Term -> N4 -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
+
+
+==============>  Name: N4, Enum_T: -1, Enum_NT: 47, IS_A: Non Terminal
 First: List is empty
 Follow: List is empty
 Right: [HEAD] -> [END]
@@ -243,6 +285,13 @@ Right: [HEAD] -> [END]
 LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
 
 
+==============>  Name: Term, Enum_T: -1, Enum_NT: 48, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> N4 -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
+
+
 ==============>  Name: #, Enum_T: 0, Enum_NT: 0, IS_A: Terminal
 First: List is empty
 Follow: List is empty
@@ -257,10 +306,73 @@ Right: [HEAD] -> [END]
 LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
 
 
-==============>  Name: ArithmeticExpr, Enum_T: -1, Enum_NT: 46, IS_A: Non Terminal
+==============>  Name: pLUS, Enum_T: 35, Enum_NT: -1, IS_A: Terminal
 First: List is empty
 Follow: List is empty
-Right: [HEAD] -> N8 -> [END]
+Right: [HEAD] -> [END]
+LINE: [3] ENUM: 35  TOKEN: ID/KEYW        : +
+
+
+==============>  Name: Op1, Enum_T: -1, Enum_NT: 59, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> Term -> N4 -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
+
+
+==============>  Name: N4, Enum_T: -1, Enum_NT: 47, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
+
+
+==============>  Name: iD, Enum_T: 3, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> N11 -> [END]
+LINE: [3] ENUM: 3  TOKEN: ID/KEYW        : b
+
+
+==============>  Name: Factor, Enum_T: -1, Enum_NT: 50, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> N5 -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
+
+
+==============>  Name: #, Enum_T: 0, Enum_NT: 0, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
+
+
+==============>  Name: N11, Enum_T: -1, Enum_NT: 51, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
+
+
+==============>  Name: Term, Enum_T: -1, Enum_NT: 48, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> N4 -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
+
+
+==============>  Name: #, Enum_T: 0, Enum_NT: 0, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
+
+
+==============>  Name: N5, Enum_T: -1, Enum_NT: 49, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> [END]
 LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
 
 

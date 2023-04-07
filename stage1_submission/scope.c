@@ -52,7 +52,7 @@ void print_scopes_with_tables(Scope *scope, char pre[200]){
     strcat(pre, "   ");
     print_scope(scope);
     /* print_symbol_table_element_for_scope(scope->table, pre); */
-    print_symbol_table_element(scope->table);
+    print_symbol_table(scope->table);
     if (scope->child_scope != NULL){
         printf("%s", pre);
         print_scopes_with_tables(scope->child_scope, pre);

@@ -849,9 +849,9 @@ void resolve(TreeNode *node)
                     { // iD type
                         nUM_or_iD = 0;
                     }
-                    else
-                    { // iD type
-                    }
+                    // else
+                    // { // iD type
+                    // }
                 }
                 else
                 { // Index_arr => Sign New_index
@@ -865,9 +865,9 @@ void resolve(TreeNode *node)
                         { // iD type
                             nUM_or_iD = 0;
                         }
-                        else
-                        { // iD type
-                        }
+                        // else
+                        // { // iD type
+                        // }
                     }
                     else
                     { // mINUS
@@ -892,9 +892,9 @@ void resolve(TreeNode *node)
                     { // iD type
                         nUM_or_iD = 0;
                     }
-                    else
-                    { // iD type
-                    }
+                    // else
+                    // { // iD type
+                    // }
                 }
                 else
                 { // Index_arr => Sign New_index
@@ -908,9 +908,9 @@ void resolve(TreeNode *node)
                         { // iD type
                             nUM_or_iD = 0;
                         }
-                        else
-                        { // iD type
-                        }
+                        // else
+                        // { // iD type
+                        // }
                     }
                     else
                     { // mINUS
