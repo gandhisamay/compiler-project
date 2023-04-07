@@ -1,4 +1,4 @@
-#include "linked_list.h"
+#include "parser.c"
 #include <stdbool.h>
 #include <string.h>
 #include <stdio.h>

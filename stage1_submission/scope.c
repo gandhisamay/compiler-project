@@ -1,4 +1,4 @@
-#include "parser.c"
+#include "symbol_table.c"
 
 typedef struct Scope{
     int start_line;
