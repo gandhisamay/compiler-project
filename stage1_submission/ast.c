@@ -360,7 +360,7 @@ void resolve(TreeNode *node)
             resolve(node->head->sibling->sibling);                                          // Type
             resolve(node->head->sibling->sibling->sibling);                                 // N1
             append_AST_lists_tail(node->list, node->head->sibling->sibling->sibling->list); // appending to N1
-            insert_AST_head(node->list, node->head->sibling->sibling->list->head);          // insert type at head to N1
+            append_AST_lists_head(node->list, node->head->sibling->sibling->list);          // append Type at head to N1
             insert_AST_head(node->list, node->head->list->head);                            // insert iD at head to N1
         }
         else if (node->symbol->non_terminal == Output_plist)
