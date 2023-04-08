@@ -111,6 +111,21 @@ Scope *find_scope(Scope *scope, int line){
     }
 }
 
+Scope *find_module_scope(Scope *scope, char module_name[50]){
+    if (scope->is_a_module && strcmp(scope->module_name, module_name) == 0){
+        return scope;
+    } else {
+        Scope *found_scope = NULL;
+        if (scope->child_scope != NULL){
+            found_scope = find_module_scope(scope->child_scope, module_name);
+        }
+        if (found_scope == NULL && scope->sibling_scope != NULL){
+            found_scope = find_module_scope(scope->sibling_scope, module_name);
+        }
+        return found_scope;
+    }
+}
+
 void create_scopes(char *prog_file, char *output_file){
     FILE *test_fp = fopen(prog_file, "r");
     lexer_reset(test_fp);
