@@ -344,32 +344,9 @@ void resolve(TreeNode *node)
             insert_AST_tail(node->list, input_plist);
             append_AST_lists_tail(node->list, node->head->sibling->sibling->sibling->sibling->sibling->sibling->sibling->list); // insert plist
             insert_AST_tail(node->list,input_plist_end);
-            // resolve and add Return_plist
-            resolve(node->head->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling);                                 // RET
-            append_AST_lists_tail(node->list, node->head->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->list); // insert RET
-            // resolve and add ModuleDef
-            resolve(node->head->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling);                                 // ModuleDef
-            append_AST_lists_tail(node->list, node->head->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->list); // insert ModuleDef
-
+           
+            CURR_OFFSET = 0;
             int start_line = node->tail->head->token.line;
-
-            // output_plist
-            if (node->head->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->head->sibling == NULL)
-            { // ret
-            }
-            else
-            {
-                AST_Node *tmp = copy_AST_Node(node->head->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->head->sibling->sibling->list->head); // output_plist
-                while (tmp != NULL)
-                {
-                    SYMBOL_TABLE_ELEMENT *temp = create_symbol_table_element(tmp->token.id, false, tmp->next->token.name, 0, 0, 0, start_line);
-                    insert_symbol_table(temp, find_scope(GLOBAL_SCOPE, start_line)->table);
-                    tmp = tmp->next;
-                    if (tmp != NULL)
-                        tmp = tmp->next;
-                }
-            }
-
             // input_plist
             AST_Node *tmp = copy_AST_Node(node->head->sibling->sibling->sibling->sibling->sibling->sibling->sibling->list->head);
             while (tmp != NULL)
@@ -380,51 +357,159 @@ void resolve(TreeNode *node)
                     int end;
                     char *id = tmp->token.id;
                     terminals type = tmp->next->next->token.name;
+                    int nUM_or_iD = 1;
                     if (tmp->next->next->next->next->next->data->terminal == mINUS)
                     {
-                        start = 0 - tmp->next->next->next->next->next->next->token.num;
-                        tmp = tmp->next->next->next->next->next->next->next->next;
+                        if(tmp->next->next->next->next->next->next->token.name == nUM){
+                            start = 0 - tmp->next->next->next->next->next->next->token.num;
+                            tmp = tmp->next->next->next->next->next->next->next->next;
+                        }
+                        else {
+                            nUM_or_iD = 0;
+                            tmp = tmp->next->next->next->next->next->next->next->next;
+                        }
+                        
                     }
                     else if (tmp->next->next->next->next->next->data->terminal == pLUS)
                     {
-                        start = tmp->next->next->next->next->next->next->token.num;
-                        tmp = tmp->next->next->next->next->next->next->next->next;
+                        if(tmp->next->next->next->next->next->next->token.name == nUM){
+                            start = tmp->next->next->next->next->next->next->token.num;
+                            tmp = tmp->next->next->next->next->next->next->next->next;
+                        }
+                        else {
+                            nUM_or_iD = 0;
+                            tmp = tmp->next->next->next->next->next->next->next->next;
+                        }
                     }
                     else
                     {
-                        start = tmp->next->next->next->next->next->token.num;
-                        tmp = tmp->next->next->next->next->next->next->next;
+                        if(tmp->next->next->next->next->next->token.name == nUM){
+                            start = tmp->next->next->next->next->next->token.num;
+                            tmp = tmp->next->next->next->next->next->next->next;
+                        }
+                        else {
+                            nUM_or_iD = 0;
+                            tmp = tmp->next->next->next->next->next->next->next;
+                        }
                     }
 
                     if (tmp->data->terminal == mINUS)
                     {
-                        end = 0 - tmp->next->token.num;
-                        tmp = tmp->next->next;
+                        if(tmp->next->token.name == nUM){
+                            end = 0 - tmp->next->token.num;
+                            tmp = tmp->next->next;
+                        }
+                        else{
+                            nUM_or_iD = 0;
+                            tmp = tmp->next->next;
+                        }
                     }
                     else if (tmp->data->terminal == pLUS)
                     {
-                        end = tmp->next->token.num;
-                        tmp = tmp->next->next;
+                        if(tmp->next->token.name == nUM){
+                            end = tmp->next->token.num;
+                            tmp = tmp->next->next;
+                        }
+                        else{
+                            nUM_or_iD = 0;
+                            tmp = tmp->next->next;
+                        }
                     }
                     else
                     {
-                        end = tmp->token.num;
-                        tmp = tmp->next;
+                        if(tmp->token.name == nUM){
+                            end = tmp->token.num;
+                            tmp = tmp->next;
+                        }
+                        else{
+                            nUM_or_iD = 0;
+                            tmp = tmp->next;
+                        };
                     }
-                    SYMBOL_TABLE_ELEMENT *temp = create_symbol_table_element(id, true, type, start, end, 0, start_line);
+                    SYMBOL_TABLE_ELEMENT *temp = create_symbol_table_element(id, true, type, start, end, CURR_OFFSET, start_line);
                     insert_symbol_table(temp, find_scope(GLOBAL_SCOPE, start_line)->table);
+                    // ID = ID->next;
+                    // printf("\n :-------: \n");
+                    // print_symbol_table(find_scope(GLOBAL_SCOPE, start_line)->table);
+                    if (nUM_or_iD)
+                    {
+                        if (type == iNTEGER)
+                        {
+                            CURR_OFFSET += 4 * (end - start +1 );
+                        }
+                        else if (type == rEAL)
+                        {
+                            CURR_OFFSET += 8 * (end - start + 1);
+                        }
+                        else if (type == bOOLEAN)
+                        {
+                            CURR_OFFSET += 2 * (end - start + 1);
+                        }
+                    }
+                    else{
+
+                    }
                     // tmp = tmp->next->next->next->next->next->next->next->next;
                     // tmp = tmp->next;
                 }
                 else
                 {
-                    SYMBOL_TABLE_ELEMENT *temp = create_symbol_table_element(tmp->token.id, false, tmp->next->token.name, 0, 0, 0, start_line);
+                    SYMBOL_TABLE_ELEMENT *temp = create_symbol_table_element(tmp->token.id, false, tmp->next->token.name, 0, 0, CURR_OFFSET, start_line);
                     insert_symbol_table(temp, find_scope(GLOBAL_SCOPE, start_line)->table);
+                    if(tmp->next->token.name == iNTEGER){
+                        CURR_OFFSET += 4;
+                    }
+                    else if (tmp->next->token.name == rEAL){
+                        CURR_OFFSET += 8;
+                    }
+                    else if(tmp->next->token.name == bOOLEAN){
+                        CURR_OFFSET += 2;
+                    }
                     tmp = tmp->next;
                     if (tmp != NULL)
                         tmp = tmp->next;
                 }
             }
+            
+             // resolve and add Return_plist
+            resolve(node->head->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling);                                 // RET
+            append_AST_lists_tail(node->list, node->head->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->list); // insert RET
+            
+            // output_plist
+            if (node->head->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->head->sibling == NULL)
+            { // ret
+            }
+            else
+            {
+                AST_Node *tmp = copy_AST_Node(node->head->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->head->sibling->sibling->list->head); // output_plist
+                while (tmp != NULL)
+                {
+                    SYMBOL_TABLE_ELEMENT *temp = create_symbol_table_element(tmp->token.id, false, tmp->next->token.name, 0, 0, CURR_OFFSET, start_line);
+                    insert_symbol_table(temp, find_scope(GLOBAL_SCOPE, start_line)->table);
+                    if(tmp->next->token.name == iNTEGER){
+                        CURR_OFFSET += 4;
+                    }
+                    else if (tmp->next->token.name == rEAL){
+                        CURR_OFFSET += 8;
+                    }
+                    else if(tmp->next->token.name == bOOLEAN){
+                        CURR_OFFSET += 2;
+                    }
+                    tmp = tmp->next;
+                    if (tmp != NULL)
+                        tmp = tmp->next;
+                }
+            }
+
+            // resolve and add ModuleDef
+            resolve(node->head->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling);                                 // ModuleDef
+            append_AST_lists_tail(node->list, node->head->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->list); // insert ModuleDef
+
+            
+
+            
+            
+
             // Scope *scope = find_scope(GLOBAL_SCOPE, node->head->token.line); // line no of 'dECLARE'
             // SYMBOL_TABLE_ELEMENT **table = scope->table;
             // if (node->head->sibling->sibling->sibling->sibling->sibling->sibling->sibling->head->sibling->sibling == NULL){ // Not Array
@@ -495,7 +580,8 @@ void resolve(TreeNode *node)
             //         ID = ID->next;
             //     }
             // }
-            printf("\n :-------: \n");
+            printf("\n Module Scope Symbol Table ------------------ \n");
+            // printf("\n :-------: \n");
             print_symbol_table(find_scope(GLOBAL_SCOPE, start_line)->table);
             insert_AST_tail(node->list,module_end);
         }
@@ -635,10 +721,13 @@ void resolve(TreeNode *node)
             AST_Node *DRIVER = create_AST_Node("DRIVER", NULL);
             AST_Node *DRIVER_END = create_AST_Node("DRIVER_END", NULL);
 
+            CURR_OFFSET = 0;
             insert_AST_tail(node->list, DRIVER);
             resolve(node->tail); // ModuleDef
             append_AST_lists_tail(node->list, node->tail->list);
             insert_AST_tail(node->list,DRIVER_END);
+            printf("\n Driver Scope Symbol Table ------------------ \n");
+            print_symbol_table(find_scope(GLOBAL_SCOPE,node->tail->head->token.line)->table);
         }
         else if (node->symbol->non_terminal == ModuleDef)
         {
@@ -1612,11 +1701,11 @@ void resolve(TreeNode *node)
         }
         else if (node->symbol->non_terminal == LvalueARRStmt)
         {
-            AST_Node *ASSIGN = create_AST_Node("ASSIGN", NULL);
+            // AST_Node *ASSIGN = create_AST_Node("ASSIGN", NULL);
             resolve(node->head->sibling);                            // Element_index_with_expr
             resolve(node->head->sibling->sibling->sibling->sibling); // Expression
             append_AST_lists_tail(node->list, node->head->sibling->list);
-            insert_AST_tail(node->list, ASSIGN);
+            // insert_AST_tail(node->list, ASSIGN);
             append_AST_lists_tail(node->list, node->head->sibling->sibling->sibling->sibling->list);
         }
         else if (node->symbol->non_terminal == ModuleReuseStmt)
@@ -1695,7 +1784,7 @@ void run_ast(char *prog_file, char *output_file)
 {
     run_parser(prog_file, output_file);
     resolve(Parse_Tree_Root->head);
-    print_astnodes(Parse_Tree_Root->head);
+    // print_astnodes(Parse_Tree_Root->head);
     char prefix[200] = "";
     print_scopes(GLOBAL_SCOPE, prefix);
     /* print_scopes_with_tables(GLOBAL_SCOPE, prefix); */
