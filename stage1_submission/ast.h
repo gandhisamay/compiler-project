@@ -16,6 +16,8 @@ typedef struct Scope{
     int end_line;
     char module_name[50];
     bool is_a_module;
+    int iplist_offset;
+    int oplist_offset;
     struct Scope *child_scope;
     struct Scope *sibling_scope;
     struct Scope *parent_scope;

@@ -460,7 +460,6 @@ void resolve(TreeNode *node)
                             };
                         }
                         SYMBOL_TABLE_ELEMENT *temp = create_symbol_table_element(id, true, type, start, end, CURR_OFFSET, start_line);
-                        insert_symbol_table(temp, find_scope(GLOBAL_SCOPE, start_line)->table);
                         // ID = ID->next;
                         // printf("\n :-------: \n");
                         // print_symbol_table(find_scope(GLOBAL_SCOPE, start_line)->table);
@@ -484,11 +483,12 @@ void resolve(TreeNode *node)
                         }
                         // tmp = tmp->next->next->next->next->next->next->next->next;
                         // tmp = tmp->next;
+                        temp->next_offset = CURR_OFFSET;
+                        insert_symbol_table(temp, find_scope(GLOBAL_SCOPE, start_line)->table);
                     }
                     else
                     {
                         SYMBOL_TABLE_ELEMENT *temp = create_symbol_table_element(tmp->token.id, false, tmp->next->token.name, 0, 0, CURR_OFFSET, start_line);
-                        insert_symbol_table(temp, find_scope(GLOBAL_SCOPE, start_line)->table);
                         if(tmp->next->token.name == iNTEGER){
                             CURR_OFFSET += 4;
                         }
@@ -498,12 +498,17 @@ void resolve(TreeNode *node)
                         else if(tmp->next->token.name == bOOLEAN){
                             CURR_OFFSET += 2;
                         }
+                        temp->next_offset = CURR_OFFSET;
+                        insert_symbol_table(temp, find_scope(GLOBAL_SCOPE, start_line)->table);
                         tmp = tmp->next;
                         if (tmp != NULL)
                             tmp = tmp->next;
                     }
                 }
                 
+                /* printf("\nAFTER_IPLIST_MODULE_OFFSET = %d\n", CURR_OFFSET); */
+                find_scope(GLOBAL_SCOPE, start_line)->iplist_offset = CURR_OFFSET;
+
                  // resolve and add Return_plist
                 resolve(node->head->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling);                                 // RET
                 append_AST_lists_tail(node->list, node->head->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->list); // insert RET
@@ -518,7 +523,6 @@ void resolve(TreeNode *node)
                     while (tmp != NULL)
                     {
                         SYMBOL_TABLE_ELEMENT *temp = create_symbol_table_element(tmp->token.id, false, tmp->next->token.name, 0, 0, CURR_OFFSET, start_line);
-                        insert_symbol_table(temp, find_scope(GLOBAL_SCOPE, start_line)->table);
                         if(tmp->next->token.name == iNTEGER){
                             CURR_OFFSET += 4;
                         }
@@ -528,11 +532,16 @@ void resolve(TreeNode *node)
                         else if(tmp->next->token.name == bOOLEAN){
                             CURR_OFFSET += 2;
                         }
+                        temp->next_offset = CURR_OFFSET;
+                        insert_symbol_table(temp, find_scope(GLOBAL_SCOPE, start_line)->table);
                         tmp = tmp->next;
                         if (tmp != NULL)
                             tmp = tmp->next;
                     }
                 }
+
+                /* printf("\nAFTER_OPLIST_MODULE_OFFSET = %d\n", CURR_OFFSET); */
+                find_scope(GLOBAL_SCOPE, start_line)->oplist_offset = CURR_OFFSET;
 
                 // resolve and add ModuleDef
                 resolve(node->head->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling);                                 // ModuleDef
@@ -1081,7 +1090,6 @@ void resolve(TreeNode *node)
                     {
                         // TODO: FIX Offset
                         SYMBOL_TABLE_ELEMENT *el = create_symbol_table_element(ID->token.id, false, type, 0, 0, CURR_OFFSET, ID->token.line);
-                        insert_symbol_table(el, scope->table);
                         ID = ID->next;
                         if (type == iNTEGER)
                         {
@@ -1095,6 +1103,8 @@ void resolve(TreeNode *node)
                         {
                             CURR_OFFSET += 2;
                         }
+                        el->next_offset = CURR_OFFSET;
+                        insert_symbol_table(el, scope->table);
                     }
                 }
                 else
@@ -1194,7 +1204,6 @@ void resolve(TreeNode *node)
                     {
                         // TODO: FIX Offset
                         SYMBOL_TABLE_ELEMENT *el = create_symbol_table_element(ID->token.id, true, type, start, end, CURR_OFFSET, ID->token.line);
-                        insert_symbol_table(el, scope->table);
                         ID = ID->next;
                         if (nUM_or_iD)
                         {
@@ -1211,6 +1220,8 @@ void resolve(TreeNode *node)
                                 CURR_OFFSET += 2 * (end - start + 1);
                             }
                         }
+                        el->next_offset = CURR_OFFSET;
+                        insert_symbol_table(el, scope->table);
                     }
                 }
                 // printf("\n::::::: :::::\n");
@@ -2085,9 +2096,18 @@ void resolve(TreeNode *node)
                 Scope *called_module_scope = find_module_scope(GLOBAL_SCOPE, node->head->sibling->sibling->sibling->list->head->token.id); // finding scope for called module
                 printf("\n\nCALLED MODULE SCOPE ------------------\n");
                 print_scope(called_module_scope);
-                /* SYMBOL_TABLE_ELEMENT *i = search_symbol_table("arr1", find_scope(GLOBAL_SCOPE, start_line)->table); */
-                /* SYMBOL_TABLE_ELEMENT *temp_var = search_symbol_table("arr2", find_scope(GLOBAL_SCOPE, start_line)->table); */
-                /* printf("\nCHECKING TYPE EQUIVALENCE - %d\n", type_equal(i, temp_var)); */
+                int OFFSET = 0;
+                while (OFFSET != called_module_scope->iplist_offset){
+                    SYMBOL_TABLE_ELEMENT *el = search_element_by_offset(called_module_scope->table, OFFSET);
+                    print_symbol_table_element(el);
+                    OFFSET = el->next_offset;
+                }
+                printf("\nOP\n");
+                while (OFFSET != called_module_scope->oplist_offset){
+                    SYMBOL_TABLE_ELEMENT *el = search_element_by_offset(called_module_scope->table, OFFSET);
+                    print_symbol_table_element(el);
+                    OFFSET = el->next_offset;
+                }
             }
         }
         else if (node->symbol->non_terminal == Optional)

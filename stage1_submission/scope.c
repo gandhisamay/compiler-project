@@ -8,6 +8,8 @@ Scope *create_new_scope(int start, int end){
     scope->parent_scope = NULL;
     scope->sibling_scope = NULL;
     scope->is_a_module = false;
+    scope->iplist_offset = 0;
+    scope->oplist_offset = 0;
     strcpy(scope->module_name, "");
     return scope;
 }
@@ -30,7 +32,7 @@ void print_scope(Scope *scope){
         printf("SCOPE: NULL\n");
         return;
     }
-    printf("SCOPE: IS_A_MODULE: %d, MODULE_NAME: %s, Start - %d, End - %d\n\n", scope->is_a_module, scope->module_name, scope->start_line, scope->end_line);
+    printf("SCOPE: IS_A_MODULE: %d, MODULE_NAME: %s, MODULE_IP_OFFSET: %d, MODULE_OP_OFFSET: %d, Start - %d, End - %d\n\n", scope->is_a_module, scope->module_name, scope->iplist_offset, scope->oplist_offset, scope->start_line, scope->end_line);
 }
 
 void print_scopes(Scope *scope, char pre[200]){

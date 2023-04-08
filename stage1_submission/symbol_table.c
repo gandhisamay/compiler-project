@@ -14,6 +14,7 @@ typedef struct symbol_table_element
     int arr_start;
     int arr_end;
     int offset;
+    int next_offset;
     int declare_lineno;
 
 } SYMBOL_TABLE_ELEMENT;
@@ -65,6 +66,7 @@ SYMBOL_TABLE_ELEMENT* create_symbol_table_element(char id[], bool isArray, termi
         ele->arr_start = -1;
     }
     ele->offset = offset;
+    ele->next_offset = offset;
     ele->declare_lineno = declare;
     return ele;
 }
@@ -84,8 +86,20 @@ bool type_equal(SYMBOL_TABLE_ELEMENT *el1, SYMBOL_TABLE_ELEMENT *el2){
     }
 }
 
+SYMBOL_TABLE_ELEMENT *search_element_by_offset(SYMBOL_TABLE_ELEMENT* table[], int offset){
+    for (int i = 0; i < SYMB_SIZE; i++){
+        if(table[i] == NULL || table[i]->offset != offset){
+            continue;
+        }
+        else{
+            return table[i];
+        }
+    }
+    return NULL;
+}
+
 void print_symbol_table_element(SYMBOL_TABLE_ELEMENT* ele){
-    printf("ID: %s, ISARRAY: %d, TYPE: %s, DECLARE_LINE: %d ARR_ST: %d, ARR_END: %d, OFFSET: %d\n",ele->id,ele->isArray,term_str[ele->type],ele->declare_lineno,ele->arr_start,ele->arr_end,ele->offset);
+    printf("ID: %s, ISARRAY: %d, TYPE: %s, DECLARE_LINE: %d ARR_ST: %d, ARR_END: %d, OFFSET: %d, NEXT_OFFSET: %d\n",ele->id,ele->isArray,term_str[ele->type],ele->declare_lineno,ele->arr_start,ele->arr_end,ele->offset, ele->next_offset);
 }
 void print_symbol_table_element_for_scope(SYMBOL_TABLE_ELEMENT* ele, char pre[200]){
     printf("%s", pre);
