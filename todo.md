@@ -1,11 +1,13 @@
 - [ ] Check for duplicates 'else if' in `resolve` ast fxn
-- [ ] @mohitdmak sign todo resolve
-- [ ] if/else?
+- [X] @mohitdmak sign, new_index todo resolve
+- [X] if/else?
 - [ ] remove 'RANGE_ARRAY' label
 - [ ] DOUBT: for offset calc of array with ID in range, gotta know ID's num value for offset comp?
 - [ ] add N8 to grammar
-- [ ] arith/bool exp no end label?
-- [ ] how to  know when for loop's statements ended?
+- [ ] bO bC precedence for expr in grammar - TODO in AST
+- [X] arith/bool exp no end label?
+- [ ] confirm rules for AND OR + - types surrounding
+- [X] how to  know when for loop's statements ended?
 
 - [X] Do we need to create a seperate method to remove comments.
 - [ ] NOTE: Running lexer without removing comments, causes wrong line numbers - shouldn't be an issue unless we would be required to not use the remove comments fxn?

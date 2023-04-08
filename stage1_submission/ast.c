@@ -347,6 +347,9 @@ void resolve(TreeNode *node)
            
             CURR_OFFSET = 0;
             int start_line = node->tail->head->token.line;
+            Scope *module_scope = find_scope(GLOBAL_SCOPE, start_line);
+            module_scope->is_a_module = true;
+            strcpy(module_scope->module_name, node->head->sibling->sibling->list->head->token.id);
             // input_plist
             AST_Node *tmp = copy_AST_Node(node->head->sibling->sibling->sibling->sibling->sibling->sibling->sibling->list->head);
             while (tmp != NULL)
@@ -726,8 +729,12 @@ void resolve(TreeNode *node)
             resolve(node->tail); // ModuleDef
             append_AST_lists_tail(node->list, node->tail->list);
             insert_AST_tail(node->list,DRIVER_END);
+            // Driver Scope
             printf("\n Driver Scope Symbol Table ------------------ \n");
-            print_symbol_table(find_scope(GLOBAL_SCOPE,node->tail->head->token.line)->table);
+            Scope *driver_scope = find_scope(GLOBAL_SCOPE,node->tail->head->token.line);
+            driver_scope->is_a_module = true;
+            strcpy(driver_scope->module_name, "DRIVER_MODULE");
+            print_symbol_table(driver_scope->table);
         }
         else if (node->symbol->non_terminal == ModuleDef)
         {
@@ -1771,7 +1778,7 @@ void resolve(TreeNode *node)
             {
                 resolve(node->head->sibling);          // Sign_for_loop
                 resolve(node->head->sibling->sibling); // Actual_para_id
-                resolve(node->tail);                   // ACtual_para_list1
+                resolve(node->tail);                   // Actual_para_list1
                 append_AST_lists_tail(node->list, node->head->sibling->list);
                 append_AST_lists_tail(node->list, node->head->sibling->sibling->list);
                 append_AST_lists_tail(node->list, node->tail->list);
@@ -1784,6 +1791,7 @@ void run_ast(char *prog_file, char *output_file)
 {
     run_parser(prog_file, output_file);
     resolve(Parse_Tree_Root->head);
+    // TODO: TYPE_CHECKING
     // print_astnodes(Parse_Tree_Root->head);
     printf("\n\nPRINTING SCOPES:\n");
     char prefix[200] = "";

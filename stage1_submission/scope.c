@@ -7,6 +7,8 @@ Scope *create_new_scope(int start, int end){
     scope->child_scope = NULL;
     scope->parent_scope = NULL;
     scope->sibling_scope = NULL;
+    scope->is_a_module = false;
+    strcpy(scope->module_name, "");
     return scope;
 }
 
@@ -28,7 +30,7 @@ void print_scope(Scope *scope){
         printf("SCOPE: NULL\n");
         return;
     }
-    printf("SCOPE: Start %d End %d\n", scope->start_line, scope->end_line);
+    printf("SCOPE: IS_A_MODULE: %d, MODULE_NAME: %s, Start - %d, End - %d\n\n", scope->is_a_module, scope->module_name, scope->start_line, scope->end_line);
 }
 
 void print_scopes(Scope *scope, char pre[200]){

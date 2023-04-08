@@ -14,6 +14,8 @@
 typedef struct Scope{
     int start_line;
     int end_line;
+    char module_name[50];
+    bool is_a_module;
     struct Scope *child_scope;
     struct Scope *sibling_scope;
     struct Scope *parent_scope;
@@ -22,3 +24,4 @@ typedef struct Scope{
 
 Scope *GLOBAL_SCOPE;
 int CURR_OFFSET = 0;
+bool TYPE_CHECKING = false;
