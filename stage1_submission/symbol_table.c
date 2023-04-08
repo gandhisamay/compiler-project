@@ -69,6 +69,21 @@ SYMBOL_TABLE_ELEMENT* create_symbol_table_element(char id[], bool isArray, termi
     return ele;
 }
 
+bool type_equal(SYMBOL_TABLE_ELEMENT *el1, SYMBOL_TABLE_ELEMENT *el2){
+    if (el1 == NULL || el2 == NULL) return false;
+    if (el1->isArray){
+        if (!el2->isArray) return false;
+        if (el1->type != el2->type) return false;
+        if (el1->arr_start == el2->arr_start && el1->arr_end == el2->arr_end) return true;
+        return false;
+    }
+    else {
+        if (el2->isArray) return false;
+        if (el1->type == el2->type) return true;
+        return false;
+    }
+}
+
 void print_symbol_table_element(SYMBOL_TABLE_ELEMENT* ele){
     printf("ID: %s, ISARRAY: %d, TYPE: %s, DECLARE_LINE: %d ARR_ST: %d, ARR_END: %d, OFFSET: %d\n",ele->id,ele->isArray,term_str[ele->type],ele->declare_lineno,ele->arr_start,ele->arr_end,ele->offset);
 }

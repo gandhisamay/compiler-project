@@ -2085,6 +2085,9 @@ void resolve(TreeNode *node)
                 Scope *called_module_scope = find_module_scope(GLOBAL_SCOPE, node->head->sibling->sibling->sibling->list->head->token.id); // finding scope for called module
                 printf("\n\nCALLED MODULE SCOPE ------------------\n");
                 print_scope(called_module_scope);
+                /* SYMBOL_TABLE_ELEMENT *i = search_symbol_table("arr1", find_scope(GLOBAL_SCOPE, start_line)->table); */
+                /* SYMBOL_TABLE_ELEMENT *temp_var = search_symbol_table("arr2", find_scope(GLOBAL_SCOPE, start_line)->table); */
+                /* printf("\nCHECKING TYPE EQUIVALENCE - %d\n", type_equal(i, temp_var)); */
             }
         }
         else if (node->symbol->non_terminal == Optional)
