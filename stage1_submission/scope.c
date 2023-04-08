@@ -113,6 +113,16 @@ Scope *find_scope(Scope *scope, int line){
     }
 }
 
+SYMBOL_TABLE_ELEMENT *find_symtable_el_by_id(Scope *scope, char id[50]){
+    if (scope == NULL) return NULL;
+    SYMBOL_TABLE_ELEMENT *el = search_symbol_table(id, scope->table);
+    if (el == NULL){
+        return find_symtable_el_by_id(scope->parent_scope, id);
+    } else {
+        return el;
+    }
+}
+
 Scope *find_module_scope(Scope *scope, char module_name[50]){
     if (scope->is_a_module && strcmp(scope->module_name, module_name) == 0){
         return scope;

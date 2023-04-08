@@ -2094,32 +2094,53 @@ void resolve(TreeNode *node)
             }
             else {
                 Scope *called_module_scope = find_module_scope(GLOBAL_SCOPE, node->head->sibling->sibling->sibling->list->head->token.id); // finding scope for called module
+                AST_Node *actual_list_ast = node->head->sibling->sibling->sibling->sibling->sibling->sibling->list->head;
                 printf("\n\nCALLED MODULE SCOPE ------------------\n");
                 print_scope(called_module_scope);
                 int OFFSET = 0;
-                while (OFFSET != called_module_scope->iplist_offset){
-                    SYMBOL_TABLE_ELEMENT *el = search_element_by_offset(called_module_scope->table, OFFSET);
-                    print_symbol_table_element(el);
-                    OFFSET = el->next_offset;
+                while (actual_list_ast != NULL && OFFSET != called_module_scope->iplist_offset){
+                    SYMBOL_TABLE_ELEMENT *fp = search_element_by_offset(called_module_scope->table, OFFSET);
+                    OFFSET = fp->next_offset;
+                    SYMBOL_TABLE_ELEMENT *ap = find_symtable_el_by_id(find_scope(GLOBAL_SCOPE, actual_list_ast->token.line), actual_list_ast->token.id);
+                    actual_list_ast = actual_list_ast->next;
+                    printf("\nCHECKING TYPE EQUIVALENCE: %d\n", type_equal(fp, ap));
+                    print_symbol_table_element(fp);
+                    print_symbol_table_element(ap);
                 }
-                printf("\nOP\n");
-                while (OFFSET != called_module_scope->oplist_offset){
-                    SYMBOL_TABLE_ELEMENT *el = search_element_by_offset(called_module_scope->table, OFFSET);
-                    print_symbol_table_element(el);
-                    OFFSET = el->next_offset;
+                if (actual_list_ast != NULL){
+                    printf("\nERROR: EXTRA ACTUAL PARAMETERS!\n");
+                } else if (OFFSET != called_module_scope->iplist_offset){
+                    printf("\nERROR: MISSING ACTUAL PARAMETERS!\n");
+                }
+                // checking return parameters
+                AST_Node *return_list_ast = node->head->list->head;
+                return_list_ast = return_list_ast->next; // skipping label
+                while (return_list_ast != NULL && OFFSET != called_module_scope->oplist_offset){
+                    SYMBOL_TABLE_ELEMENT *fp = search_element_by_offset(called_module_scope->table, OFFSET);
+                    OFFSET = fp->next_offset;
+                    SYMBOL_TABLE_ELEMENT *ap = find_symtable_el_by_id(find_scope(GLOBAL_SCOPE, return_list_ast->token.line), return_list_ast->token.id);
+                    return_list_ast = return_list_ast->next;
+                    printf("\nCHECKING TYPE EQUIVALENCE: %d\n", type_equal(fp, ap));
+                    print_symbol_table_element(fp);
+                    print_symbol_table_element(ap);
+                }
+                if (return_list_ast != NULL){
+                    printf("\nERROR: EXTRA RETURN PARAMETERS!\n");
+                } else if (OFFSET != called_module_scope->oplist_offset){
+                    printf("\nERROR: MISSING ACTUAL PARAMETERS!\n");
                 }
             }
         }
         else if (node->symbol->non_terminal == Optional)
         {
             if (TYPE_CHECKING == false){
+                AST_Node *OPTIONAL_LIST = create_AST_Node("OPTIONAL_PARAMETERS", NULL);
+                insert_AST_tail(node->list, OPTIONAL_LIST);
                 if (node->head->sibling == NULL)
                 {
                 }
                 else
                 {
-                    AST_Node *OPTIONAL_LIST = create_AST_Node("OPTIONAL_PARAMETERS", NULL);
-                    insert_AST_tail(node->list, OPTIONAL_LIST);
                     resolve(node->head->sibling); // IDlist
                     append_AST_lists_tail(node->list, node->head->sibling->list);
                 }

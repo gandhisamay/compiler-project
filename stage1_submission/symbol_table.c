@@ -99,7 +99,12 @@ SYMBOL_TABLE_ELEMENT *search_element_by_offset(SYMBOL_TABLE_ELEMENT* table[], in
 }
 
 void print_symbol_table_element(SYMBOL_TABLE_ELEMENT* ele){
-    printf("ID: %s, ISARRAY: %d, TYPE: %s, DECLARE_LINE: %d ARR_ST: %d, ARR_END: %d, OFFSET: %d, NEXT_OFFSET: %d\n",ele->id,ele->isArray,term_str[ele->type],ele->declare_lineno,ele->arr_start,ele->arr_end,ele->offset, ele->next_offset);
+    if (ele == NULL){
+        printf("SYMBOL_TABLE_ELEMENT: NULL\n");
+    }
+    else {
+        printf("ID: %s, ISARRAY: %d, TYPE: %s, DECLARE_LINE: %d ARR_ST: %d, ARR_END: %d, OFFSET: %d, NEXT_OFFSET: %d\n",ele->id,ele->isArray,term_str[ele->type],ele->declare_lineno,ele->arr_start,ele->arr_end,ele->offset, ele->next_offset);
+    }
 }
 void print_symbol_table_element_for_scope(SYMBOL_TABLE_ELEMENT* ele, char pre[200]){
     printf("%s", pre);
