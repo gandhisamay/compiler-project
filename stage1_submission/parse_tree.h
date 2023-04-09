@@ -7,7 +7,7 @@
  * Aryan Chavan 2020A7PS1692P
  */
 
-#include "linked_list.c"
+#include "symbol_table.c"
 #include "stdbool.h"
 
 typedef struct ast_node
@@ -16,6 +16,7 @@ typedef struct ast_node
   char label[200];
   TOKEN token;
   int token_set;
+  SYMBOL_TABLE_ELEMENT *type;
   struct ast_node *next;
 } AST_Node;
 

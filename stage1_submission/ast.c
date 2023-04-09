@@ -15,6 +15,7 @@ AST_Node *create_AST_Node(char *label, Symbol *data)
     node->data = data;
     node->next = NULL;
     node->token_set = 0;
+    node->type = NULL;
     return node;
 }
 AST_Node *copy_AST_Node(AST_Node *node)
@@ -1385,7 +1386,6 @@ void resolve(TreeNode *node)
                 append_AST_lists_tail(node->list, node->tail->list);
             }
             else {
-
             }
         }
         else if (node->symbol->non_terminal == WhichStmt)
