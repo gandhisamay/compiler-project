@@ -1405,9 +1405,10 @@ void resolve(TreeNode *node)
                 resolve(node->tail); // WhichStmt
                 SYMBOL_TABLE_ELEMENT* type1 = node->head->node_type;
                 SYMBOL_TABLE_ELEMENT* type2 = node->tail->node_type;
-                /* printf("%d\n\n",node->head->node_type->type); */
-                /* printf("%d\n\n",node->tail->node_type->type); */
+                // printf("%d\n\n",node->head->node_type->type); 
+                // printf("%d\n\n",node->tail->node_type->type); 
                 /* printf("%d\n\n",node->head->token.line); */
+
                 if((type1->type == bOOLEAN) && ((type2->type == bOOLEAN)||(type2->type == fALSE)||(type1->type == tRUE))){
                     node->node_type = type1;
                 }
@@ -1418,7 +1419,7 @@ void resolve(TreeNode *node)
                     node->node_type = type1;
                 }
                 else {
-                    printf("Type check error!!!!!!!!!!!!!!------>\n");
+                    printf("Type check error!!!!!!!!!!!!!!------>1\n");
 
                 }
 
@@ -1432,7 +1433,7 @@ void resolve(TreeNode *node)
             }
             else {
                 resolve(node->head); // LvalueID/LvalueARR
-                // printf("%d\n\n",node->head->node_type==NULL);
+                // printf("%d\n\n",node->head->node_type->type);
                 node->node_type = node->head->node_type;
             }
         }
@@ -1446,7 +1447,7 @@ void resolve(TreeNode *node)
             }
             else {
                 resolve(node->head->sibling); // Expression
-                // printf("%d\n\n",node->head->sibling->node_type==NULL);
+                // printf("%d\n\n",node->head->sibling->node_type->type);
                 node->node_type = node->head->sibling->node_type;
             }
         }
@@ -1457,13 +1458,13 @@ void resolve(TreeNode *node)
                 append_AST_lists_tail(node->list, node->head->list);
             }
             else {
-                printf("\nPRINTING EXPRESSION TYPE: type U %d\n", node->head->symbol->non_terminal == U);
+                // printf("\nPRINTING EXPRESSION TYPE: type U %d\n", node->head->symbol->non_terminal == U);
                 resolve(node->head); // ArithmeticOrBool/U
-                // printf("%d\n\n",node->head->node_type==NULL);
+                // printf("%d\n\n",node->head->node_type->type);
                 print_astnodes(node);
                 node->node_type = node->head->node_type;
-                printf("\n EXp PR done\n");
-                print_symbol_table_element(node->node_type);
+                // printf("\n EXp PR done\n");
+                // print_symbol_table_element(node->node_type);
             }
         }
         else if (node->symbol->non_terminal == ArithmeticOrBooleanExpr)
@@ -1505,8 +1506,11 @@ void resolve(TreeNode *node)
                 // printf("%d\n\n",node->head->node_type==NULL);
                 if(node->tail->head->sibling == NULL){
                     node->node_type = type1;
+                    // printf("heeerrrrrrrrrr\n");
                 }
                 else {
+                    // printf("heeerrrrrrrrrr11111111111111\n");
+
                     type2 = node->tail->node_type;
                     if(((type1->type == bOOLEAN)||(type1->type == fALSE)||(type1->type == tRUE)) && ((type2->type == bOOLEAN)||(type2->type == fALSE)||(type2->type == tRUE))){
                         node->node_type = type1;
@@ -1524,7 +1528,7 @@ void resolve(TreeNode *node)
                         node->node_type = type2;
                     }
                     else{
-                        printf("Type check error!!!!!!!!!!!!!!------>\n");
+                        printf("Type check error!!!!!!!!!!!!!!------>2\n");
                     }
                 }
                 /* printf("\n OUTSIDE AR OR BOOL EXP\n"); */
@@ -1577,17 +1581,22 @@ void resolve(TreeNode *node)
                 SYMBOL_TABLE_ELEMENT* type1 = node->head->node_type;
                 SYMBOL_TABLE_ELEMENT* type2;
                 // printf("ertyui%d\n\n",node->head->node_type==NULL);
+                // printf("look here ------->\n");
+                print_astnodes(node);
+                // printf("look over-----------\n");
                 if(node->tail->head->sibling == NULL){
+                    // printf("heeerrrrrrrrrr\n");
                     node->node_type = type1;
                 }
                 else {
+                    // printf("heeerrrrrrrrrr11111111111111\n");
                     type2 = node->tail->node_type;
                     if(((type1->type == iNTEGER)||(type1->type == nUM)||(type1->type == rEAL)||(type1->type == rNUM)) && ((type2->type == iNTEGER)||(type2->type == nUM)||(type2->type == rNUM)||(type2->type == rEAL))){
-                        type1->type == bOOLEAN;
-                        node->node_type = type1;
+                        SYMBOL_TABLE_ELEMENT* temp = create_symbol_table_element("",false,bOOLEAN,-1,-1,-1,-1);
+                        node->node_type = temp;
                     }
                     else{
-                        printf("Type check error!!!!!!!!!!!!!!------>\n");
+                        printf("Type check error!!!!!!!!!!!!!!------>3\n");
                     }
                 }
             }
@@ -1786,7 +1795,7 @@ void resolve(TreeNode *node)
                         case bOOLEAN:
                         case eQ:
                         case nE:
-                            printf("Type check error ------------------->\n");
+                            printf("Type check error ------------------->4\n");
                             break;
                         default:
                             break;
@@ -2184,11 +2193,11 @@ void resolve(TreeNode *node)
                     else {
                         type2 = node->tail->node_type;
                         if(((type1->type == nUM)||(type1->type == rNUM)||(type1->type == iNTEGER)||(type1->type == rEAL))&&((type2->type == nUM)||(type2->type == rNUM)||(type2->type == iNTEGER)||(type2->type == rEAL))){
-                            type1->type = bOOLEAN;
-                            node->node_type = type1;
+                            SYMBOL_TABLE_ELEMENT* temp = create_symbol_table_element("",false,bOOLEAN,-1,-1,-1,-1);
+                            node->node_type = temp;
                         }
                         else{
-                            printf("Type check error!!!!!!!!!!!!!!------>\n");
+                            printf("Type check error!!!!!!!!!!!!!!------>5\n");
 
                         }
 
@@ -2249,11 +2258,11 @@ void resolve(TreeNode *node)
                     SYMBOL_TABLE_ELEMENT* type1 = node->head->sibling->node_type;
                     SYMBOL_TABLE_ELEMENT* type2 = node->tail->node_type;
                     if(((type1->type == bOOLEAN)||(type1->type == fALSE)||(type1->type == tRUE))&&((type2->type == bOOLEAN)||(type2->type == fALSE)||(type2->type == tRUE))){
-                        type1->type = bOOLEAN;
-                        node->node_type = type1;
+                        SYMBOL_TABLE_ELEMENT* temp = create_symbol_table_element("",false,bOOLEAN,-1,-1,-1,-1);
+                        node->node_type = temp;
                     }
                     else{
-                        printf("Type check error!!!!!!!!!!!!!!------>\n");
+                        printf("Type check error!!!!!!!!!!!!!!------>6\n");
 
                     }
                 }

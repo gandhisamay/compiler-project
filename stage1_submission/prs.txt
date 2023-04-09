@@ -4492,11 +4492,11 @@ Right: [HEAD] -> Type -> [END]
 LINE: [53] ENUM: 22  TOKEN: ID/KEYW        : of
 
 
-==============>  Name: bOOLEAN, Enum_T: 20, Enum_NT: -1, IS_A: Terminal
+==============>  Name: rEAL, Enum_T: 19, Enum_NT: -1, IS_A: Terminal
 First: List is empty
 Follow: List is empty
 Right: [HEAD] -> [END]
-LINE: [53] ENUM: 20  TOKEN: ID/KEYW        : boolean
+LINE: [53] ENUM: 19  TOKEN: ID/KEYW        : real
 
 
 ==============>  Name: Type, Enum_T: -1, Enum_NT: 14, IS_A: Non Terminal
@@ -4902,7 +4902,7 @@ LINE: [0] ENUM: 0  TOKEN: ID/KEYW        :
 First: List is empty
 Follow: List is empty
 Right: [HEAD] -> N11 -> [END]
-LINE: [54] ENUM: 3  TOKEN: ID/KEYW        : A
+LINE: [54] ENUM: 3  TOKEN: ID/KEYW        : arr1
 
 
 ==============>  Name: Factor, Enum_T: -1, Enum_NT: 50, IS_A: Non Terminal
@@ -5021,7 +5021,7 @@ LINE: [0] ENUM: 0  TOKEN: ID/KEYW        :
 First: List is empty
 Follow: List is empty
 Right: [HEAD] -> N11 -> [END]
-LINE: [54] ENUM: 3  TOKEN: ID/KEYW        : A
+LINE: [54] ENUM: 3  TOKEN: ID/KEYW        : arr1
 
 
 ==============>  Name: Factor, Enum_T: -1, Enum_NT: 50, IS_A: Non Terminal
