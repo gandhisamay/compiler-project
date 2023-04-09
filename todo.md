@@ -4,6 +4,8 @@
 - [ ] remove 'RANGE_ARRAY' label
 - [ ] DOUBT: for offset calc of array with ID in range, gotta know ID's num value for offset comp?
 - [ ] add N8 to grammar
+- [ ] switch case type check
+- [ ] io stmt type checking
 - [ ] bO bC precedence for expr in grammar - TODO in AST
 - [X] arith/bool exp no end label?
 - [ ] confirm rules for AND OR + - types surrounding

@@ -51,8 +51,8 @@ start
 	start
 		get_value(tempvar);
 		arr1[i]:=tempvar;
-                declare B:array[-p..+q] of boolean;
-                tempvar:=-(tempvar+ B[a+b*c]+A[+5]-A[-10]);
+                declare B:array[-p..+q] of real;
+                tempvar:=-(tempvar+ B[a+b*c]+arr1[+5]-arr1[-10]);
 		B[k]:=-10;
 		i:=i+1;
 		** the semantics of while needs an increment and will be taken care of at the second phase**

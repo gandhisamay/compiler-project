@@ -121,6 +121,7 @@ void append_AST_lists_head(AST_Node_List *list1, AST_Node_List *list2)
 
 void resolve(TreeNode *node)
 {
+    /* print_symbol_details(node->symbol, stdout); */
     if (TYPE_CHECKING == false){
         node->list = create_AST_Node_list();
     }
@@ -901,7 +902,8 @@ void resolve(TreeNode *node)
                 insert_AST_tail(node->list,switch_end);
             }
             else {
-
+                resolve(node->head->sibling->sibling->sibling->sibling->sibling);                                          // CaseStmts
+                resolve(node->head->sibling->sibling->sibling->sibling->sibling->sibling);                                 // Default
             }
         }
         else if (node->symbol->non_terminal == CaseStmts)
@@ -921,7 +923,8 @@ void resolve(TreeNode *node)
                 // insert_AST_tail(node->list,stmts_end);
             }
             else {
-
+                resolve(node->head->sibling->sibling->sibling);                                 // Statements
+                resolve(node->tail);                                                            // N9
             }
         }
         else if (node->symbol->non_terminal == Value)
@@ -960,7 +963,10 @@ void resolve(TreeNode *node)
                 }
             }
             else {
-
+                if (node->head->sibling != NULL){
+                    resolve(node->head->sibling->sibling->sibling);                                 // Statements
+                    resolve(node->tail);                                                            // N91 child
+                }
             }
         }
         else if (node->symbol->non_terminal == Default)
@@ -983,7 +989,9 @@ void resolve(TreeNode *node)
                 }
             }
             else {
-
+                if (node->head->sibling != NULL){
+                    resolve(node->head->sibling->sibling);                                 // Statements
+                }
             }
         }
         else if (node->symbol->non_terminal == IoStmt)
@@ -1310,7 +1318,12 @@ void resolve(TreeNode *node)
                 }
             }
             else {
-
+                if (node->head->symbol->terminal == fOR){
+                    resolve(node->head->sibling->sibling->sibling->sibling->sibling->sibling->sibling); // Statements
+                } else {
+                    resolve(node->head->sibling->sibling);                            // ArithmeticOrBooleanExpr
+                    resolve(node->head->sibling->sibling->sibling->sibling->sibling); // Statements
+                }
             }
         }
         else if (node->symbol->non_terminal == Range_for_loop)
@@ -1392,9 +1405,9 @@ void resolve(TreeNode *node)
                 resolve(node->tail); // WhichStmt
                 SYMBOL_TABLE_ELEMENT* type1 = node->head->node_type;
                 SYMBOL_TABLE_ELEMENT* type2 = node->tail->node_type;
-                printf("%d\n\n",node->head->node_type->type);
-                printf("%d\n\n",node->tail->node_type->type);
-                printf("%d\n\n",node->head->token.line);
+                /* printf("%d\n\n",node->head->node_type->type); */
+                /* printf("%d\n\n",node->tail->node_type->type); */
+                /* printf("%d\n\n",node->head->token.line); */
                 if((type1->type == bOOLEAN) && ((type2->type == bOOLEAN)||(type2->type == fALSE)||(type1->type == tRUE))){
                     node->node_type = type1;
                 }
@@ -1444,9 +1457,13 @@ void resolve(TreeNode *node)
                 append_AST_lists_tail(node->list, node->head->list);
             }
             else {
+                printf("\nPRINTING EXPRESSION TYPE: type U %d\n", node->head->symbol->non_terminal == U);
                 resolve(node->head); // ArithmeticOrBool/U
                 // printf("%d\n\n",node->head->node_type==NULL);
+                print_astnodes(node);
                 node->node_type = node->head->node_type;
+                printf("\n EXp PR done\n");
+                print_symbol_table_element(node->node_type);
             }
         }
         else if (node->symbol->non_terminal == ArithmeticOrBooleanExpr)
@@ -1479,7 +1496,9 @@ void resolve(TreeNode *node)
                 insert_AST_tail(node->list,ARITHORBOOLEXP_END);
             }
             else {
+                /* printf("\n INSIDE AR OR BOOL EXP\n"); */
                 resolve(node->head); // AnyTerm
+                /* printf("\n BETWEEN AR OR BOOL EXP\n"); */
                 resolve(node->tail); // N7
                 SYMBOL_TABLE_ELEMENT* type1 = node->head->node_type;
                 SYMBOL_TABLE_ELEMENT* type2;
@@ -1508,6 +1527,8 @@ void resolve(TreeNode *node)
                         printf("Type check error!!!!!!!!!!!!!!------>\n");
                     }
                 }
+                /* printf("\n OUTSIDE AR OR BOOL EXP\n"); */
+                /* print_symbol_table_element(node->node_type); */
             }
         }
         else if (node->symbol->non_terminal == AnyTerm)
@@ -1596,21 +1617,25 @@ void resolve(TreeNode *node)
                 append_AST_lists_tail(node->list, node->tail->list);
             }
             else {
+                /* printf("\n\n ::::::::::::::::::::: ArithmeticExpr\n"); */
                 resolve(node->head); // Term
                 resolve(node->tail); // N4
                 if (node->tail->head->sibling == NULL){ // N4 => #
-                    // node->node_type = node->head->node_type;
-                    // SYMBOL_TABLE_ELEMENT* temp = create_symbol_table_element("ex",false,rEAL,0,0,0,0);
-                    // node->node_type = temp;
-                    // printf("rsetryui%d\n\n",node->node_type==NULL);
-
+                    node->node_type = node->head->node_type;
                 } else {
-                    /* if (node->head->node_type->type) */
-                    // SYMBOL_TABLE_ELEMENT* temp = create_symbol_table_element("ex",false,rEAL,0,0,0,0);
-                    // node->node_type = temp;
-                    // printf("rsetryui%d\n\n",node->node_type==NULL);
-
+                    node->node_type = create_symbol_table_element("", false, iNTEGER, -1, -1, -1, -1);
+                    if (node->head->node_type->type == bOOLEAN || node->tail->node_type->type == bOOLEAN){
+                        printf("\n,,,, THROWING ERROR ArithmeticExpr!\n");
+                        // throw Error
+                    } else {
+                        if (node->head->node_type->type == rEAL || node->tail->node_type->type == rEAL){
+                            node->node_type->type = rEAL;
+                        } else {
+                            node->node_type->type = iNTEGER;
+                        }
+                    }
                 }
+                /* printf("\n donedone\n"); */
             }
         }
         else if (node->symbol->non_terminal == Term)
@@ -1638,8 +1663,26 @@ void resolve(TreeNode *node)
                 append_AST_lists_tail(node->list, node->tail->list);
             }
             else {
+                /* printf("\n\n ::::::::::::::::::::: Term if %d\n", node->tail->head->sibling == NULL); */
                 resolve(node->head); // Factor
                 resolve(node->tail); // N5
+                if (node->tail->head->sibling == NULL){ // N5 => #
+                    node->node_type = node->head->node_type;                    
+                } else {
+                    node->node_type = create_symbol_table_element("", false, iNTEGER, -1, -1, -1, -1);
+                    if (node->head->node_type->type == bOOLEAN || node->tail->node_type->type == bOOLEAN){
+                        printf("\n,,,, THROWING ERROR term!\n");
+                        // throw Error
+                    } else {
+                        if (node->head->node_type->type == rEAL || node->tail->node_type->type == rEAL){
+                            node->node_type->type = rEAL;
+                        } else {
+                            node->node_type->type = iNTEGER;
+                        }
+                    }
+                }
+                /* print_symbol_table_element(node->node_type); */
+                /* printf("\n done\n"); */
             }
         }
         else if (node->symbol->non_terminal == Factor)
@@ -1664,19 +1707,33 @@ void resolve(TreeNode *node)
                 }
             }
             else {
+                /* printf("\n\n ::::::::::::::::::::: Factor\n"); */
+                node->node_type = create_symbol_table_element("", false, iNTEGER, -1, -1, -1, -1);
                 if (node->head->sibling == NULL)
                 {
-                    resolve(node->head); // num/rnum/boolconst
+                    /* printf("\n easey \n"); */
+                    /* resolve(node->head); // num/rnum/boolconst */
+                    node->node_type->type = node->head->token.name;
                 }
                 else if (node->head->sibling->sibling == NULL)
                 {
-                    resolve(node->head); // iD
-                    resolve(node->tail); // N11
+                    /* printf("\n here??\n"); */
+                    /* print_token_details(node->head->token, stdout); */
+                    Scope *scope = find_scope(GLOBAL_SCOPE, node->head->token.line);
+                    /* print_scope(scope); */
+                    node->node_type = find_symtable_el_by_id(scope, node->head->token.id);
+                    // TODO: CHECK N11 range
+                    /* resolve(node->head); // iD */
+                    /* resolve(node->tail); // N11 */
                 }
                 else
                 {
+                    /* printf("\n here!\n"); */
                     resolve(node->head->sibling); // ArithmeticOrBool
+                    node->node_type = node->head->sibling->node_type;
                 }
+                /* print_symbol_table_element(node->node_type); */
+                /* printf("\n factor done\n"); */
             }
         }
         else if (node->symbol->non_terminal == N11)
@@ -1982,7 +2039,26 @@ void resolve(TreeNode *node)
                 }
             }
             else {
-
+                /* printf("\n\n ::::::::::::::::::::: N5\n"); */
+                if (node->head->sibling != NULL){
+                    resolve(node->head->sibling); // Factor
+                    resolve(node->tail);          // N5
+                    if (node->tail->head->sibling == NULL){ // N5 => #
+                        node->node_type = node->head->sibling->node_type;                    
+                    } else {
+                        node->node_type = create_symbol_table_element("", false, iNTEGER, -1, -1, -1, -1);
+                        if (node->head->sibling->node_type->type == bOOLEAN || node->tail->node_type->type == bOOLEAN){
+                            printf("\n,,,, THROWING ERROR n5!\n");
+                            // throw Error
+                        } else {
+                            if (node->head->sibling->node_type->type == rEAL || node->tail->node_type->type == rEAL){
+                                node->node_type->type = rEAL;
+                            } else {
+                                node->node_type->type = iNTEGER;
+                            }
+                        }
+                    }
+                }
             }
         }
         else if (node->symbol->non_terminal == N4)
@@ -2018,7 +2094,29 @@ void resolve(TreeNode *node)
                 }
             }
             else {
-
+                /* printf("\n ::::::: N4\n"); */
+                if (node->head->sibling != NULL){
+                    /* printf("\n : : : from n4 %d\n", node->tail->head->sibling == NULL); */
+                    resolve(node->head->sibling); // Term
+                    resolve(node->tail);          // N4
+                    if (node->tail->head->sibling == NULL){ // N4 => #
+                        node->node_type = node->head->sibling->node_type;                    
+                    } else {
+                        node->node_type = create_symbol_table_element("", false, iNTEGER, -1, -1, -1, -1);
+                        /* printf("\ncheck %d\n", node->head->sibling->node_type == NULL); */
+                        if (node->head->sibling->node_type->type == bOOLEAN || node->tail->node_type->type == bOOLEAN){
+                            printf("\n,,,, THROWING ERROR n4!\n");
+                            // throw Error
+                        } else {
+                            if (node->head->sibling->node_type->type == rEAL || node->tail->node_type->type == rEAL){
+                                node->node_type->type = rEAL;
+                            } else {
+                                node->node_type->type = iNTEGER;
+                            }
+                        }
+                    }
+                }
+                /* printf("\n dno\n"); */
             }
         }
         else if (node->symbol->non_terminal == N8)
@@ -2070,6 +2168,7 @@ void resolve(TreeNode *node)
                 }
             }
             else {
+                /* printf("\n ENETERED N8 \n"); */
                 if(node->head->sibling == NULL){
 
                 }
@@ -2077,16 +2176,25 @@ void resolve(TreeNode *node)
                     resolve(node->tail);          // N7
                     resolve(node->head->sibling); // AnyTerm
                     SYMBOL_TABLE_ELEMENT* type1 = node->head->sibling->node_type;
-                    SYMBOL_TABLE_ELEMENT* type2 = node->tail->node_type;
-                    if(((type1->type == nUM)||(type1->type == rNUM)||(type1->type == iNTEGER)||(type1->type == rEAL))&&((type2->type == nUM)||(type2->type == rNUM)||(type2->type == iNTEGER)||(type2->type == rEAL))){
-                        type1->type = bOOLEAN;
+                    /* SYMBOL_TABLE_ELEMENT* type2 = node->tail->node_type; */
+                    SYMBOL_TABLE_ELEMENT* type2;
+                    if (node->tail->head->sibling == NULL){
                         node->node_type = type1;
                     }
-                    else{
-                        printf("Type check error!!!!!!!!!!!!!!------>\n");
+                    else {
+                        type2 = node->tail->node_type;
+                        if(((type1->type == nUM)||(type1->type == rNUM)||(type1->type == iNTEGER)||(type1->type == rEAL))&&((type2->type == nUM)||(type2->type == rNUM)||(type2->type == iNTEGER)||(type2->type == rEAL))){
+                            type1->type = bOOLEAN;
+                            node->node_type = type1;
+                        }
+                        else{
+                            printf("Type check error!!!!!!!!!!!!!!------>\n");
+
+                        }
 
                     }
                 }
+                /* printf("\n EXITING N8\n"); */
             }
         }
         else if (node->symbol->non_terminal == RelationalOp)
@@ -2170,7 +2278,11 @@ void resolve(TreeNode *node)
                 append_AST_lists_tail(node->list, node->tail->list);
             }
             else {
+                /* printf("\n\n ::::::::::::::::::::: U\n"); */
                 resolve(node->tail); // New_nt
+                node->node_type = node->tail->node_type;
+                /* printf("\n done processing U\n"); */
+                /* print_symbol_table_element(node->node_type); */
             }
         }
         else if (node->symbol->non_terminal == Unary_op)
@@ -2208,11 +2320,14 @@ void resolve(TreeNode *node)
             }
             else {
                 if (node->head->sibling == NULL) {
+                    /* printf("\n:::::::::::::::::: Newnt varidnum\n"); */
                     resolve(node->head); // var_id_num
                     node->node_type = node->head->node_type;
                 }
                 else {
+                    /* printf("\n:::::::::::::::::: Newnt arth\n"); */
                     resolve(node->head->sibling); // ArithmeticExpr
+                    node->node_type = node->head->sibling->node_type;
                 }
             }
         }
@@ -2332,7 +2447,6 @@ void resolve(TreeNode *node)
                 resolve(node->head->sibling); // Actual_para_id
                 resolve(node->tail);          // Actual_para_list1
                 append_AST_lists_tail(node->list, node->head->list);
-                // append_AST_lists_tail(node->list, node->head->list); 
                 append_AST_lists_tail(node->list, node->head->sibling->list);
                 append_AST_lists_tail(node->list, node->tail->list);
             }
@@ -2390,10 +2504,11 @@ void run_ast(char *prog_file, char *output_file)
     TYPE_CHECKING = true;
     resolve(Parse_Tree_Root->head); // 2nd run for type checking of module reuse stmts
     // TODO: TYPE_CHECKING
-    // print_astnodes(Parse_Tree_Root->head);
+    /* print_astnodes(Parse_Tree_Root->head); */
     printf("\n\nPRINTING SCOPES:\n");
     char prefix[200] = "";
     print_scopes(GLOBAL_SCOPE, prefix);
     printf("\n\nFINDING MODULE SCOPE: DRIVER\n");
     print_scope(find_module_scope(GLOBAL_SCOPE, "DRIVER_MODULE"));
 }
+
