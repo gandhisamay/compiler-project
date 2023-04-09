@@ -1386,6 +1386,8 @@ void resolve(TreeNode *node)
                 append_AST_lists_tail(node->list, node->tail->list);
             }
             else {
+                resolve(node->head); // iD
+                resolve(node->tail); // WhichStmt
             }
         }
         else if (node->symbol->non_terminal == WhichStmt)
@@ -1395,7 +1397,7 @@ void resolve(TreeNode *node)
                 append_AST_lists_tail(node->list, node->head->list);
             }
             else {
-
+                resolve(node->head); // LvalueID/LvalueARR
             }
         }
         else if (node->symbol->non_terminal == LvalueIDStmt)
@@ -1407,7 +1409,7 @@ void resolve(TreeNode *node)
                 append_AST_lists_tail(node->list, node->head->sibling->list);
             }
             else {
-            
+                resolve(node->head->sibling); // Expression
             }
         }
         else if (node->symbol->non_terminal == Expression)
@@ -1417,7 +1419,7 @@ void resolve(TreeNode *node)
                 append_AST_lists_tail(node->list, node->head->list);
             }
             else {
-
+                resolve(node->head); // ArithmeticOrBool/U
             }
         }
         else if (node->symbol->non_terminal == ArithmeticOrBooleanExpr)
@@ -2071,7 +2073,8 @@ void resolve(TreeNode *node)
                 append_AST_lists_tail(node->list, node->head->sibling->sibling->sibling->sibling->list);
             } 
             else {
-
+                resolve(node->head->sibling);                            // Element_index_with_expr
+                resolve(node->head->sibling->sibling->sibling->sibling); // Expression
             }
         }
         else if (node->symbol->non_terminal == ModuleReuseStmt)
