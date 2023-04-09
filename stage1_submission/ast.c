@@ -890,6 +890,7 @@ void resolve(TreeNode *node)
                 resolve(node->head->sibling->sibling); // iD
                 AST_Node *switch_node = create_AST_Node("SWITCH", NULL);
                 AST_Node *cases = create_AST_Node("CASES", NULL);
+                AST_Node *switch_end = create_AST_Node("SWITCH_END", NULL);
                 insert_AST_tail(node->list, switch_node);                                                                  // insert SWITCH
                 insert_AST_tail(node->list, node->head->sibling->sibling->list->head);                                     // insert iD
                 insert_AST_tail(node->list, cases);                                                                        // insert CASES
@@ -897,6 +898,7 @@ void resolve(TreeNode *node)
                 resolve(node->head->sibling->sibling->sibling->sibling->sibling->sibling);                                 // Default
                 append_AST_lists_tail(node->list, node->head->sibling->sibling->sibling->sibling->sibling->list);          // appending CaseStmts
                 append_AST_lists_tail(node->list, node->head->sibling->sibling->sibling->sibling->sibling->sibling->list); // appending Default
+                insert_AST_tail(node->list,switch_end);
             }
             else {
 
@@ -1452,7 +1454,8 @@ void resolve(TreeNode *node)
                 insert_AST_tail(node->list,ARITHORBOOLEXP_END);
             }
             else {
-
+                resolve(node->head); // AnyTerm
+                resolve(node->tail); // N7
             }
         }
         else if (node->symbol->non_terminal == AnyTerm)
@@ -1496,7 +1499,8 @@ void resolve(TreeNode *node)
                 append_AST_lists_tail(node->list, node->tail->list);
             }
             else {
-
+                resolve(node->head); // ArithmeticExpr
+                resolve(node->tail); // N8
             }
         }
         else if (node->symbol->non_terminal == ArithmeticExpr)
@@ -1524,7 +1528,8 @@ void resolve(TreeNode *node)
                 append_AST_lists_tail(node->list, node->tail->list);
             }
             else {
-
+                resolve(node->head); // Term
+                resolve(node->tail); // N4
             }
         }
         else if (node->symbol->non_terminal == Term)
@@ -1552,7 +1557,8 @@ void resolve(TreeNode *node)
                 append_AST_lists_tail(node->list, node->tail->list);
             }
             else {
-
+                resolve(node->head); // Factor
+                resolve(node->tail); // N5
             }
         }
         else if (node->symbol->non_terminal == Factor)
@@ -1577,7 +1583,19 @@ void resolve(TreeNode *node)
                 }
             }
             else {
-
+                if (node->head->sibling == NULL)
+                {
+                    resolve(node->head); // num/rnum/boolconst
+                }
+                else if (node->head->sibling->sibling == NULL)
+                {
+                    resolve(node->head); // iD
+                    resolve(node->tail); // N11
+                }
+                else
+                {
+                    resolve(node->head->sibling); // ArithmeticOrBool
+                }
             }
         }
         else if (node->symbol->non_terminal == N11)
@@ -2028,7 +2046,16 @@ void resolve(TreeNode *node)
         {
             if (TYPE_CHECKING == false){
                 resolve(node->head); // plus/minus
-                insert_AST_tail(node->list, node->head->list->head);
+                // insert_AST_tail(node->list, node->head->list->head);
+                AST_Node* unary_op;
+                if(node->head->list->head->token.name == pLUS){
+                    unary_op = create_AST_Node("UNARY_PLUS",NULL);
+                }
+                else{
+                    unary_op = create_AST_Node("UNARY_MINUS",NULL);
+                }
+                unary_op->token = node->head->list->head->token;
+                unary_op->token_set = 1;
             }
             else {
 
@@ -2216,7 +2243,7 @@ void run_ast(char *prog_file, char *output_file)
     TYPE_CHECKING = true;
     resolve(Parse_Tree_Root->head); // 2nd run for type checking of module reuse stmts
     // TODO: TYPE_CHECKING
-    // print_astnodes(Parse_Tree_Root->head);
+    print_astnodes(Parse_Tree_Root->head);
     printf("\n\nPRINTING SCOPES:\n");
     char prefix[200] = "";
     print_scopes(GLOBAL_SCOPE, prefix);
