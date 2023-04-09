@@ -152,6 +152,7 @@ TreeNode *create_treeNode() {
   x->sibling = NULL;
   x->symbol = NULL;
   x->list = NULL;
+  x->type = NULL;
   /* x->token = NULL; */
   return x;
 }
