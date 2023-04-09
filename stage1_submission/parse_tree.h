@@ -33,7 +33,7 @@ typedef struct TreeNode
   struct TreeNode *tail;
   struct TreeNode *sibling;
   struct Symbol *symbol;
-  SYMBOL_TABLE_ELEMENT *type;
+  SYMBOL_TABLE_ELEMENT *node_type;
   TOKEN token;
   AST_Node_List *list;
   bool visited;

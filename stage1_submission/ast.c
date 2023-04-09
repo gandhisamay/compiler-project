@@ -1529,6 +1529,11 @@ void resolve(TreeNode *node)
             else {
                 resolve(node->head); // Term
                 resolve(node->tail); // N4
+                if (node->tail->head->sibling == NULL){ // N4 => #
+                    node->node_type = node->head->node_type;
+                } else {
+                    /* if (node->head->node_type->type) */
+                }
             }
         }
         else if (node->symbol->non_terminal == Term)
@@ -2077,6 +2082,7 @@ void resolve(TreeNode *node)
             else {
                 if (node->head->sibling == NULL) {
                     resolve(node->head); // var_id_num
+                    node->node_type = node->head->node_type;
                 }
                 else {
                     resolve(node->head->sibling); // ArithmeticExpr
@@ -2099,8 +2105,8 @@ void resolve(TreeNode *node)
                     Scope *scope = find_scope(GLOBAL_SCOPE, node->head->list->head->token.line);
                     el = find_symtable_el_by_id(scope, node->head->list->head->token.id);
                 }
-                node->list->head->type = el;
-            }
+                node->node_type = el;
+           }
         }
         else if (node->symbol->non_terminal == LvalueARRStmt)
         {
