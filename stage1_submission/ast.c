@@ -2039,7 +2039,7 @@ void resolve(TreeNode *node)
                 append_AST_lists_tail(node->list, node->tail->list);
             }
             else {
-
+                resolve(node->tail); // New_nt
             }
         }
         else if (node->symbol->non_terminal == Unary_op)
@@ -2076,7 +2076,12 @@ void resolve(TreeNode *node)
                 }
             }
             else {
-
+                if (node->head->sibling == NULL) {
+                    resolve(node->head); // var_id_num
+                }
+                else {
+                    resolve(node->head->sibling); // ArithmeticExpr
+                }
             }
         }
         else if (node->symbol->non_terminal == Var_id_num)
@@ -2086,7 +2091,16 @@ void resolve(TreeNode *node)
                 append_AST_lists_tail(node->list, node->head->list);
             }
             else {
-
+                SYMBOL_TABLE_ELEMENT *el = NULL;
+                if (node->head->list->head->token.name == nUM){
+                    el = create_symbol_table_element("", false, nUM, -1, -1, -1, -1);
+                } else if (node->head->list->head->token.name == rNUM){
+                    el = create_symbol_table_element("", false, rNUM, -1, -1, -1, -1);
+                } else if (node->head->list->head->token.name == iD){
+                    Scope *scope = find_scope(GLOBAL_SCOPE, node->head->list->head->token.line);
+                    el = find_symtable_el_by_id(scope, node->head->list->head->token.id);
+                }
+                node->list->head->type = el;
             }
         }
         else if (node->symbol->non_terminal == LvalueARRStmt)
