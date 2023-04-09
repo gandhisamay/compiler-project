@@ -2513,7 +2513,7 @@ void run_ast(char *prog_file, char *output_file)
     TYPE_CHECKING = true;
     resolve(Parse_Tree_Root->head); // 2nd run for type checking of module reuse stmts
     // TODO: TYPE_CHECKING
-    /* print_astnodes(Parse_Tree_Root->head); */
+    print_astnodes(Parse_Tree_Root->head); 
     printf("\n\nPRINTING SCOPES:\n");
     char prefix[200] = "";
     print_scopes(GLOBAL_SCOPE, prefix);
