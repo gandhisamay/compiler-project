@@ -7,7 +7,7 @@
  * Aryan Chavan 2020A7PS1692P
  */
 
-#include "ast.c"
+#include "oldast.c"
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
