@@ -12,17 +12,25 @@ target:
 
 test:
 	 gcc driver.c -o compiler
-	./compiler testcase1.txt parse_tree.txt 100
-	./compiler testcase2.txt parse_tree.txt 100
-	./compiler testcase3.txt parse_tree.txt 100
-	./compiler testcase4.txt parse_tree.txt 100
-	./compiler testcase5.txt parse_tree.txt 100
-	./compiler testcase6.txt parse_tree.txt 100
-	./compiler testcase7.txt parse_tree.txt 100
-	./compiler testcase8.txt parse_tree.txt 100
-	./compiler testcase9.txt parse_tree.txt 100
-	./compiler testcase10.txt parse_tree.txt 100
-	./compiler testcase11.txt parse_tree.txt 100
-	./compiler testcase12.txt parse_tree.txt 100
-	./compiler testcase13.txt parse_tree.txt 100
-	
+	 ./compiler testcase_code_gen.txt parse.txt 100
+	 nasm -f elf64 code.asm  
+	 ld -m elf_x86_64 -s -o out code.o && ./out
+
+run:
+	 nasm -f elf64 code.asm  
+	 ld -m elf_x86_64 -s -o out code.o && ./out
+
+code_gen:
+	 gcc driver.c -o compiler
+	 ./compiler ./Code_Generation_testcases/c1.txt parse.txt 100
+	 ./compiler ./Code_Generation_testcases/c2.txt parse.txt 100
+	 ./compiler ./Code_Generation_testcases/c3.txt parse.txt 100
+	 ./compiler ./Code_Generation_testcases/c4.txt parse.txt 100
+	 ./compiler ./Code_Generation_testcases/c5.txt parse.txt 100
+	 ./compiler ./Code_Generation_testcases/c6.txt parse.txt 100
+	 ./compiler ./Code_Generation_testcases/c7.txt parse.txt 100
+	 ./compiler ./Code_Generation_testcases/c8.txt parse.txt 100
+	 ./compiler ./Code_Generation_testcases/c10.txt parse.txt 100
+	 ./compiler ./Code_Generation_testcases/c11.txt parse.txt 100
+
+
