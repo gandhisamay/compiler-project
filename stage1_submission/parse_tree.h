@@ -7,7 +7,7 @@
  * Aryan Chavan 2020A7PS1692P
  */
 
-#include "linked_list.c"
+#include "symbol_table.c"
 #include "stdbool.h"
 
 typedef struct ast_node
@@ -33,6 +33,7 @@ typedef struct TreeNode
   struct TreeNode *tail;
   struct TreeNode *sibling;
   struct Symbol *symbol;
+  SYMBOL_TABLE_ELEMENT *node_type;
   TOKEN token;
   AST_Node_List *list;
   bool visited;

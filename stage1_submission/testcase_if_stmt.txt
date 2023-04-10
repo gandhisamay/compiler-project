@@ -1,0 +1,35 @@
+declare module mod1;
+declare module mod2;
+
+<<module mod2>>
+takes input [n:integer];
+start
+end
+
+<<module mod1>>
+takes input[x: boolean, arr1: array[1..15] of real];
+returns [x: integer];
+start
+**  for( k in 6..10)
+  start
+    A[k]:=(num – k)*(num-k);
+    print(A[k]);
+  end**
+end
+
+
+<<<driver program>>>
+start
+declare x: integer;
+    for(x in 0..5)
+        start
+              switch(x) 
+                start
+                  case 1 : x := 1; break;
+                  case 2: x:= 2; break;
+                  default : x := 3; break;
+                end 
+        end
+end
+
+

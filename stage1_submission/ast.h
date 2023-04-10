@@ -1,4 +1,4 @@
-#include "symbol_table.c"
+#include "parser.c"
 
 // TreeNode *create_tree_node_AST(TreeNode *syn_node, TreeNode *inh_node, TreeNode *syn_list, TreeNode *inh_list);
 // AST_NODE *insert_at_head_syn(TreeNode *list_head, AST_NODE *node);
@@ -14,6 +14,10 @@
 typedef struct Scope{
     int start_line;
     int end_line;
+    char module_name[50];
+    bool is_a_module;
+    int iplist_offset;
+    int oplist_offset;
     struct Scope *child_scope;
     struct Scope *sibling_scope;
     struct Scope *parent_scope;
@@ -22,3 +26,4 @@ typedef struct Scope{
 
 Scope *GLOBAL_SCOPE;
 int CURR_OFFSET = 0;
+bool TYPE_CHECKING = false;

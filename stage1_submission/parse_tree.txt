@@ -159,6 +159,27 @@ Right: [HEAD] -> Range_arrays -> sQBC -> oF -> Type -> [END]
 LINE: [3] ENUM: 13  TOKEN: ID/KEYW        : [
 
 
+==============>  Name: mINUS, Enum_T: 36, Enum_NT: -1, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> [END]
+LINE: [3] ENUM: 36  TOKEN: ID/KEYW        : -
+
+
+==============>  Name: Sign, Enum_T: -1, Enum_NT: 32, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> New_index -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
+
+
+==============>  Name: Index_arr, Enum_T: -1, Enum_NT: 30, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> rANGEOP -> Index_arr -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
+
+
 ==============>  Name: nUM, Enum_T: 32, Enum_NT: -1, IS_A: Terminal
 First: List is empty
 Follow: List is empty
@@ -170,13 +191,6 @@ LINE: [3] ENUM: 32 TOKEN: NUM       : 1
 First: List is empty
 Follow: List is empty
 Right: [HEAD] -> [END]
-LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
-
-
-==============>  Name: Index_arr, Enum_T: -1, Enum_NT: 30, IS_A: Non Terminal
-First: List is empty
-Follow: List is empty
-Right: [HEAD] -> rANGEOP -> Index_arr -> [END]
 LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
 
 
@@ -607,17 +621,31 @@ Right: [HEAD] -> [END]
 LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
 
 
-==============>  Name: rNUM, Enum_T: 33, Enum_NT: -1, IS_A: Terminal
+==============>  Name: iD, Enum_T: 3, Enum_NT: -1, IS_A: Terminal
 First: List is empty
 Follow: List is empty
-Right: [HEAD] -> [END]
-LINE: [8] ENUM: 33  TOKEN: RNUM      : 0.000000 
+Right: [HEAD] -> N11 -> [END]
+LINE: [8] ENUM: 3  TOKEN: ID/KEYW        : sum
 
 
 ==============>  Name: Factor, Enum_T: -1, Enum_NT: 50, IS_A: Non Terminal
 First: List is empty
 Follow: List is empty
 Right: [HEAD] -> N5 -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
+
+
+==============>  Name: #, Enum_T: 0, Enum_NT: 0, IS_A: Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> [END]
+LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
+
+
+==============>  Name: N11, Enum_T: -1, Enum_NT: 51, IS_A: Non Terminal
+First: List is empty
+Follow: List is empty
+Right: [HEAD] -> [END]
 LINE: [0] ENUM: 0  TOKEN: ID/KEYW        : 
 
 
@@ -4464,11 +4492,11 @@ Right: [HEAD] -> Type -> [END]
 LINE: [53] ENUM: 22  TOKEN: ID/KEYW        : of
 
 
-==============>  Name: bOOLEAN, Enum_T: 20, Enum_NT: -1, IS_A: Terminal
+==============>  Name: rEAL, Enum_T: 19, Enum_NT: -1, IS_A: Terminal
 First: List is empty
 Follow: List is empty
 Right: [HEAD] -> [END]
-LINE: [53] ENUM: 20  TOKEN: ID/KEYW        : boolean
+LINE: [53] ENUM: 19  TOKEN: ID/KEYW        : real
 
 
 ==============>  Name: Type, Enum_T: -1, Enum_NT: 14, IS_A: Non Terminal
@@ -4874,7 +4902,7 @@ LINE: [0] ENUM: 0  TOKEN: ID/KEYW        :
 First: List is empty
 Follow: List is empty
 Right: [HEAD] -> N11 -> [END]
-LINE: [54] ENUM: 3  TOKEN: ID/KEYW        : A
+LINE: [54] ENUM: 3  TOKEN: ID/KEYW        : arr1
 
 
 ==============>  Name: Factor, Enum_T: -1, Enum_NT: 50, IS_A: Non Terminal
@@ -4993,7 +5021,7 @@ LINE: [0] ENUM: 0  TOKEN: ID/KEYW        :
 First: List is empty
 Follow: List is empty
 Right: [HEAD] -> N11 -> [END]
-LINE: [54] ENUM: 3  TOKEN: ID/KEYW        : A
+LINE: [54] ENUM: 3  TOKEN: ID/KEYW        : arr1
 
 
 ==============>  Name: Factor, Enum_T: -1, Enum_NT: 50, IS_A: Non Terminal

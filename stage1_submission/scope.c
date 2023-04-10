@@ -7,6 +7,10 @@ Scope *create_new_scope(int start, int end){
     scope->child_scope = NULL;
     scope->parent_scope = NULL;
     scope->sibling_scope = NULL;
+    scope->is_a_module = false;
+    scope->iplist_offset = 0;
+    scope->oplist_offset = 0;
+    strcpy(scope->module_name, "");
     return scope;
 }
 
@@ -28,7 +32,7 @@ void print_scope(Scope *scope){
         printf("SCOPE: NULL\n");
         return;
     }
-    printf("SCOPE: Start %d End %d\n", scope->start_line, scope->end_line);
+    printf("SCOPE: IS_A_MODULE: %d, MODULE_NAME: %s, MODULE_IP_OFFSET: %d, MODULE_OP_OFFSET: %d, Start - %d, End - %d\n\n", scope->is_a_module, scope->module_name, scope->iplist_offset, scope->oplist_offset, scope->start_line, scope->end_line);
 }
 
 void print_scopes(Scope *scope, char pre[200]){
@@ -36,7 +40,7 @@ void print_scopes(Scope *scope, char pre[200]){
     strcpy(old_pre, pre);
     strcat(pre, "   ");
     print_scope(scope);
-    if (scope->child_scope != NULL){
+    if (scope !=NULL && scope->child_scope != NULL){
         printf("%s", pre);
         print_scopes(scope->child_scope, pre);
     }
@@ -52,7 +56,7 @@ void print_scopes_with_tables(Scope *scope, char pre[200]){
     strcat(pre, "   ");
     print_scope(scope);
     /* print_symbol_table_element_for_scope(scope->table, pre); */
-    print_symbol_table_element(scope->table);
+    print_symbol_table(scope->table);
     if (scope->child_scope != NULL){
         printf("%s", pre);
         print_scopes_with_tables(scope->child_scope, pre);
@@ -106,6 +110,31 @@ Scope *find_scope(Scope *scope, int line){
         } else {
             return scope;
         }
+    }
+}
+
+SYMBOL_TABLE_ELEMENT *find_symtable_el_by_id(Scope *scope, char id[50]){
+    if (scope == NULL) return NULL;
+    SYMBOL_TABLE_ELEMENT *el = search_symbol_table(id, scope->table);
+    if (el == NULL){
+        return find_symtable_el_by_id(scope->parent_scope, id);
+    } else {
+        return el;
+    }
+}
+
+Scope *find_module_scope(Scope *scope, char module_name[50]){
+    if (scope->is_a_module && strcmp(scope->module_name, module_name) == 0){
+        return scope;
+    } else {
+        Scope *found_scope = NULL;
+        if (scope->child_scope != NULL){
+            found_scope = find_module_scope(scope->child_scope, module_name);
+        }
+        if (found_scope == NULL && scope->sibling_scope != NULL){
+            found_scope = find_module_scope(scope->sibling_scope, module_name);
+        }
+        return found_scope;
     }
 }
 
