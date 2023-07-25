@@ -1,3 +1,12 @@
+/*
+ * Group 22
+ * Samay Gandhi 2020A7PS0299P
+ * Mohit Makwana 2020A7PS0048P
+ * Kathan Patel 2020A7PS0058P
+ * Aditya Sheth 2020A7PS1511P
+ * Aryan Chavan 2020A7PS1692P
+ */
+
 #include "Stack.c"
 #include <ctype.h>
 #include <stdbool.h>
@@ -142,6 +151,9 @@ TreeNode *create_treeNode() {
   x->tail = NULL;
   x->sibling = NULL;
   x->symbol = NULL;
+  x->list = NULL;
+  x->node_type = NULL;
+  /* x->token = NULL; */
   return x;
 }
 
@@ -220,6 +232,36 @@ void insert_child(TreeNode *parent,
 //   }
 // }
 
+// @TODO: change to astnode
+void print_astnode_details(AST_Node *node, FILE *debug_fp) {
+  if (node == NULL){
+    fprintf(debug_fp, "\nAST: NULL\n");
+    return;
+  }
+  fprintf(debug_fp, "\nLabel: %s \n", node->label);
+  if (node->token_set) print_token_details(node->token, debug_fp);
+  Symbol *s = node->data;
+  if (s != NULL){
+      fprintf(debug_fp, "DATA: Name: %s ", s->name);
+      fprintf(debug_fp, "Enum_T: %d, Enum_NT: %d, ", s->terminal, s->non_terminal);
+      fprintf(debug_fp, "IS_A: %s\n", s->is_terminal ? "Terminal" : "Non Terminal");
+      /* fprintf(debug_fp, "First: "); */
+      /* print_list(s->first, debug_fp); */
+      /* fprintf(debug_fp, "Follow: "); */
+      /* print_list(s->follow, debug_fp); */
+      /* fprintf(debug_fp, "Right: [HEAD] -> "); */
+      /*  */
+      /* Symbol *temp = s->right; */
+      /* while (temp != NULL) { */
+      /*   fprintf(debug_fp, "%s -> ", temp->name); */
+      /*   temp = temp->right; */
+      /* } */
+      /* fprintf(debug_fp, "[END]\n"); */
+  } else {
+    fprintf(debug_fp, "No data\n"); 
+  }
+}
+
 /*
 @brief : Prints parse tree in inorder traversal
 @input : Treenode* , FILE*
@@ -230,8 +272,10 @@ void printParseTree(TreeNode *root, FILE *outfile) {
     printParseTree(root->head, outfile);
 
     fprintf(outfile, "==============>  ");
-    // print_symbol_details(root->symbol, outfile);
-    print_symbol_info(root->symbol, outfile);
+    /* print_astnode_details(root, outfile); */
+    print_symbol_details(root->symbol, outfile);
+    print_token_details(root->token, outfile);
+    // print_symbol_info(root->symbol, outfile);
     fprintf(outfile, "\n\n");
 
     if (root->head != NULL) {
@@ -244,6 +288,7 @@ void printParseTree(TreeNode *root, FILE *outfile) {
     }
   }
 }
+
 // void print_terminal_list(){
 //   current = terminal_head;
 //   printf("[HEAD] -> ");

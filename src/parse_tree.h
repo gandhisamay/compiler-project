@@ -1,12 +1,42 @@
-#include "linked_list.c"
+/*
+ * Group 22
+ * Samay Gandhi 2020A7PS0299P
+ * Mohit Makwana 2020A7PS0048P
+ * Kathan Patel 2020A7PS0058P
+ * Aditya Sheth 2020A7PS1511P
+ * Aryan Chavan 2020A7PS1692P
+ */
+
+#include "symbol_table.c"
 #include "stdbool.h"
 
-typedef struct TreeNode {
+typedef struct ast_node
+{
+  Symbol *data;
+  char label[200];
+  TOKEN token;
+  int token_set;
+  struct ast_node *next;
+} AST_Node;
+
+typedef struct ast_node_list
+{
+  AST_Node *head;
+  AST_Node *tail;
+  // int size;
+} AST_Node_List;
+
+typedef struct TreeNode
+{
   struct TreeNode *parent;
   struct TreeNode *head;
   struct TreeNode *tail;
   struct TreeNode *sibling;
   struct Symbol *symbol;
+  SYMBOL_TABLE_ELEMENT *node_type;
+  TOKEN token;
+  AST_Node_List *list;
+  bool visited;
 } TreeNode;
 
 void read_grammar_file(char *file);

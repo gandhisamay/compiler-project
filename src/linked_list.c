@@ -1,3 +1,12 @@
+/*
+ * Group 22
+ * Samay Gandhi 2020A7PS0299P
+ * Mohit Makwana 2020A7PS0048P
+ * Kathan Patel 2020A7PS0058P
+ * Aditya Sheth 2020A7PS1511P
+ * Aryan Chavan 2020A7PS1692P
+ */
+
 #include "linked_list.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,11 +21,11 @@ void print_list(LinkedList *ll, FILE *debug_fp) {
 
   // printf("{ ");
   while (temp->next != NULL) {
-    
-    fprintf(debug_fp, "%s,", temp->symbol->name); 
+
+    fprintf(debug_fp, "%s,", temp->symbol->name);
     temp = temp->next;
   }
-  fprintf(debug_fp, "%s\n", temp->symbol->name); 
+  fprintf(debug_fp, "%s\n", temp->symbol->name);
 }
 
 Node *create_new_node(Symbol *symbol) {
@@ -99,12 +108,12 @@ void delete_node(char *name, LinkedList *ll) {
   }
 }
 
-int get_length(Symbol *Rule){
-    int length = 0;
-    Symbol *curr = Rule;
-    while (curr != NULL){
-        length++;
-        curr = curr->right;
-    }
-    return length;
+int get_length(Symbol *Rule) {
+  int length = 0;
+  Symbol *curr = Rule;
+  while (curr != NULL) {
+    length++;
+    curr = curr->right;
+  }
+  return length;
 }

@@ -1,3 +1,12 @@
+/*
+ * Group 22
+ * Samay Gandhi 2020A7PS0299P
+ * Mohit Makwana 2020A7PS0048P
+ * Kathan Patel 2020A7PS0058P
+ * Aditya Sheth 2020A7PS1511P
+ * Aryan Chavan 2020A7PS1692P
+ */
+
 #include "parse_tree.h"
 #include <stdio.h>
 #define HASH_SIZE 35
@@ -79,16 +88,6 @@ char *Buffer;
 /*     lEX_ERROR, */
 /* } terminals; */
 
-typedef struct token {
-  terminals name;
-  int line;
-  union {
-    char id[20];
-    int num;
-    /* float rnum; */
-    double rnum;
-  };
-} TOKEN;
 
 typedef struct Error {
   int line;

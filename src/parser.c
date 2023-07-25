@@ -1,3 +1,12 @@
+/*
+ * Group 22
+ * Samay Gandhi 2020A7PS0299P
+ * Mohit Makwana 2020A7PS0048P
+ * Kathan Patel 2020A7PS0058P
+ * Aditya Sheth 2020A7PS1511P
+ * Aryan Chavan 2020A7PS1692P
+ */
+
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -110,7 +119,7 @@ void compute_all_symbols(FILE *debug_fp) {
   for (int i = 0; i < TOTAL_SYMBOLS; i++) {
     symbols[i]->first = compute_first(symbols[i]);
     symbols[i]->follow = compute_follow(symbols[i]);
-    /* print_symbol_details(symbols[i], debug_fp); */
+    //  print_symbol_details(symbols[i], debug_fp); 
   }
   /* for (int j = 0; j < N_TERMINAL_SYM; j++){ */
   /*     printf("RULE: %d at row - %d\n", j, NT_TO_ROW[j]); */
@@ -273,6 +282,7 @@ void parse_next(TOKEN Curr_Token, FILE *program_fp, FILE *debug_fp) {
                 PRINT_GREEN "DEBUG: Matched Terminal: %d\n" PRINT_RESET,
                 Curr_Token.name);
         pop_stack(Parser_Stack);
+        curr_node->token = Curr_Token;
         curr_node = next_node(curr_node, Top_Symbol);
         /* fprintf(debug_fp, PRINT_RED "\nFILE EOF ERROR: Stack non empty,
          * Found\n" PRINT_RESET); */

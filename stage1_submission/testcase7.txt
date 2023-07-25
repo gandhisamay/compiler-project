@@ -1,7 +1,0 @@
-declare module mod1;
-<<<driver program>>>
-start
-    declare v, w, r :integer;
-    get_value(v);
-    w:=5;
-end

@@ -1,4 +1,13 @@
-#include "parser.c"
+/*
+ * Group 22
+ * Samay Gandhi 2020A7PS0299P
+ * Mohit Makwana 2020A7PS0048P
+ * Kathan Patel 2020A7PS0058P
+ * Aditya Sheth 2020A7PS1511P
+ * Aryan Chavan 2020A7PS1692P
+ */
+
+#include "code_gen.c"
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -30,6 +39,12 @@ void time_calculate(char *prog_file, char *tree_file) {
 // 4: time
 
 int main(int argc, char **argv) {
+  if (argc < 4) {
+    printf("Run command: ./compiler <testfile> <file_name_to_store_parse_tree> "
+           "<buffer_size>");
+    exit(0);
+  }
+
   BUFFER_SIZE = atoi(argv[3]);
   Buffer = (char *)malloc(sizeof(char) * BUFFER_SIZE);
 
@@ -37,7 +52,6 @@ int main(int argc, char **argv) {
   build_grammar("grammar.txt");
   printf("Generating parse table...\n");
   generate_parse_table();
-
   parse_table_make();
 
   while (true) {
@@ -90,7 +104,31 @@ int main(int argc, char **argv) {
       time_calculate(argv[1], argv[2]);
       break;
     }
+    case 5: {
+      create_scopes(argv[1], argv[2]);
+      run_ast(argv[1], argv[2]);
+      break;
+    }
+    case 6: {
+      create_scopes(argv[1], argv[2]);
+      // SYMBOL_TABLE_ELEMENT* ele1 =
+      // create_symbol_table_element("hey",false,iNTEGER,0,0,3456,7);
+      // SYMBOL_TABLE_ELEMENT* ele2 =
+      // create_symbol_table_element("heyo",false,iNTEGER,0,0,456,6);
+      // insert_symbol_table(ele1,find_scope(GLOBAL_SCOPE,ele1->declare_lineno)->table);
+      // insert_symbol_table(ele2,find_scope(GLOBAL_SCOPE,ele2->declare_lineno)->table);
 
+      // // SYMBOL_TABLE_ELEMENT* test =
+      // search_symbol_table("hey",find_scope(GLOBAL_SCOPE,ele1->declare_lineno)->table);
+      // // printf("id: %s\n offset: %d",test->id,test->offset);
+      // print_symbol_table(find_scope(GLOBAL_SCOPE,ele1->declare_lineno)->table);
+      // break;
+    }
+
+    case 7: {
+      run_code_gen(argv[1], argv[2]);
+      break;
+    }
     default:
       printf("Wrong input\n");
       break;
